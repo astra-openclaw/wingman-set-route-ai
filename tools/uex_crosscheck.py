@@ -2,6 +2,7 @@
 import argparse
 from difflib import get_close_matches
 import json
+import re
 from pathlib import Path
 import sys
 import time
@@ -38,6 +39,7 @@ def fetch(cache):
 def compare(database, datasets):
     system_names = {r["id"]: r["name"] for r in datasets.get("star_systems", {}).get("data", [])}
     available, endpoint_counts, unavailable, jump_connections = {}, {}, [], []
+    excluded = []
     for endpoint in ENDPOINTS:
         payload = datasets.get(endpoint, {})
         if payload.get("status") != "ok":
@@ -49,6 +51,10 @@ def compare(database, datasets):
             if endpoint == "jump_points":
                 jump_connections.append({k: row.get(k) for k in ("id", "star_system_origin_name", "star_system_destination_name", "orbit_origin_name", "orbit_destination_name")})
             if not isinstance(row.get("name"), str):
+                continue
+            if row.get("is_decommissioned") or re.search(r"\b(closed|offline)\b", row["name"], re.I):
+                excluded.append({"name": row["name"], "endpoint": endpoint, "id": row.get("id"),
+                                 "reason": "Explicitly decommissioned, closed or offline"})
                 continue
             # Explicit live availability takes precedence; unknown is not proof.
             if not row.get("is_available_live", row.get("is_available", False)):
@@ -72,6 +78,8 @@ def compare(database, datasets):
     return {"source": BASE, "documentation": DOCS, "terms": TERMS,
             "credit": "Location cross-check data provided by UEX (https://uexcorp.space/).",
             "policy": "No automatic deletions or renames. Missing UEX records are only stale suspects. Unavailable endpoints make coverage partial.",
+            "excluded_status_records": excluded,
+            "name_policy": "System suffixes are record identifiers, not Starmap search text. Review homonyms and existing aliases before adding a location.",
             "endpoint_counts": endpoint_counts, "unavailable_endpoints": unavailable,
             "jump_connections": jump_connections,
             "jump_note": "Connection endpoint has no availability or canonical name field; recorded separately, not invented as destinations.",

@@ -24,7 +24,7 @@
     },
     "poi": {
       "all": 232,
-      "available": 232
+      "available": 230
     },
     "space_stations": {
       "all": 60,
@@ -654,17 +654,6 @@
           "endpoint": "poi",
           "id": 264,
           "name": "Cluster NBD-102",
-          "system": "Pyro"
-        }
-      ]
-    },
-    {
-      "key": "cluster rsc-340",
-      "records": [
-        {
-          "endpoint": "poi",
-          "id": 265,
-          "name": "Cluster RSC-340",
           "system": "Pyro"
         }
       ]
@@ -1726,17 +1715,6 @@
       ]
     },
     {
-      "key": "julep aid shelter",
-      "records": [
-        {
-          "endpoint": "poi",
-          "id": 123,
-          "name": "Julep Aid Shelter",
-          "system": "Stanton"
-        }
-      ]
-    },
-    {
       "key": "jumptown",
       "records": [
         {
@@ -1832,17 +1810,6 @@
           "endpoint": "poi",
           "id": 132,
           "name": "Kudre Ore",
-          "system": "Stanton"
-        }
-      ]
-    },
-    {
-      "key": "kudre ore mine closed",
-      "records": [
-        {
-          "endpoint": "poi",
-          "id": 131,
-          "name": "Kudre Ore Mine (Closed)",
           "system": "Stanton"
         }
       ]
@@ -2713,17 +2680,6 @@
           "endpoint": "poi",
           "id": 14,
           "name": "MT DataCenter KH3-AAE-L",
-          "system": "Stanton"
-        }
-      ]
-    },
-    {
-      "key": "mt datacenter l8p-juc-8 offline",
-      "records": [
-        {
-          "endpoint": "poi",
-          "id": 15,
-          "name": "MT DataCenter L8P-JUC-8 (Offline)",
           "system": "Stanton"
         }
       ]
@@ -4581,6 +4537,26 @@
       ]
     }
   ],
+  "excluded_status_records": [
+    {
+      "endpoint": "space_stations",
+      "id": 22,
+      "name": "Port Olisar",
+      "reason": "Explicitly decommissioned, closed or offline"
+    },
+    {
+      "endpoint": "poi",
+      "id": 15,
+      "name": "MT DataCenter L8P-JUC-8 (Offline)",
+      "reason": "Explicitly decommissioned, closed or offline"
+    },
+    {
+      "endpoint": "poi",
+      "id": 131,
+      "name": "Kudre Ore Mine (Closed)",
+      "reason": "Explicitly decommissioned, closed or offline"
+    }
+  ],
   "jump_connections": [
     {
       "id": 1,
@@ -4705,6 +4681,17 @@
       ]
     },
     {
+      "key": "cluster rsc-340",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 265,
+          "name": "Cluster RSC-340",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
       "key": "green imperial housing exchange",
       "records": [
         {
@@ -4733,6 +4720,17 @@
           "endpoint": "poi",
           "id": 27,
           "name": "HDSF Ishmael",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "julep aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 123,
+          "name": "Julep Aid Shelter",
           "system": "Stanton"
         }
       ]
@@ -4903,6 +4901,7 @@
       ]
     }
   ],
+  "name_policy": "System suffixes are record identifiers, not Starmap search text. Review homonyms and existing aliases before adding a location.",
   "policy": "No automatic deletions or renames. Missing UEX records are only stale suspects. Unavailable endpoints make coverage partial.",
   "possible_renames": [
     {
@@ -4963,13 +4962,6 @@
     },
     {
       "action": "review only",
-      "existing": "covalex distribution centre s4dc05",
-      "possible_names": [
-        "covalex distribution center s4dc05"
-      ]
-    },
-    {
-      "action": "review only",
       "existing": "greycat stanton i production complex-b",
       "possible_names": [
         "greycat stanton iv production complex-a"
@@ -4998,38 +4990,10 @@
     },
     {
       "action": "review only",
-      "existing": "rab-lamba",
-      "possible_names": [
-        "rab-lamda"
-      ]
-    },
-    {
-      "action": "review only",
-      "existing": "rab-siera",
-      "possible_names": [
-        "rab-sierra"
-      ]
-    },
-    {
-      "action": "review only",
       "existing": "shubin processing facility spmc-1",
       "possible_names": [
         "shubin processing facility spmc-14",
         "shubin processing facility spmc-11"
-      ]
-    },
-    {
-      "action": "review only",
-      "existing": "stanton gateway",
-      "possible_names": [
-        "stanton gateway nyx"
-      ]
-    },
-    {
-      "action": "review only",
-      "existing": "thundering express station",
-      "possible_names": [
-        "hur-l3 thundering express station"
       ]
     }
   ],
@@ -5052,7 +5016,6 @@
     "aluth - lauo",
     "aluth belt alpha",
     "aluth star",
-    "ambitious dream station",
     "ambulance pad",
     "amidon island",
     "angeli",
@@ -5099,7 +5062,6 @@
     "banshee iv",
     "banshee star",
     "bareton",
-    "beautiful glen station",
     "benny henge",
     "bethor",
     "bevic convention center",
@@ -5219,7 +5181,6 @@
     "corin",
     "corsito",
     "covalex distribution centre s1dc06",
-    "covalex distribution centre s4dc05",
     "covalex shipping hub gundo",
     "coven",
     "crion",
@@ -5248,7 +5209,6 @@
     "davien iii",
     "davien iv",
     "davien star",
-    "deakins research outpost",
     "deimos",
     "dell township",
     "desmond memorial convention center",
@@ -5287,15 +5247,12 @@
     "elysium v",
     "empire health services",
     "encole station",
-    "endless odyssey station",
     "epheet",
     "ergo",
     "eri city",
     "erna",
     "etos",
     "europa",
-    "faint glen station",
-    "faithful dream station",
     "farro data center i",
     "farro data center ii",
     "farro data center iii",
@@ -5325,7 +5282,6 @@
     "forge quintus",
     "fortunes cross",
     "front row",
-    "frostbite settlement",
     "fujin city",
     "g-loc bar",
     "gainey",
@@ -5370,7 +5326,6 @@
     "goss iii",
     "grand barter bazaar",
     "green",
-    "green glade station",
     "green imperial medical",
     "greencircle habitation",
     "greycat stanton i production complex-b",
@@ -5402,13 +5357,10 @@
     "helios iii",
     "helios iv",
     "helios star",
-    "hendricks",
     "henge cluster",
     "herschel belt",
     "hh130782",
     "hh130782a",
-    "hickes research outpost",
-    "high course station",
     "hl2610a",
     "horus belt alpha",
     "horus belt beta",
@@ -5510,7 +5462,6 @@
     "kins iv",
     "kins star",
     "kins v",
-    "klescher rehabilitation facility aberdeen",
     "koli",
     "krilya",
     "kudre ore mine",
@@ -5556,12 +5507,10 @@
     "leir iii",
     "leir star",
     "list of stanton locations",
-    "lively pathway station",
     "lixuu",
     "lngxyi",
     "lo",
     "locke",
-    "long forest station",
     "lorona",
     "lorville outskirts",
     "lowdown",
@@ -5583,7 +5532,6 @@
     "marisol belt",
     "markahil star",
     "mars",
-    "melodic fields station",
     "mentor",
     "mercury planet",
     "mercy hospital",
@@ -5597,8 +5545,6 @@
     "min i",
     "minlo spire",
     "miranda",
-    "modern express station",
-    "modern icarus station",
     "moscow",
     "mt datacenter 2ub-rb9-5",
     "mt datacenter l8p-juc-8",
@@ -5635,7 +5581,6 @@
     "nul star",
     "nyx - pyro",
     "nyx - stanton",
-    "nyx gateway",
     "nyx i",
     "nyx ii",
     "nyx iii",
@@ -5725,7 +5670,6 @@
     "pyenpuia",
     "pyro - nyx",
     "pyro - stanton",
-    "pyro gateway",
     "pyro star",
     "quantum",
     "quarterdeck",
@@ -5733,13 +5677,10 @@
     "queeg",
     "quinton",
     "qv services stations",
-    "rab-lamba",
-    "rab-siera",
     "raipung",
     "raleigh station",
     "rayari livengood research outpost",
     "reclamation disposal",
-    "red crossroads station",
     "red god",
     "refinery deck",
     "regiment downs",
@@ -5787,8 +5728,6 @@
     "sesen",
     "severus",
     "shady glen farms",
-    "shallow fields station",
-    "shallow frontier station",
     "shanghai",
     "shanks",
     "shepherd",
@@ -5808,7 +5747,6 @@
     "stanton - magnus",
     "stanton - pyro",
     "stanton - terra",
-    "stanton gateway",
     "stanton star",
     "stones throw",
     "stratus at cloudview center",
@@ -5842,7 +5780,6 @@
     "technotic",
     "terra",
     "terra - stanton",
-    "terra gateway",
     "terra nova",
     "test facility octagon",
     "tethlea",
@@ -5861,7 +5798,6 @@
     "the snake pit",
     "thimblerig",
     "third sister",
-    "thundering express station",
     "thusng - baker",
     "thusng belt alpha",
     "thusng i",
@@ -5956,7 +5892,6 @@
     "wallys",
     "watchers depot",
     "whistlers crypt",
-    "wide forest station",
     "wikelo emporium",
     "worlds end",
     "xenia",
@@ -5967,7 +5902,6 @@
     "xyeping",
     "yadar valley",
     "yar",
-    "yellow core station",
     "yengchuai",
     "yeten",
     "yethll syeno",

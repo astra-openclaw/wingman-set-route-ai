@@ -13,7 +13,13 @@ class ShippedDatabaseTests(unittest.TestCase):
 
     def test_every_alias_collision_is_not_first_match(self):
         collisions={a:d for a,d in self.engine.alias_index.items() if len(d)>1}
-        self.assertGreaterEqual(len(collisions),37)
+        baseline=json.loads((ROOT/"set_route_ai/database/legacy_baseline.json").read_text(encoding="utf-8"))
+        original={}
+        for key, aliases in baseline["aliases"].items():
+            for alias in aliases: original.setdefault(alias,set()).add(key)
+        self.assertLessEqual(len(collisions),35)
+        self.assertTrue(set(collisions) <= {a for a,d in original.items() if len(d)>1})
+        self.assertNotIn("shady glen",collisions)
         for alias, destinations in collisions.items():
             target,choices=self.engine.find_destination(alias)
             if alias in self.engine.destinations:
@@ -30,13 +36,43 @@ class ShippedDatabaseTests(unittest.TestCase):
 
     def test_no_noise_keys_and_original_destinations_retained(self):
         self.assertTrue(all(len(k)>1 for k in self.engine.destinations))
-        self.assertEqual(len(self.engine.destinations),1364)
+        self.assertEqual(len(self.engine.destinations),1330)
         self.assertIn("castra star",self.engine.destinations)
         self.assertIn("ariel",self.engine.destinations)
 
     def test_added_locations_have_source_identity(self):
         changes=json.loads((ROOT/"docs/UEX-CHANGES.json").read_text(encoding="utf-8"))
-        self.assertEqual(len(changes["added"]),73)
+        self.assertEqual(len(changes["added"]),69)
         for added in changes["added"]:
             record=self.engine.destinations[added["key"]]
             self.assertIn({"endpoint":added["endpoint"],"id":added["id"]},record["uex"])
+
+    def test_all_twenty_lpoints_and_variants_unique(self):
+        for prefix in ("ARC","CRU","HUR","MIC"):
+            for i in range(1,6):
+                targets=[]
+                for spelling in (f"{prefix} L{i}", f"{prefix}-L{i}", f"{prefix} L {i}"):
+                    target, choices=self.engine.find_destination(spelling)
+                    self.assertIsNotNone(target,spelling);self.assertFalse(choices)
+                    targets.append(target)
+                self.assertEqual(len(set(targets)),1)
+        self.assertEqual(self.engine.find_destination("crew L1")[0],"cru-l1 ambitious dream station")
+
+    def test_in_game_search_labels_and_homonyms(self):
+        for key in self.engine.destinations:
+            text=self.engine.search_text(key).casefold()
+            self.assertNotRegex(text,r"closed|offline|gateway.*(?:stanton|pyro|nyx)")
+        target, choices=self.engine.find_destination("Stanton Gateway")
+        self.assertIsNone(target);self.assertEqual(len(choices),2)
+        for system in ("Pyro","Nyx"):
+            key=self.engine.find_destination("Stanton Gateway",system)[0]
+            self.assertEqual(self.engine.destinations[key]["system"],system)
+            self.assertEqual(self.engine.search_text(key),"Stanton Gateway")
+
+    def test_low_confidence_fuzzy_only_asks(self):
+        target, choices=self.engine.find_destination("Gateway")
+        self.assertIsNone(target);self.assertTrue(choices)
+
+    def test_explicitly_closed_and_decommissioned_metadata(self):
+        for key in ("port olisar","kudre ore mine","mt datacenter l8p-juc-8"):
+            self.assertTrue(self.engine.destinations[key]["unavailable_reason"])

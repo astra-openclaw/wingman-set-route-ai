@@ -29,7 +29,7 @@ def load_json(path, default=None, backup_dir=None):
         return json.loads(path.read_text(encoding="utf-8-sig"))
     except (ValueError, UnicodeError) as exc:
         backup_bytes(path, backup_dir or path.parent / "recovery")
-        raise DataError(f"Invalid JSON in {path.name}; original preserved and backed up. Repair it before continuing.") from exc
+        raise DataError("Saved data is unreadable; the original was preserved and backed up. Check the Wingman log for details.") from exc
 
 
 def atomic_json(path, data):
@@ -60,50 +60,68 @@ def validate_state(state):
             or any(not isinstance(state.get(k), dict) for k in ("overrides", "learning", "blacklist"))
             or any(not isinstance(state.get(k), list) for k in ("deleted", "migrations"))
             or any(not isinstance(x, str) for x in state["deleted"])):
-        raise DataError("Invalid user_data.json structure; repair it before continuing.")
+        raise DataError("Saved data has an invalid structure. Repair it before continuing.")
 
 
 def migrate_legacy(skill_dir, user_dir, state, normalize):
-    """Read all legacy data first, preserve raw bytes, then commit once.
-
-    Root data is authoritative over the old dependency sample folder. Raw copies
-    retain removed entries and orphan learned names even when not routable.
-    """
+    """Import only changes against the original database; ignore dependency samples."""
     import copy
     root, user = Path(skill_dir), Path(user_dir)
     if "legacy-v1-v3" in state["migrations"]:
         return state
     updated = copy.deepcopy(state)
-    roots = [root / "dependencies" / "data", root / "data"]
+    baseline = load_json(root / "database/legacy_baseline.json")
+    if not isinstance(baseline, dict):
+        raise DataError("The upgrade baseline is missing. Reinstall the complete skill.")
+    aliases = baseline["aliases"]
+    redirects = baseline.get("redirects", {})
     collected = []
-    for folder in roots:
-        for name in ("destinations.json", "phonetic_learning.json", "blacklist.json", "mouse_calibration.json"):
-            source = folder / name
-            if source.exists():
-                backup_bytes(source, user / "legacy_backup")
-                value = load_json(source, backup_dir=user / "recovery")
-                if not isinstance(value, dict):
-                    raise DataError(f"Invalid legacy {name} structure; preserved in legacy_backup.")
-                collected.append((name, value))
+    for name in ("destinations.json", "phonetic_learning.json", "blacklist.json", "mouse_calibration.json"):
+        source = root / "data" / name
+        if source.exists():
+            backup_bytes(source, user / "legacy_backup")
+            value = load_json(source, backup_dir=user / "recovery")
+            if not isinstance(value, dict):
+                raise DataError("Invalid legacy data; original preserved and backed up.")
+            if name == "destinations.json" and hashlib.sha256(source.read_bytes()).hexdigest() == baseline["sha256"]:
+                continue
+            collected.append((name, value))
     for name, value in collected:
         if name == "destinations.json":
+            records = {}
             for key, record in value.items():
                 n = normalize(key)
-                if not isinstance(record, dict) or not isinstance(record.get("aliases", []), list):
-                    raise DataError("Invalid legacy destination record; preserved in legacy_backup.")
-                if n:
-                    aliases = record.get("aliases", [])
-                    if any(not isinstance(a, str) for a in aliases):
-                        raise DataError("Invalid legacy aliases; preserved in legacy_backup.")
-                    # Existing user edits always win; later legacy root replaces samples.
-                    if n not in state["overrides"] and n not in state["deleted"]:
-                        updated["overrides"][n] = {**record, "name": record.get("name", key), "aliases": aliases}
+                if (not isinstance(record, dict) or not isinstance(record.get("aliases", []), list)
+                        or any(not isinstance(a, str) for a in record.get("aliases", []))):
+                    raise DataError("Invalid legacy destination; original preserved and backed up.")
+                if len(n) > 1:
+                    records[n] = record
+            for key, record in records.items():
+                target = redirects.get(key, key)
+                if target in state["overrides"] or target in state["deleted"]:
+                    continue
+                current = {normalize(a) for a in record.get("aliases", []) if len(normalize(a)) > 1}
+                if key not in aliases:
+                    updated["overrides"][target] = {**record, "name": record.get("name", key),
+                                                    "aliases": sorted(current)}
+                else:
+                    added, removed = current - set(aliases[key]), set(aliases[key]) - current
+                    if added or removed:
+                        edit = updated["overrides"].setdefault(target, {
+                            "alias_delta": True, "aliases": [], "removed_aliases": []})
+                        edit["aliases"] = sorted(set(edit["aliases"]) | added)
+                        edit["removed_aliases"] = sorted(set(edit["removed_aliases"]) | removed)
+            for missing in set(aliases) - set(records):
+                target = redirects.get(missing, missing)
+                if target not in state["overrides"]:
+                    updated["deleted"] = sorted(set(updated["deleted"]) | {target})
         elif name == "phonetic_learning.json":
             for key, target in value.items():
                 if not isinstance(target, str):
-                    raise DataError("Invalid legacy learned name; preserved in legacy_backup.")
+                    raise DataError("Invalid legacy learned name; original preserved and backed up.")
                 if normalize(key) not in state["learning"]:
-                    updated["learning"][normalize(key)] = normalize(target)
+                    target = normalize(target)
+                    updated["learning"][normalize(key)] = redirects.get(target, target)
         elif name == "blacklist.json":
             updated["blacklist"].update({normalize(k): v for k, v in value.items()
                                          if normalize(k) not in state["blacklist"]})

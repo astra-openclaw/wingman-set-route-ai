@@ -45,7 +45,9 @@ class DestinationPhoneticEngine:
         result = {}
         for name, value in raw.items():
             if (not isinstance(value, dict) or not isinstance(value.get("aliases", []), list)
-                    or any(not isinstance(a, str) for a in value.get("aliases", []))):
+                    or any(not isinstance(a, str) for a in value.get("aliases", []))
+                    or not isinstance(value.get("removed_aliases", []), list)
+                    or any(not isinstance(a, str) for a in value.get("removed_aliases", []))):
                 raise DataError("Invalid destination record.")
             key = normalize(name)
             if not key or len(key) == 1:
@@ -60,11 +62,20 @@ class DestinationPhoneticEngine:
     def _refresh(self):
         self.destinations = copy.deepcopy(self.shipped)
         for key, value in self._records(self.state["overrides"]).items():
-            self.destinations[key] = {**self.destinations.get(key, {}), **value}
+            if value.get("alias_delta"):
+                if key in self.destinations:
+                    record = self.destinations[key]
+                    record["aliases"] = sorted((set(record["aliases"]) | set(value["aliases"]))
+                                               - set(value.get("removed_aliases", [])))
+            else:
+                self.destinations[key] = {**self.destinations.get(key, {}), **value}
         for key in self.state["deleted"]:
             self.destinations.pop(normalize(key), None)
         self.learning = {normalize(k): normalize(v) for k, v in self.state["learning"].items()
                          if normalize(v) in self.destinations}
+        self.name_index = {}
+        for dest, data in self.destinations.items():
+            self.name_index.setdefault(normalize(data.get("search", data["name"])), set()).add(dest)
         self.alias_index = {}
         for dest, data in self.destinations.items():
             for alias in data["aliases"]:
@@ -78,6 +89,13 @@ class DestinationPhoneticEngine:
     def display(self, key):
         return self.destinations[key]["name"]
 
+    def label(self, key):
+        data = self.destinations[key]
+        return data["name"] + (f" in {data['system']}" if data.get("system") else "")
+
+    def search_text(self, key):
+        return self.destinations[key].get("search", self.display(key))
+
     def find_destination(self, phrase, system=None, fuzzy=True):
         key = normalize(phrase)
         key = re.sub(r"^(?:plot (?:a )?route to|set course for|take me to|route to|navigate to)\s+", "", key)
@@ -85,7 +103,8 @@ class DestinationPhoneticEngine:
             return None, []
         if key in self.destinations:
             return key, []
-        candidates = set(self.alias_index.get(key, set()))
+        candidates = set(self.alias_index.get(key, set())) | self.name_index.get(key, set())
+        scored = {}
         if key in self.learning:
             candidates.add(self.learning[key])
         if not candidates:
@@ -93,9 +112,12 @@ class DestinationPhoneticEngine:
             if special:
                 prefix, number = special.groups()
                 target = ("cru" if prefix == "crew" else prefix) + " l" + number
-                return (target, []) if target in self.destinations else (None, [])
-            if fuzzy:
-                scored = {}
+                if target in self.destinations:
+                    return target, []
+                candidates = set(self.alias_index.get(target, set()))
+                if not candidates:
+                    return None, []
+            if not candidates and fuzzy:
                 for token, destinations in self.alias_index.items():
                     score = SequenceMatcher(None, key, token).ratio()
                     if score >= .82:
@@ -105,7 +127,14 @@ class DestinationPhoneticEngine:
                     score = SequenceMatcher(None, key, dest).ratio()
                     if score >= .82:
                         scored[dest] = max(scored.get(dest, 0), score)
-                candidates = set(sorted(scored, key=lambda d: (-scored[d], d))[:3])
+                ranked = sorted(scored, key=lambda d: (-scored[d], d))
+                if ranked and scored[ranked[0]] >= .90 and (len(ranked) == 1 or scored[ranked[0]] - scored[ranked[1]] >= .05):
+                    candidates = {ranked[0]}
+                else:
+                    return None, ranked[:3]
+        # A nickname for a homonymous gateway must not silently choose a system.
+        for candidate in list(candidates):
+            candidates.update(self.name_index.get(normalize(self.search_text(candidate)), set()))
         if system and len(candidates) > 1:
             local = {d for d in candidates if normalize(self.destinations[d].get("system", "")) == normalize(system)}
             if len(local) == 1 and all(self.destinations[d].get("system") for d in candidates):
@@ -168,7 +197,12 @@ class DestinationPhoneticEngine:
         else:
             aliases.add(alias)
         record["aliases"] = sorted(aliases)
-        state["overrides"][key] = record
+        if key in self.shipped:
+            base = set(self.shipped[key]["aliases"])
+            state["overrides"][key] = {"alias_delta": True, "aliases": sorted(aliases-base),
+                                       "removed_aliases": sorted(base-aliases)}
+        else:
+            state["overrides"][key] = record
         self._commit(state)
 
     def learn(self, phrase, destination):

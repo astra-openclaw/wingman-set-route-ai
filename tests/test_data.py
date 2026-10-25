@@ -117,7 +117,7 @@ class DataTests(unittest.TestCase):
         before = engine.state_file.read_bytes()
         engine = DestinationPhoneticEngine(self.skill, self.user)
         self.assertEqual(before, engine.state_file.read_bytes())
-        self.assertEqual(len(list((self.user/"legacy_backup").glob("*.bak"))), 4)
+        self.assertEqual(len(list((self.user/"legacy_backup").glob("*.bak"))), 3)
 
     def test_migration_corrupt_source_stops_without_receipt(self):
         self.legacy()
@@ -148,3 +148,63 @@ class DataTests(unittest.TestCase):
         atomic_json(self.skill/"database/destinations.json", {"": {"aliases":[]}, "x":{"aliases":[]}, "daymar":{"aliases":[]}})
         engine = DestinationPhoneticEngine(self.skill,self.user)
         self.assertEqual(list(engine.destinations), ["daymar"])
+
+    def test_unedited_original_and_v3_import_no_overrides(self):
+        import shutil
+        for layout in ("original","v3"):
+            root=self.root/layout
+            fixture_database(root)
+            (root/"data").mkdir()
+            shutil.copyfile(root/"database/destinations.json",root/"data/destinations.json")
+            atomic_json(root/"dependencies/data/destinations.json",{"sample":{"aliases":[]}})
+            atomic_json(root/"dependencies/data/phonetic_learning.json",{"home":"sample"})
+            engine=DestinationPhoneticEngine(root,self.root/(layout+"-user"))
+            self.assertEqual(engine.state["overrides"],{})
+            self.assertEqual(engine.destinations,engine.shipped)
+            self.assertNotIn("home",engine.learning)
+
+    def test_edited_legacy_imports_only_user_delta(self):
+        import json
+        root=self.root/"edited";fixture_database(root)
+        raw=json.loads((root/"database/destinations.json").read_text(encoding="utf-8"))
+        raw["daymar"]["aliases"].append("my moon")
+        raw["arial"]["aliases"].remove("aerial")
+        del raw["other"]
+        raw["new place"]={"aliases":["new home"]}
+        atomic_json(root/"data/destinations.json",raw)
+        # A later shipped alias/name/system survives the upgrade.
+        shipped=json.loads((root/"database/destinations.json").read_text(encoding="utf-8"))
+        shipped["daymar"]["aliases"]=["new official alias"]
+        atomic_json(root/"database/destinations.json",shipped)
+        engine=DestinationPhoneticEngine(root,self.root/"edited-user")
+        self.assertEqual(set(engine.state["overrides"]),{"daymar","arial","new place"})
+        self.assertEqual(engine.state["deleted"],["other"])
+        self.assertEqual(engine.get_aliases("daymar"),["my moon","new official alias"])
+        self.assertEqual(engine.display("daymar"),"Daymar")
+        self.assertEqual(engine.destinations["daymar"]["system"],"Stanton")
+        self.assertEqual(engine.get_aliases("arial"),[])
+        before=engine.state_file.read_bytes()
+        raw["another place"]={"aliases":[]};atomic_json(root/"data/destinations.json",raw)
+        second=DestinationPhoneticEngine(root,self.root/"edited-user")
+        self.assertEqual(before,second.state_file.read_bytes())
+        self.assertNotIn("another place",second.destinations)
+
+    def test_future_shipped_aliases_survive_personal_alias_edit(self):
+        import json
+        self.engine.edit_alias("daymar","my moon")
+        source=self.skill/"database/destinations.json"
+        shipped=json.loads(source.read_text(encoding="utf-8"))
+        shipped["daymar"]["aliases"]=["new official alias"]
+        atomic_json(source,shipped)
+        engine=DestinationPhoneticEngine(self.skill,self.user)
+        self.assertEqual(engine.get_aliases("daymar"),["my moon","new official alias"])
+
+    def test_fuzzy_threshold_and_runner_up_margin(self):
+        root=self.root/"fuzzy";fixture_database(root)
+        atomic_json(root/"database/destinations.json",{
+            "abcdefghij":{"aliases":[]}, "abcdefghik":{"aliases":[]}})
+        engine=DestinationPhoneticEngine(root,self.root/"fuzzy-user")
+        self.assertIsNone(engine.find_destination("abcdefghil")[0]) # .9 but no margin
+        engine.destinations.pop("abcdefghik")
+        self.assertEqual(engine.find_destination("abcdefghil")[0],"abcdefghij")
+        self.assertIsNone(engine.find_destination("abcdefghzz")[0]) # .8 below threshold

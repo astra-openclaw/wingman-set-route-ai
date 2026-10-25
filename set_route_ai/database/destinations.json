@@ -253,26 +253,6 @@
     ],
     "name": "Aluth Star"
   },
-  "ambitious dream station": {
-    "aliases": [
-      "ambishus dream",
-      "ambishus dream station",
-      "ambishus dreme",
-      "ambitious dream",
-      "ambitious dream stasion",
-      "ambitious dreem",
-      "ambitious dreem station",
-      "ambitious drem station",
-      "ambitious dreme",
-      "ambitiousdream",
-      "cru el one",
-      "cru l 1",
-      "cru l one",
-      "cru l1",
-      "cru-l1"
-    ],
-    "name": "Ambitious Dream Station"
-  },
   "ambulance pad": {
     "aliases": [
       "ambalance pad",
@@ -315,8 +295,24 @@
   },
   "arc-l1 wide forest station": {
     "aliases": [
+      "arc el one",
+      "arc l 1",
+      "arc l one",
       "arc l1",
-      "arc-l1"
+      "arc-l1",
+      "arcl1",
+      "whyde forest",
+      "wide for est",
+      "wide forest",
+      "wide forest stasion",
+      "wide forest station",
+      "wide forest sttion",
+      "wide forist station",
+      "wide forrest",
+      "wide forrest station",
+      "wideforest",
+      "wyde forest",
+      "wyde forest station"
     ],
     "name": "ARC-L1 Wide Forest Station",
     "system": "Stanton",
@@ -329,8 +325,24 @@
   },
   "arc-l2 lively pathway station": {
     "aliases": [
+      "arc el two",
+      "arc l 2",
+      "arc l two",
       "arc l2",
-      "arc-l2"
+      "arc-l2",
+      "arcl2",
+      "live lee pathway station",
+      "live ly pathway",
+      "lively path",
+      "lively path way",
+      "lively path way station",
+      "lively pathway",
+      "lively pathway stasion",
+      "lively pathway station",
+      "lively pathwey station",
+      "livelypathway",
+      "livley pathway station",
+      "livly pathway"
     ],
     "name": "ARC-L2 Lively Pathway Station",
     "system": "Stanton",
@@ -343,8 +355,24 @@
   },
   "arc-l3 modern express station": {
     "aliases": [
+      "arc el three",
+      "arc l 3",
+      "arc l three",
       "arc l3",
-      "arc-l3"
+      "arc-l3",
+      "arcl3",
+      "faint glen",
+      "faint glenn",
+      "faintglen",
+      "fane glen",
+      "feint glen",
+      "feintglen",
+      "modern ekspress station",
+      "modern express stasion",
+      "modern express station",
+      "modern express staton",
+      "modern express sttion",
+      "modren express station"
     ],
     "name": "ARC-L3 Modern Express Station",
     "system": "Stanton",
@@ -357,8 +385,18 @@
   },
   "arc-l4 faint glen station": {
     "aliases": [
+      "arc el four",
+      "arc l 4",
+      "arc l four",
       "arc l4",
-      "arc-l4"
+      "arc-l4",
+      "arcl4",
+      "faint glen stasion",
+      "faint glen station",
+      "faint glen sttion",
+      "faint glenn station",
+      "faynt glen station",
+      "feint glen station"
     ],
     "name": "ARC-L4 Faint Glen Station",
     "system": "Stanton",
@@ -371,8 +409,24 @@
   },
   "arc-l5 yellow core station": {
     "aliases": [
+      "arc el five",
+      "arc l 5",
+      "arc l five",
       "arc l5",
-      "arc-l5"
+      "arc-l5",
+      "arcl5",
+      "yello core",
+      "yello core station",
+      "yelloh core station",
+      "yellow cor",
+      "yellow core",
+      "yellow core stasion",
+      "yellow core station",
+      "yellow core sttion",
+      "yellow kor",
+      "yellow kor station",
+      "yellowcore",
+      "yelo core"
     ],
     "name": "ARC-L5 Yellow Core Station",
     "system": "Stanton",
@@ -1148,26 +1202,6 @@
         "id": 26
       }
     ]
-  },
-  "beautiful glen station": {
-    "aliases": [
-      "beautiful glen",
-      "beautiful glen stasion",
-      "beautiful glenn",
-      "beautiful glenn station",
-      "beautifulglen",
-      "beautifull glen",
-      "beautifull glen station",
-      "butiful glen",
-      "butiful glen station",
-      "butifulglen",
-      "cru el five",
-      "cru l 5",
-      "cru l five",
-      "cru l5",
-      "cru-l5"
-    ],
-    "name": "Beautiful Glen Station"
   },
   "benny henge": {
     "aliases": [
@@ -2882,17 +2916,6 @@
     ],
     "name": "Cluster Rcs-340"
   },
-  "cluster rsc-340": {
-    "aliases": [],
-    "name": "Cluster RSC-340",
-    "system": "Pyro",
-    "uex": [
-      {
-        "endpoint": "poi",
-        "id": 265
-      }
-    ]
-  },
   "cluster wdh-387": {
     "aliases": [
       "cluster double you d h 387",
@@ -3459,7 +3482,20 @@
     "name": "Corsito"
   },
   "covalex distribution center s4dc05": {
-    "aliases": [],
+    "aliases": [
+      "covalex dist center s4dc05",
+      "covalex dist centre s4dc05",
+      "covalex distribution centre s four d c zero five",
+      "covalex distribution centre s4 dc 05",
+      "covalex distribution centre s4dc05",
+      "s 4 d c 0 5",
+      "s four d c oh five",
+      "s four d c zero five",
+      "s4dc 05",
+      "s4dc-05",
+      "s4dc05",
+      "s4dc5"
+    ],
     "name": "Covalex Distribution Center S4DC05",
     "system": "Stanton",
     "uex": [
@@ -3485,23 +3521,6 @@
       "s1dc6"
     ],
     "name": "Covalex Distribution Centre S1Dc06"
-  },
-  "covalex distribution centre s4dc05": {
-    "aliases": [
-      "covalex dist center s4dc05",
-      "covalex dist centre s4dc05",
-      "covalex distribution center s4dc05",
-      "covalex distribution centre s four d c zero five",
-      "covalex distribution centre s4 dc 05",
-      "s 4 d c 0 5",
-      "s four d c oh five",
-      "s four d c zero five",
-      "s4dc 05",
-      "s4dc-05",
-      "s4dc05",
-      "s4dc5"
-    ],
-    "name": "Covalex Distribution Centre S4Dc05"
   },
   "covalex shipping hub gundo": {
     "aliases": [
@@ -3611,6 +3630,7 @@
       "cru el two",
       "cru l 2",
       "cru l two",
+      "cru-l2",
       "crul2"
     ],
     "name": "CRU L2"
@@ -3621,14 +3641,28 @@
       "cru l 3",
       "cru l three",
       "cru l tree",
+      "cru-l3",
       "crul3"
     ],
     "name": "CRU L3"
   },
   "cru-l1 ambitious dream station": {
     "aliases": [
+      "ambishus dream",
+      "ambishus dream station",
+      "ambishus dreme",
+      "ambitious dream",
+      "ambitious dream stasion",
+      "ambitious dream station",
+      "ambitious dreem",
+      "ambitious dreem station",
+      "ambitious drem station",
+      "ambitious dreme",
+      "ambitiousdream",
+      "cru el one",
       "cru ele uno",
       "cru l 1",
+      "cru l one",
       "cru l1",
       "cru-l1",
       "cruel one"
@@ -3644,8 +3678,22 @@
   },
   "cru-l4 shallow fields station": {
     "aliases": [
+      "cru el four",
+      "cru l 4",
+      "cru l four",
       "cru l4",
-      "cru-l4"
+      "cru-l4",
+      "shallow feeld",
+      "shallow feelds",
+      "shallow feelds station",
+      "shallow fields",
+      "shallow fields stasion",
+      "shallow fields station",
+      "shallow fieldz station",
+      "shallowfields",
+      "shalo fields",
+      "shalow fields",
+      "shalow fields station"
     ],
     "name": "CRU-L4 Shallow Fields Station",
     "system": "Stanton",
@@ -3658,6 +3706,20 @@
   },
   "cru-l5 beautiful glen station": {
     "aliases": [
+      "beautiful glen",
+      "beautiful glen stasion",
+      "beautiful glen station",
+      "beautiful glenn",
+      "beautiful glenn station",
+      "beautifulglen",
+      "beautifull glen",
+      "beautifull glen station",
+      "butiful glen",
+      "butiful glen station",
+      "butifulglen",
+      "cru el five",
+      "cru l 5",
+      "cru l five",
       "cru l5",
       "cru-l5"
     ],
@@ -3894,7 +3956,19 @@
     ]
   },
   "deakins research": {
-    "aliases": [],
+    "aliases": [
+      "deakens",
+      "deakin",
+      "deakins",
+      "deakins research out post",
+      "deakins research outpost",
+      "deakins research outpust",
+      "deakins research post",
+      "deakins reserch outpost",
+      "dee akins",
+      "deekins",
+      "deekins research outpost"
+    ],
     "name": "Deakins Research",
     "system": "Stanton",
     "uex": [
@@ -3903,21 +3977,6 @@
         "id": 11
       }
     ]
-  },
-  "deakins research outpost": {
-    "aliases": [
-      "deakens",
-      "deakin",
-      "deakins",
-      "deakins research out post",
-      "deakins research outpust",
-      "deakins research post",
-      "deakins reserch outpost",
-      "dee akins",
-      "deekins",
-      "deekins research outpost"
-    ],
-    "name": "Deakins Research Outpost"
   },
   "deimos": {
     "aliases": [
@@ -4470,22 +4529,6 @@
       }
     ]
   },
-  "endless odyssey station": {
-    "aliases": [
-      "endles odyssey",
-      "endless oddyssey",
-      "endless odessey",
-      "endless odessey station",
-      "endless odessy",
-      "endless odyssey",
-      "endlessodyssey",
-      "mic l 3",
-      "mic three",
-      "mic-l3",
-      "micl3"
-    ],
-    "name": "Endless Odyssey Station"
-  },
   "epheet": {
     "aliases": [
       "efeet",
@@ -4581,21 +4624,6 @@
       }
     ]
   },
-  "faint glen station": {
-    "aliases": [
-      "arc el four",
-      "arc l 4",
-      "arc l four",
-      "arc l4",
-      "arcl4",
-      "faint glen stasion",
-      "faint glen sttion",
-      "faint glenn station",
-      "faynt glen station",
-      "feint glen station"
-    ],
-    "name": "Faint Glen Station"
-  },
   "fairo": {
     "aliases": [
       "fair oh",
@@ -4612,23 +4640,6 @@
         "id": 35
       }
     ]
-  },
-  "faithful dream station": {
-    "aliases": [
-      "faithful dream",
-      "faithful dream stasion",
-      "faithful dreem",
-      "faithful dreme",
-      "faithfuldream",
-      "faithfull dream",
-      "faithfull dream station",
-      "fateful dream",
-      "hur l 2",
-      "hur two",
-      "hur-l2",
-      "hurl2"
-    ],
-    "name": "Faithful Dream Station"
   },
   "fallow field": {
     "aliases": [
@@ -5067,7 +5078,19 @@
     "name": "Front Row"
   },
   "frostbite": {
-    "aliases": [],
+    "aliases": [
+      "frosbite",
+      "frost bite",
+      "frost bite settlement",
+      "frostbight",
+      "frostbite setlement",
+      "frostbite setlment",
+      "frostbite settle ment",
+      "frostbite settlement",
+      "frostbyt",
+      "frostbyt e",
+      "frostbyte settlement"
+    ],
     "name": "Frostbite",
     "system": "Stanton",
     "uex": [
@@ -5076,22 +5099,6 @@
         "id": 83
       }
     ]
-  },
-  "frostbite settlement": {
-    "aliases": [
-      "frosbite",
-      "frost bite",
-      "frost bite settlement",
-      "frostbight",
-      "frostbite",
-      "frostbite setlement",
-      "frostbite setlment",
-      "frostbite settle ment",
-      "frostbyt",
-      "frostbyt e",
-      "frostbyte settlement"
-    ],
-    "name": "Frostbite Settlement"
   },
   "fuego": {
     "aliases": [
@@ -5680,23 +5687,6 @@
       "grin"
     ],
     "name": "Green"
-  },
-  "green glade station": {
-    "aliases": [
-      "grean glade",
-      "green glad",
-      "green glade",
-      "green glade stasion",
-      "green glade staton",
-      "green glaid",
-      "greenglade",
-      "gren glade",
-      "hur l 1",
-      "hur one",
-      "hur-l1",
-      "hurl1"
-    ],
-    "name": "Green Glade Station"
   },
   "green imperial medical": {
     "aliases": [
@@ -6632,7 +6622,28 @@
     ]
   },
   "hdsf-hendricks": {
-    "aliases": [],
+    "aliases": [
+      "hdsf hendricks",
+      "hdsf hendriks",
+      "hdsf hendrix",
+      "hdsf-hendriks",
+      "hdsf-hendrix",
+      "hen dricks",
+      "hen drix",
+      "hendrick",
+      "hendricks",
+      "hendricksz",
+      "hendricx",
+      "hendrik",
+      "hendrikk",
+      "hendriks",
+      "hendrix",
+      "hendrixe",
+      "hendrixs",
+      "hendrixx",
+      "henricks",
+      "henrix"
+    ],
     "name": "HDSF-Hendricks",
     "system": "Stanton",
     "uex": [
@@ -6975,31 +6986,6 @@
     ],
     "name": "Helios Star"
   },
-  "hendricks": {
-    "aliases": [
-      "hdsf hendricks",
-      "hdsf hendriks",
-      "hdsf hendrix",
-      "hdsf-hendriks",
-      "hdsf-hendrix",
-      "hen dricks",
-      "hen drix",
-      "hendrick",
-      "hendricks",
-      "hendricksz",
-      "hendricx",
-      "hendrik",
-      "hendrikk",
-      "hendriks",
-      "hendrix",
-      "hendrixe",
-      "hendrixs",
-      "hendrixx",
-      "henricks",
-      "henrix"
-    ],
-    "name": "Hendricks"
-  },
   "henge cluster": {
     "aliases": [
       "henge closter",
@@ -7041,7 +7027,14 @@
     "name": "Hh130782A"
   },
   "hickes research": {
-    "aliases": [],
+    "aliases": [
+      "hickes research out post",
+      "hickes research outpost",
+      "hickes research outpust",
+      "hickes research post",
+      "hickes reserch outpost",
+      "hicks research outpost"
+    ],
     "name": "Hickes Research",
     "system": "Stanton",
     "uex": [
@@ -7050,33 +7043,6 @@
         "id": 28
       }
     ]
-  },
-  "hickes research outpost": {
-    "aliases": [
-      "hickes research out post",
-      "hickes research outpust",
-      "hickes research post",
-      "hickes reserch outpost",
-      "hicks research outpost"
-    ],
-    "name": "Hickes Research Outpost"
-  },
-  "high course station": {
-    "aliases": [
-      "hi course",
-      "hie course",
-      "high coarse",
-      "high coarse station",
-      "high corse",
-      "high course",
-      "high course stasion",
-      "highcourse",
-      "hur five",
-      "hur l 5",
-      "hur-l5",
-      "hurl5"
-    ],
-    "name": "High Course Station"
   },
   "hl2610a": {
     "aliases": [
@@ -7181,8 +7147,20 @@
   },
   "hur-l1 green glade station": {
     "aliases": [
+      "grean glade",
+      "green glad",
+      "green glade",
+      "green glade stasion",
+      "green glade station",
+      "green glade staton",
+      "green glaid",
+      "greenglade",
+      "gren glade",
+      "hur l 1",
       "hur l1",
-      "hur-l1"
+      "hur one",
+      "hur-l1",
+      "hurl1"
     ],
     "name": "HUR-L1 Green Glade Station",
     "system": "Stanton",
@@ -7195,8 +7173,20 @@
   },
   "hur-l2 faithful dream station": {
     "aliases": [
+      "faithful dream",
+      "faithful dream stasion",
+      "faithful dream station",
+      "faithful dreem",
+      "faithful dreme",
+      "faithfuldream",
+      "faithfull dream",
+      "faithfull dream station",
+      "fateful dream",
+      "hur l 2",
       "hur l2",
-      "hur-l2"
+      "hur two",
+      "hur-l2",
+      "hurl2"
     ],
     "name": "HUR-L2 Faithful Dream Station",
     "system": "Stanton",
@@ -7209,8 +7199,20 @@
   },
   "hur-l3 thundering express station": {
     "aliases": [
+      "hur l 3",
       "hur l3",
-      "hur-l3"
+      "hur three",
+      "hur-l3",
+      "hurl3",
+      "thundering ekspress",
+      "thundering expess",
+      "thundering expres",
+      "thundering expres station",
+      "thundering express",
+      "thundering express stasion",
+      "thundering express station",
+      "thundering xpress",
+      "thunderingexpress"
     ],
     "name": "HUR-L3 Thundering Express Station",
     "system": "Stanton",
@@ -7223,8 +7225,20 @@
   },
   "hur-l4 melodic fields station": {
     "aliases": [
+      "hur four",
+      "hur l 4",
       "hur l4",
-      "hur-l4"
+      "hur-l4",
+      "hurl4",
+      "melodic feeld",
+      "melodic feelds",
+      "melodic feilds",
+      "melodic feilds station",
+      "melodic field station",
+      "melodic fields",
+      "melodic fields station",
+      "melodicfields",
+      "melodik fields"
     ],
     "name": "HUR-L4 Melodic Fields Station",
     "system": "Stanton",
@@ -7237,8 +7251,20 @@
   },
   "hur-l5 high course station": {
     "aliases": [
+      "hi course",
+      "hie course",
+      "high coarse",
+      "high coarse station",
+      "high corse",
+      "high course",
+      "high course stasion",
+      "high course station",
+      "highcourse",
+      "hur five",
+      "hur l 5",
       "hur l5",
-      "hur-l5"
+      "hur-l5",
+      "hurl5"
     ],
     "name": "HUR-L5 High Course Station",
     "system": "Stanton",
@@ -7642,17 +7668,6 @@
       "judekka"
     ],
     "name": "Judecca"
-  },
-  "julep aid shelter": {
-    "aliases": [],
-    "name": "Julep Aid Shelter",
-    "system": "Stanton",
-    "uex": [
-      {
-        "endpoint": "poi",
-        "id": 123
-      }
-    ]
   },
   "julep ravine aid shelter": {
     "aliases": [
@@ -8353,7 +8368,14 @@
     "name": "Kins V"
   },
   "klescher rehabilitation facility": {
-    "aliases": [],
+    "aliases": [
+      "klescher facility aberdeen",
+      "klescher rehab aberdeen",
+      "klescher rehab facility aberdeen",
+      "klescher rehabilitation aberdeen",
+      "klescher rehabilitation facility aberdeen",
+      "klesher rehabilitation facility aberdeen"
+    ],
     "name": "Klescher Rehabilitation Facility",
     "system": "Stanton",
     "uex": [
@@ -8362,16 +8384,6 @@
         "id": 82
       }
     ]
-  },
-  "klescher rehabilitation facility aberdeen": {
-    "aliases": [
-      "klescher facility aberdeen",
-      "klescher rehab aberdeen",
-      "klescher rehab facility aberdeen",
-      "klescher rehabilitation aberdeen",
-      "klesher rehabilitation facility aberdeen"
-    ],
-    "name": "Klescher Rehabilitation Facility Aberdeen"
   },
   "koli": {
     "aliases": [
@@ -8436,21 +8448,18 @@
       "kudre mine",
       "kudre oar mine",
       "kudre or mine",
+      "kudre ore mine closed",
       "kudre ore minee",
       "kudre oremin"
     ],
-    "name": "Kudre Ore Mine"
-  },
-  "kudre ore mine closed": {
-    "aliases": [],
-    "name": "Kudre Ore Mine (Closed)",
-    "system": "Stanton",
+    "name": "Kudre Ore Mine",
     "uex": [
       {
         "endpoint": "poi",
         "id": 131
       }
-    ]
+    ],
+    "unavailable_reason": "closed"
   },
   "kuiper belt": {
     "aliases": [
@@ -8981,27 +8990,6 @@
     "aliases": [],
     "name": "List Of Stanton Locations"
   },
-  "lively pathway station": {
-    "aliases": [
-      "arc el two",
-      "arc l 2",
-      "arc l two",
-      "arc l2",
-      "arcl2",
-      "live lee pathway station",
-      "live ly pathway",
-      "lively path",
-      "lively path way",
-      "lively path way station",
-      "lively pathway",
-      "lively pathway stasion",
-      "lively pathwey station",
-      "livelypathway",
-      "livley pathway station",
-      "livly pathway"
-    ],
-    "name": "Lively Pathway Station"
-  },
   "lixuu": {
     "aliases": [
       "lixoo",
@@ -9040,22 +9028,6 @@
       "loke"
     ],
     "name": "Locke"
-  },
-  "long forest station": {
-    "aliases": [
-      "lon forest",
-      "long for est",
-      "long forest",
-      "long forest stasion",
-      "long forrest",
-      "long phorest",
-      "longforest",
-      "mic l 2",
-      "mic two",
-      "mic-l2",
-      "micl2"
-    ],
-    "name": "Long Forest Station"
   },
   "lorona": {
     "aliases": [
@@ -9408,23 +9380,6 @@
       }
     ]
   },
-  "melodic fields station": {
-    "aliases": [
-      "hur four",
-      "hur l 4",
-      "hur-l4",
-      "hurl4",
-      "melodic feeld",
-      "melodic feelds",
-      "melodic feilds",
-      "melodic feilds station",
-      "melodic field station",
-      "melodic fields",
-      "melodicfields",
-      "melodik fields"
-    ],
-    "name": "Melodic Fields Station"
-  },
   "mentor": {
     "aliases": [
       "men tor",
@@ -9457,8 +9412,19 @@
   },
   "mic-l1 shallow frontier station": {
     "aliases": [
+      "mic l 1",
       "mic l1",
-      "mic-l1"
+      "mic one",
+      "mic-l1",
+      "micl1",
+      "shallow front ear",
+      "shallow fronteer",
+      "shallow frontier",
+      "shallow frontier stasion",
+      "shallow frontier station",
+      "shallowfrontier",
+      "shalo frontier",
+      "shalow frontier"
     ],
     "name": "MIC-L1 Shallow Frontier Station",
     "system": "Stanton",
@@ -9471,8 +9437,19 @@
   },
   "mic-l2 long forest station": {
     "aliases": [
+      "lon forest",
+      "long for est",
+      "long forest",
+      "long forest stasion",
+      "long forest station",
+      "long forrest",
+      "long phorest",
+      "longforest",
+      "mic l 2",
       "mic l2",
-      "mic-l2"
+      "mic two",
+      "mic-l2",
+      "micl2"
     ],
     "name": "MIC-L2 Long Forest Station",
     "system": "Stanton",
@@ -9485,8 +9462,19 @@
   },
   "mic-l3 endless odyssey station": {
     "aliases": [
+      "endles odyssey",
+      "endless oddyssey",
+      "endless odessey",
+      "endless odessey station",
+      "endless odessy",
+      "endless odyssey",
+      "endless odyssey station",
+      "endlessodyssey",
+      "mic l 3",
       "mic l3",
-      "mic-l3"
+      "mic three",
+      "mic-l3",
+      "micl3"
     ],
     "name": "MIC-L3 Endless Odyssey Station",
     "system": "Stanton",
@@ -9499,8 +9487,19 @@
   },
   "mic-l4 red crossroads station": {
     "aliases": [
+      "mic four",
+      "mic l 4",
       "mic l4",
-      "mic-l4"
+      "mic-l4",
+      "micl4",
+      "read crossroads",
+      "red crosroads",
+      "red cross roads",
+      "red crossroad",
+      "red crossroad station",
+      "red crossroads",
+      "red crossroads station",
+      "redcrossroads"
     ],
     "name": "MIC-L4 Red Crossroads Station",
     "system": "Stanton",
@@ -9513,8 +9512,19 @@
   },
   "mic-l5 modern icarus station": {
     "aliases": [
+      "mic five",
+      "mic l 5",
       "mic l5",
-      "mic-l5"
+      "mic-l5",
+      "micl5",
+      "modern icarous",
+      "modern icarus",
+      "modern icarus station",
+      "modern iccarus station",
+      "modern ickarus",
+      "modern ikarus",
+      "modernicarus",
+      "modren icarus"
     ],
     "name": "MIC-L5 Modern Icarus Station",
     "system": "Stanton",
@@ -10243,43 +10253,6 @@
     ],
     "name": "Miranda"
   },
-  "modern express station": {
-    "aliases": [
-      "arc el three",
-      "arc l 3",
-      "arc l three",
-      "arc l3",
-      "arcl3",
-      "faint glen",
-      "faint glenn",
-      "faintglen",
-      "fane glen",
-      "feint glen",
-      "feintglen",
-      "modern ekspress station",
-      "modern express stasion",
-      "modern express staton",
-      "modern express sttion",
-      "modren express station"
-    ],
-    "name": "Modern Express Station"
-  },
-  "modern icarus station": {
-    "aliases": [
-      "mic five",
-      "mic l 5",
-      "mic-l5",
-      "micl5",
-      "modern icarous",
-      "modern icarus",
-      "modern iccarus station",
-      "modern ickarus",
-      "modern ikarus",
-      "modernicarus",
-      "modren icarus"
-    ],
-    "name": "Modern Icarus Station"
-  },
   "mogote aid shelter": {
     "aliases": [
       "mogote aid shelterr",
@@ -10503,21 +10476,18 @@
       "microtech datacenter l8p-juc-8",
       "mt data center l8p-juc-8",
       "mt datacenter l8p juc 8",
+      "mt datacenter l8p-juc-8 offline",
       "mt datacentre l8p-juc-8",
       "mt dc l8p-juc-8"
     ],
-    "name": "Mt Datacenter L8P-Juc-8"
-  },
-  "mt datacenter l8p-juc-8 offline": {
-    "aliases": [],
-    "name": "MT DataCenter L8P-JUC-8 (Offline)",
-    "system": "Stanton",
+    "name": "Mt Datacenter L8P-Juc-8",
     "uex": [
       {
         "endpoint": "poi",
         "id": 15
       }
-    ]
+    ],
+    "unavailable_reason": "offline"
   },
   "mt datacenter qvx-j88-j": {
     "aliases": [
@@ -11074,7 +11044,19 @@
     ],
     "name": "Nyx - Stanton"
   },
-  "nyx gateway": {
+  "nyx gateway pyro": {
+    "aliases": [],
+    "name": "Nyx Gateway",
+    "search": "Nyx Gateway",
+    "system": "Pyro",
+    "uex": [
+      {
+        "endpoint": "space_stations",
+        "id": 55
+      }
+    ]
+  },
+  "nyx gateway stanton": {
     "aliases": [
       "knix",
       "nicks",
@@ -11107,22 +11089,8 @@
       "nyxss",
       "nyxx"
     ],
-    "name": "Nyx Gateway"
-  },
-  "nyx gateway pyro": {
-    "aliases": [],
-    "name": "Nyx Gateway (Pyro)",
-    "system": "Pyro",
-    "uex": [
-      {
-        "endpoint": "space_stations",
-        "id": 55
-      }
-    ]
-  },
-  "nyx gateway stanton": {
-    "aliases": [],
-    "name": "Nyx Gateway (Stanton)",
+    "name": "Nyx Gateway",
+    "search": "Nyx Gateway",
     "system": "Stanton",
     "uex": [
       {
@@ -12176,7 +12144,14 @@
       "port olisar station",
       "port olissar"
     ],
-    "name": "Port Olisar"
+    "name": "Port Olisar",
+    "uex": [
+      {
+        "endpoint": "space_stations",
+        "id": 22
+      }
+    ],
+    "unavailable_reason": "decommissioned"
   },
   "port renatus": {
     "aliases": [
@@ -12487,7 +12462,19 @@
     "aliases": [],
     "name": "Pyro - Stanton"
   },
-  "pyro gateway": {
+  "pyro gateway nyx": {
+    "aliases": [],
+    "name": "Pyro Gateway",
+    "search": "Pyro Gateway",
+    "system": "Nyx",
+    "uex": [
+      {
+        "endpoint": "space_stations",
+        "id": 57
+      }
+    ]
+  },
+  "pyro gateway stanton": {
     "aliases": [
       "pairo",
       "pairo gateway",
@@ -12519,22 +12506,8 @@
       "pyrro",
       "pyrro gateway"
     ],
-    "name": "Pyro Gateway"
-  },
-  "pyro gateway nyx": {
-    "aliases": [],
-    "name": "Pyro Gateway (Nyx)",
-    "system": "Nyx",
-    "uex": [
-      {
-        "endpoint": "space_stations",
-        "id": 57
-      }
-    ]
-  },
-  "pyro gateway stanton": {
-    "aliases": [],
-    "name": "Pyro Gateway (Stanton)",
+    "name": "Pyro Gateway",
+    "search": "Pyro Gateway",
     "system": "Stanton",
     "uex": [
       {
@@ -13002,7 +12975,7 @@
       }
     ]
   },
-  "rab-lamba": {
+  "rab-lamda": {
     "aliases": [
       "rab lam bah",
       "rab lamba",
@@ -13015,15 +12988,10 @@
       "rab lamda",
       "rab lamma",
       "rab-lamba",
-      "rab-lamda",
       "rabb lamba",
       "rablamba",
       "rap lamba"
     ],
-    "name": "Rab-Lamba"
-  },
-  "rab-lamda": {
-    "aliases": [],
     "name": "RAB-LAMDA",
     "system": "Pyro",
     "uex": [
@@ -13205,7 +13173,7 @@
       }
     ]
   },
-  "rab-siera": {
+  "rab-sierra": {
     "aliases": [
       "rab seara",
       "rab seeera",
@@ -13218,15 +13186,10 @@
       "rab sierra",
       "rab sierrra",
       "rab-siera",
-      "rab-sierra",
       "rabb siera",
       "rabsiera",
       "rap siera"
     ],
-    "name": "Rab-Siera"
-  },
-  "rab-sierra": {
-    "aliases": [],
     "name": "RAB-SIERRA",
     "system": "Pyro",
     "uex": [
@@ -13617,22 +13580,6 @@
         "id": 44
       }
     ]
-  },
-  "red crossroads station": {
-    "aliases": [
-      "mic four",
-      "mic l 4",
-      "mic-l4",
-      "micl4",
-      "read crossroads",
-      "red crosroads",
-      "red cross roads",
-      "red crossroad",
-      "red crossroad station",
-      "red crossroads",
-      "redcrossroads"
-    ],
-    "name": "Red Crossroads Station"
   },
   "red god": {
     "aliases": [
@@ -14140,8 +14087,7 @@
       "samsons salvage center",
       "samsson",
       "samzen",
-      "samzin",
-      "shady glen"
+      "samzin"
     ],
     "name": "Samson",
     "system": "Stanton",
@@ -14545,42 +14491,6 @@
       "shadyglen farms"
     ],
     "name": "Shady Glen Farms"
-  },
-  "shallow fields station": {
-    "aliases": [
-      "cru el four",
-      "cru l 4",
-      "cru l four",
-      "cru l4",
-      "cru-l4",
-      "shallow feeld",
-      "shallow feelds",
-      "shallow feelds station",
-      "shallow fields",
-      "shallow fields stasion",
-      "shallow fieldz station",
-      "shallowfields",
-      "shalo fields",
-      "shalow fields",
-      "shalow fields station"
-    ],
-    "name": "Shallow Fields Station"
-  },
-  "shallow frontier station": {
-    "aliases": [
-      "mic l 1",
-      "mic one",
-      "mic-l1",
-      "micl1",
-      "shallow front ear",
-      "shallow fronteer",
-      "shallow frontier",
-      "shallow frontier stasion",
-      "shallowfrontier",
-      "shalo frontier",
-      "shalow frontier"
-    ],
-    "name": "Shallow Frontier Station"
   },
   "shanghai": {
     "aliases": [
@@ -15256,19 +15166,10 @@
     "aliases": [],
     "name": "Stanton - Terra"
   },
-  "stanton gateway": {
-    "aliases": [
-      "stanton gate",
-      "stanton gateway station",
-      "stanton jumpgate",
-      "stanton portal",
-      "stantongateway"
-    ],
-    "name": "Stanton Gateway"
-  },
   "stanton gateway nyx": {
     "aliases": [],
-    "name": "Stanton Gateway (Nyx)",
+    "name": "Stanton Gateway",
+    "search": "Stanton Gateway",
     "system": "Nyx",
     "uex": [
       {
@@ -15278,8 +15179,16 @@
     ]
   },
   "stanton gateway pyro": {
-    "aliases": [],
-    "name": "Stanton Gateway (Pyro)",
+    "aliases": [
+      "stanton gate",
+      "stanton gateway",
+      "stanton gateway station",
+      "stanton jumpgate",
+      "stanton portal",
+      "stantongateway"
+    ],
+    "name": "Stanton Gateway",
+    "search": "Stanton Gateway",
     "system": "Pyro",
     "uex": [
       {
@@ -15758,19 +15667,17 @@
     ],
     "name": "Terra - Stanton"
   },
-  "terra gateway": {
+  "terra gateway stanton": {
     "aliases": [
       "terra gate",
+      "terra gateway",
       "terra gateway station",
       "terra jumpgate",
       "terra portal",
       "terragateway"
     ],
-    "name": "Terra Gateway"
-  },
-  "terra gateway stanton": {
-    "aliases": [],
-    "name": "Terra Gateway (Stanton)",
+    "name": "Terra Gateway",
+    "search": "Terra Gateway",
     "system": "Stanton",
     "uex": [
       {
@@ -16116,23 +16023,6 @@
       "thirdsister"
     ],
     "name": "Third Sister"
-  },
-  "thundering express station": {
-    "aliases": [
-      "hur l 3",
-      "hur three",
-      "hur-l3",
-      "hurl3",
-      "thundering ekspress",
-      "thundering expess",
-      "thundering expres",
-      "thundering expres station",
-      "thundering express",
-      "thundering express stasion",
-      "thundering xpress",
-      "thunderingexpress"
-    ],
-    "name": "Thundering Express Station"
   },
   "thusng - baker": {
     "aliases": [
@@ -17230,27 +17120,6 @@
     ],
     "name": "Whistlers Crypt"
   },
-  "wide forest station": {
-    "aliases": [
-      "arc el one",
-      "arc l 1",
-      "arc l one",
-      "arc l1",
-      "arcl1",
-      "whyde forest",
-      "wide for est",
-      "wide forest",
-      "wide forest stasion",
-      "wide forest sttion",
-      "wide forist station",
-      "wide forrest",
-      "wide forrest station",
-      "wideforest",
-      "wyde forest",
-      "wyde forest station"
-    ],
-    "name": "Wide Forest Station"
-  },
   "wikelo emporium": {
     "aliases": [
       "wikelo",
@@ -17506,27 +17375,6 @@
         "id": 75
       }
     ]
-  },
-  "yellow core station": {
-    "aliases": [
-      "arc el five",
-      "arc l 5",
-      "arc l five",
-      "arc l5",
-      "arcl5",
-      "yello core",
-      "yello core station",
-      "yelloh core station",
-      "yellow cor",
-      "yellow core",
-      "yellow core stasion",
-      "yellow core sttion",
-      "yellow kor",
-      "yellow kor station",
-      "yellowcore",
-      "yelo core"
-    ],
-    "name": "Yellow Core Station"
   },
   "yengchuai": {
     "aliases": [

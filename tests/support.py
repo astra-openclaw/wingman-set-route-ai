@@ -43,8 +43,7 @@ class Desktop:
         self.keys = set()
         self.on_event = lambda event: None
     def foreground(self): return self.focus
-    def geometry(self, display):
-        if display != self.geometry_value["display"]: raise RuntimeError("Wrong display.")
+    def geometry(self):
         return self.geometry_value
     def event(self, *event):
         self.events.append(event)
@@ -104,3 +103,11 @@ def fixture_database(root):
         "other": {"name": "Other", "system": "Pyro", "aliases": ["cross"]},
         "brios breaker yard": {"name": "Brio's Breaker Yard", "system": "Stanton", "aliases": ["cross", "brios"]},
         "cru l2": {"name": "CRU L2", "aliases": []}})
+
+    import json, hashlib
+    from destination_engine import normalize
+    source = root / "database/destinations.json"
+    raw = json.loads(source.read_text(encoding="utf-8"))
+    atomic_json(root / "database/legacy_baseline.json", {
+        "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+        "aliases": {normalize(k): sorted(v["aliases"]) for k,v in raw.items()}, "redirects": {}})

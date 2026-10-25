@@ -75,12 +75,6 @@
     {
       "endpoint": "poi",
       "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
-      "id": 15,
-      "key": "mt datacenter l8p-juc-8 offline"
-    },
-    {
-      "endpoint": "poi",
-      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
       "id": 34,
       "key": "hdsf-hendricks"
     },
@@ -95,18 +89,6 @@
       "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
       "id": 89,
       "key": "covalex distribution center s4dc05"
-    },
-    {
-      "endpoint": "poi",
-      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
-      "id": 123,
-      "key": "julep aid shelter"
-    },
-    {
-      "endpoint": "poi",
-      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
-      "id": 131,
-      "key": "kudre ore mine closed"
     },
     {
       "endpoint": "poi",
@@ -431,12 +413,6 @@
       "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
       "id": 255,
       "key": "cluster dlo-486"
-    },
-    {
-      "endpoint": "poi",
-      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
-      "id": 265,
-      "key": "cluster rsc-340"
     }
   ],
   "aliases": [
@@ -655,6 +631,38 @@
     {
       "alias": "launchpad",
       "key": "launch pad"
+    }
+  ],
+  "deferred_additions": [
+    {
+      "key": "cluster rsc-340",
+      "reason": "Unproven transposition of existing Cluster RCS-340",
+      "record": {
+        "aliases": [],
+        "name": "Cluster RSC-340",
+        "system": "Pyro",
+        "uex": [
+          {
+            "endpoint": "poi",
+            "id": 265
+          }
+        ]
+      }
+    },
+    {
+      "key": "julep aid shelter",
+      "reason": "Possible shortened name of Julep Ravine Aid Shelter; no independent identity proof",
+      "record": {
+        "aliases": [],
+        "name": "Julep Aid Shelter",
+        "system": "Stanton",
+        "uex": [
+          {
+            "endpoint": "poi",
+            "id": 123
+          }
+        ]
+      }
     }
   ],
   "enriched": [
@@ -1038,6 +1046,11 @@
       "reason": "not positively confirmed live, active and quantum-marked"
     }
   ],
+  "qualification": {
+    "destinations": 1330,
+    "l_points": "18 named stations plus CRU L2 and CRU L3 (no named stations in UEX)",
+    "search_policy": "System qualifiers identify records but never enter pasted search text. Homonyms resolve using all records with the same search label."
+  },
   "retained_unavailable_metadata": [
     {
       "endpoint": "moons",
@@ -1045,6 +1058,175 @@
       "key": "ariel",
       "reason": "Retained original entry; system metadata disambiguates aerial, availability is not a deletion rule.",
       "system": "Sol"
+    }
+  ],
+  "retracted_aliases": [
+    {
+      "alias": "shady glen",
+      "key": "samson",
+      "reason": "Belongs to Shady Glen Farms, not Samson"
+    }
+  ],
+  "reviewed_merges": [
+    {
+      "from": "wide forest station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "arc-l1 wide forest station"
+    },
+    {
+      "from": "lively pathway station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "arc-l2 lively pathway station"
+    },
+    {
+      "from": "modern express station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "arc-l3 modern express station"
+    },
+    {
+      "from": "faint glen station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "arc-l4 faint glen station"
+    },
+    {
+      "from": "yellow core station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "arc-l5 yellow core station"
+    },
+    {
+      "from": "ambitious dream station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "cru-l1 ambitious dream station"
+    },
+    {
+      "from": "shallow fields station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "cru-l4 shallow fields station"
+    },
+    {
+      "from": "beautiful glen station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "cru-l5 beautiful glen station"
+    },
+    {
+      "from": "green glade station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "hur-l1 green glade station"
+    },
+    {
+      "from": "faithful dream station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "hur-l2 faithful dream station"
+    },
+    {
+      "from": "thundering express station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "hur-l3 thundering express station"
+    },
+    {
+      "from": "melodic fields station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "hur-l4 melodic fields station"
+    },
+    {
+      "from": "high course station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "hur-l5 high course station"
+    },
+    {
+      "from": "shallow frontier station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "mic-l1 shallow frontier station"
+    },
+    {
+      "from": "long forest station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "mic-l2 long forest station"
+    },
+    {
+      "from": "endless odyssey station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "mic-l3 endless odyssey station"
+    },
+    {
+      "from": "red crossroads station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "mic-l4 red crossroads station"
+    },
+    {
+      "from": "modern icarus station",
+      "reason": "Same L-point station nickname and UEX station identity",
+      "to": "mic-l5 modern icarus station"
+    },
+    {
+      "from": "deakins research outpost",
+      "reason": "Same uniquely named research outpost; UEX outposts 11",
+      "to": "deakins research"
+    },
+    {
+      "from": "hickes research outpost",
+      "reason": "Same uniquely named research outpost; UEX outposts 28",
+      "to": "hickes research"
+    },
+    {
+      "from": "frostbite settlement",
+      "reason": "Same settlement, original alias frostbite; UEX outposts 83",
+      "to": "frostbite"
+    },
+    {
+      "from": "hendricks",
+      "reason": "Original HDSF aliases identify Hurston UGF; UEX poi 34",
+      "to": "hdsf-hendricks"
+    },
+    {
+      "from": "klescher rehabilitation facility aberdeen",
+      "reason": "Same prison on Aberdeen; UEX poi 82",
+      "to": "klescher rehabilitation facility"
+    },
+    {
+      "from": "covalex distribution centre s4dc05",
+      "reason": "Identical facility code; spelling variant",
+      "to": "covalex distribution center s4dc05"
+    },
+    {
+      "from": "rab-lamba",
+      "reason": "Original aliases explicitly include rab-lamda",
+      "to": "rab-lamda"
+    },
+    {
+      "from": "rab-siera",
+      "reason": "Original aliases explicitly include rab-sierra",
+      "to": "rab-sierra"
+    },
+    {
+      "from": "nyx gateway",
+      "reason": "Fold legacy unqualified lookup; shared search-name resolution expands all systems",
+      "to": "nyx gateway stanton"
+    },
+    {
+      "from": "pyro gateway",
+      "reason": "Fold legacy unqualified lookup; shared search-name resolution expands all systems",
+      "to": "pyro gateway stanton"
+    },
+    {
+      "from": "stanton gateway",
+      "reason": "Fold legacy unqualified lookup; shared search-name resolution expands all systems",
+      "to": "stanton gateway pyro"
+    },
+    {
+      "from": "terra gateway",
+      "reason": "Same uniquely located gateway; UEX station 26",
+      "to": "terra gateway stanton"
+    },
+    {
+      "from": "kudre ore mine closed",
+      "reason": "Fold status suffix into existing record, retain non-routable status",
+      "to": "kudre ore mine"
+    },
+    {
+      "from": "mt datacenter l8p-juc-8 offline",
+      "reason": "Fold status suffix into existing record, retain non-routable status",
+      "to": "mt datacenter l8p-juc-8"
     }
   ]
 }
