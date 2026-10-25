@@ -1,3 +1,5 @@
+api_version: 3
+platforms: [windows]
 module: skills.set_route_ai.main
 name: SetRouteAI
 display_name: Set Route Star Citizen
@@ -57,7 +59,8 @@ prompt: |
 
      The skill will then:
        - try to match it with its local destinations/aliases,
-       - and, if not found, register it as a new destination and plot the route.
+       - ask the AI to choose among ambiguous database matches,
+       - and report failure if no destination can be resolved. Unknown destinations are not automatically added; use add_destination explicitly.
 
   2) **Destination management tools**
 
@@ -69,8 +72,7 @@ prompt: |
      - If the user says:
          - “delete destination X”
          - “elimina el destino X”
-       → First, if needed, use **list_destinations** to resolve the correct name,
-         then call **delete_destination** with `name` set to that exact destination.
+       → Call **delete_destination** with `name` set to that destination name.
 
      - If the user says:
          - “rename destination A to B”

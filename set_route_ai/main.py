@@ -1,13 +1,8 @@
-import time
-import os
-import sys
+import asyncio
 import json
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, List
-from services.file import get_custom_skills_dir
 from services.benchmark import Benchmark
-import mouse.mouse as mouse
-import keyboard.keyboard as keyboard
 import ctypes
 import ctypes.wintypes
 from skills.skill_base import Skill
@@ -19,7 +14,7 @@ from api.enums import LogType
 from destination_engine import DestinationPhoneticEngine
 
 if TYPE_CHECKING:
-    from wingmen.open_ai_wingman import OpenAiWingman
+    from wingmen.wingman_context import WingmanContext
 
 
 CALIBRATION_FILE = "mouse_calibration.json"
@@ -31,7 +26,7 @@ class SetRouteAI(Skill):
         self,
         config: SkillConfig,
         settings: SettingsConfig,
-        wingman: "OpenAiWingman",
+        wingman: "WingmanContext",
     ):
         super().__init__(config=config, settings=settings, wingman=wingman)
 
@@ -49,7 +44,8 @@ class SetRouteAI(Skill):
         self.engine = DestinationPhoneticEngine()
         
         # Save calibration file in the custom skill directory for the skill
-        self.calibration_file = Path(os.path.join(get_custom_skills_dir(), "set_route_ai", "data", CALIBRATION_FILE))
+        self.calibration_file = Path(__file__).resolve().parent / "data" / CALIBRATION_FILE
+        self._desktop_lock = asyncio.Lock()
         
         #Ensure Calibration version properly set as skill variable
         self.supported_calibration_version = SUPPORTED_CALIBRATION_VERSION
@@ -61,7 +57,7 @@ class SetRouteAI(Skill):
         return errors
 
     # --------------------------------------------------------------
-    # Used just in case init does not run when wingman loads the skill dynamically
+    # Reset skill-owned defaults when calibration is absent or unreadable.
     async def _set_default_config(self):
         # --- Safe defaults ---
         self.search_x = 1500
@@ -76,9 +72,7 @@ class SetRouteAI(Skill):
         self.engine = DestinationPhoneticEngine()
 
         # IMPORTANT: same path as __init__
-        self.calibration_file = Path(
-            os.path.join(get_custom_skills_dir(), "set_route_ai", "data", CALIBRATION_FILE)
-        )
+        self.calibration_file = Path(__file__).resolve().parent / "data" / CALIBRATION_FILE
 
         self.supported_calibration_version = SUPPORTED_CALIBRATION_VERSION
 
@@ -137,7 +131,7 @@ class SetRouteAI(Skill):
                     f"[SetRouteAI] Failed to load calibration: {exc}. Using defaults.",
                     color=LogType.INFO,
                 )
-                await self._set_default_config()
+            await self._set_default_config()
 
     # --------------------------------------------------------------
     def get_tools(self):
@@ -190,26 +184,64 @@ class SetRouteAI(Skill):
         ]
 
     # --------------------------------------------------------------
-    def _capture_mouse_position(self, prompt: str) -> tuple[int, int]:
-        time.sleep(0.3)
-        # Say the prompt out load
-        self.threaded_execution(self.wingman.play_to_user, prompt, True, self.wingman.config.sound)
-        time.sleep(0.3)
-        mouse.wait(button="left")
-        x, y = mouse.get_position()
-        time.sleep(0.3)
-        return int(x), int(y)
+    @staticmethod
+    def _left_button_pressed() -> bool:
+        # Poll Win32 instead of mouse.wait: no calibration listener/thread survives
+        # cancellation, and no desktop dependency is imported by the catalog.
+        return bool(ctypes.windll.user32.GetAsyncKeyState(0x01) & 0x8000)
+
+    @staticmethod
+    def _mouse_position() -> tuple[int, int]:
+        point = ctypes.wintypes.POINT()
+        if not ctypes.windll.user32.GetCursorPos(ctypes.byref(point)):
+            raise RuntimeError("Could not read mouse position")
+        return int(point.x), int(point.y)
+
+    async def _capture_mouse_position(self, prompt: str) -> tuple[int, int]:
+        spoken = await self.wingman.tts.speak(prompt, interrupt=False)
+        if not spoken:
+            raise RuntimeError("Calibration instructions could not be spoken")
+
+        async def wait_for_click():
+            # Some TTS providers return once playback starts. Drain it through
+            # the public audio facade before accepting this step's click.
+            while self.wingman.audio.is_playing:
+                await asyncio.sleep(0.02)
+            # Ignore a button already held when instructions finish, then capture
+            # the next press. Polling yields throughout and is cancellable.
+            while self._left_button_pressed():
+                await asyncio.sleep(0.02)
+            while not self._left_button_pressed():
+                await asyncio.sleep(0.02)
+            position = self._mouse_position()
+            while self._left_button_pressed():
+                await asyncio.sleep(0.02)
+            return position
+
+        return await asyncio.wait_for(wait_for_click(), timeout=60.0)
 
     # --------------------------------------------------------------
     async def execute_tool(
-        self, tool_name: str, parameters: dict[str, any], benchmark: Benchmark
+        self, tool_name: str, parameters: dict[str, Any], benchmark: Benchmark
     ) -> tuple[str, str]:
 
-        # Start WingmanAI benchmark to provide data on tool execution time and set default function, instant responses
         benchmark.start_snapshot(f"SetRouteAI: {tool_name}")
+        try:
+            if tool_name in {"calibrate_mouse", "plot_route"}:
+                async with self._desktop_lock:
+                    return await self._execute_tool(tool_name, parameters)
+            return await self._execute_tool(tool_name, parameters)
+        except asyncio.TimeoutError:
+            if tool_name != "calibrate_mouse":
+                raise
+            return "Mouse calibration timed out. Previous calibration was kept; please try again.", ""
+        finally:
+            benchmark.finish_snapshot()
+
+    async def _execute_tool(self, tool_name: str, parameters: dict[str, Any]) -> tuple[str, str]:
         function_response = "Error in processing the request. Please try again."
         instant_response = ""
-        
+
         # -------- CALIBRATION --------
         if tool_name == "calibrate_mouse":
             # Get language selection from custom_properties
@@ -252,9 +284,9 @@ class SetRouteAI(Skill):
             # Select the appropriate instructions set
             steps = translations.get(lang, translations["en"])
 
-            sx, sy = self._capture_mouse_position(steps[0])
-            dx, dy = self._capture_mouse_position(steps[1])
-            mx, my = self._capture_mouse_position(steps[2])
+            sx, sy = await self._capture_mouse_position(steps[0])
+            dx, dy = await self._capture_mouse_position(steps[1])
+            mx, my = await self._capture_mouse_position(steps[2])
 
             data = {
                 "version": self.supported_calibration_version,
@@ -279,7 +311,7 @@ class SetRouteAI(Skill):
         if tool_name == "plot_route":
             original = (parameters.get("destination") or "").strip()
             if not original:
-                return "No destination specified.", None
+                return "No destination specified.", ""
             if self.settings.debug_mode:
                 await self.printr.print_async(
                     f"RouteAI: Attempting to find match destination for input: {original}...",
@@ -337,13 +369,11 @@ class SetRouteAI(Skill):
             name = (parameters.get("name") or "").strip()
             if not name:
                 function_response = "No destination specified to delete."
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             key = self.engine.normalize(name)
             if key not in self.engine.destinations:
                 function_response = f'The destination "{name}" does not exist.'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             self.engine.destinations.pop(key)
@@ -357,7 +387,6 @@ class SetRouteAI(Skill):
 
             if not old or not new:
                 function_response = "You must provide both the old and the new name."
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             old_key = self.engine.normalize(old)
@@ -365,12 +394,10 @@ class SetRouteAI(Skill):
 
             if old_key not in self.engine.destinations:
                 function_response = f'The destination "{old}" does not exist.'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             if new_key in self.engine.destinations:
                 function_response = f'A destination with the name "{new}" already exists.'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             self.engine.destinations[new_key] = self.engine.destinations.pop(old_key)
@@ -384,18 +411,15 @@ class SetRouteAI(Skill):
 
             if not dest or not alias:
                 function_response = "You must provide both a destination and an alias."
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             result = self.engine.add_alias(dest, alias)
 
             if result == "destination_not_found":
                 function_response = f'The destination "{dest}" does not exist.'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
             if result == "alias_exists":
                 function_response = f'The alias "{alias}" already exists for the destination "{dest}".'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             function_response = f'I have added the alias "{alias}" to the destination "{dest}".'
@@ -407,19 +431,16 @@ class SetRouteAI(Skill):
 
             if not dest or not alias:
                 function_response = "You must provide both a destination and the alias to delete."
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             result = self.engine.remove_alias(dest, alias)
 
             if result == "destination_not_found":
                 function_response = f'The destination "{dest}" does not exist.'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
                 
             if result == "alias_not_found":
                 function_response = f'The alias "{alias}" is not associated with the destination "{dest}".'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             function_response = f'I have deleted the alias "{alias}" from the destination "{dest}".'
@@ -429,24 +450,20 @@ class SetRouteAI(Skill):
             dest = (parameters.get("destination") or "").strip()
             if not dest:
                 function_response = "You must provide the destination for which you want to see the aliases."
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             aliases = self.engine.get_aliases(dest)
             if aliases is None:
                 function_response = f'The destination "{dest}" does not exist.'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             if not aliases:
                 function_response = f'The destination "{dest}" has no defined aliases.'
-                benchmark.finish_snapshot()
                 return function_response, instant_response
 
             lista = "\n".join(f"- {a}" for a in aliases)
             function_response = f'Aliases for "{dest}":\n{lista}'
         
-        benchmark.finish_snapshot()
         return function_response, instant_response
     
     # --------------------------------------------------------------
@@ -494,101 +511,110 @@ class SetRouteAI(Skill):
                 ],
             },
         ]
-        completion = await self.llm_call(messages)
-        llm_response = (
-            completion.choices[0].message.content
-            if completion and completion.choices
-            else ""
-        )
-        destination = llm_response.strip()
-        if destination.lower() == "unknown":
-            destination = None
-        return destination
-    
+        answer = await self.wingman.ai.generate(messages=messages)
+        # A side-call returns text, not a completion object. Never type an LLM's
+        # arbitrary output into the game; resolve back to a supplied candidate.
+        answer = answer.strip().casefold()
+        return next((candidate for candidate in candidates
+                     if candidate.strip().casefold() == answer), None)
+
     # --------------------------------------------------------------
     async def _register_learning(self, phrase: str, normalized: str):
         if phrase and normalized and phrase.lower() != normalized.lower():
             self.engine.learn(phrase.lower(), normalized.lower())
 
     # --------------------------------------------------------------
+    @staticmethod
+    def _set_clipboard(text: str):
+        CF_UNICODETEXT = 13
+        GMEM_MOVEABLE = 0x0002
+        kernel32 = ctypes.windll.kernel32
+        user32 = ctypes.windll.user32
+        # --- CRITICAL: Declare proper 64-bit return types ---
+        kernel32.GlobalAlloc.restype  = ctypes.c_void_p
+        kernel32.GlobalAlloc.argtypes = [ctypes.c_uint, ctypes.c_size_t]
+        kernel32.GlobalLock.restype   = ctypes.c_void_p
+        kernel32.GlobalLock.argtypes  = [ctypes.c_void_p]
+        kernel32.GlobalUnlock.argtypes = [ctypes.c_void_p]
+        kernel32.GlobalFree.restype   = ctypes.c_void_p
+        kernel32.GlobalFree.argtypes  = [ctypes.c_void_p]
+        user32.OpenClipboard.argtypes = [ctypes.c_void_p]
+        user32.SetClipboardData.restype  = ctypes.c_void_p
+        user32.SetClipboardData.argtypes = [ctypes.c_uint, ctypes.c_void_p]
+        text_bytes = (text + "\0").encode("utf-16-le")
+        size = len(text_bytes)
+        h_mem = kernel32.GlobalAlloc(GMEM_MOVEABLE, size)
+        if not h_mem:
+            raise RuntimeError("GlobalAlloc failed")
+        p_mem = kernel32.GlobalLock(h_mem)
+        if not p_mem:
+            kernel32.GlobalFree(h_mem)
+            raise RuntimeError("GlobalLock failed")
+        ctypes.memmove(p_mem, text_bytes, size)
+        kernel32.GlobalUnlock(h_mem)
+        if not user32.OpenClipboard(None):
+            kernel32.GlobalFree(h_mem)
+            raise RuntimeError("OpenClipboard failed")
+        try:
+            if not user32.EmptyClipboard():
+                raise RuntimeError("EmptyClipboard failed")
+            if not user32.SetClipboardData(CF_UNICODETEXT, h_mem):
+                raise RuntimeError("SetClipboardData failed")
+            h_mem = None  # Windows now owns the allocation.
+        finally:
+            user32.CloseClipboard()
+            if h_mem:
+                kernel32.GlobalFree(h_mem)
+
+    # --------------------------------------------------------------
     async def _plot_route(self, destination: str) -> str:
-        import ctypes
+        # Desktop packages can initialize OS hooks: import only on actual routing.
+        import mouse.mouse as mouse
+        import keyboard.keyboard as keyboard
+
         PAUSE = 3.0
         HOLD = 1.4
 
-        # --- Helper: write to Windows clipboard via ctypes (no extra installs) ---
-        def _set_clipboard(text: str):
-            CF_UNICODETEXT = 13
-            GMEM_MOVEABLE = 0x0002
-            kernel32 = ctypes.windll.kernel32
-            user32 = ctypes.windll.user32
-            # --- CRITICAL: Declare proper 64-bit return types ---
-            kernel32.GlobalAlloc.restype  = ctypes.c_void_p
-            kernel32.GlobalAlloc.argtypes = [ctypes.c_uint, ctypes.c_size_t]
-            kernel32.GlobalLock.restype   = ctypes.c_void_p
-            kernel32.GlobalLock.argtypes  = [ctypes.c_void_p]
-            kernel32.GlobalUnlock.argtypes = [ctypes.c_void_p]
-            kernel32.GlobalFree.restype   = ctypes.c_void_p
-            kernel32.GlobalFree.argtypes  = [ctypes.c_void_p]
-            user32.OpenClipboard.argtypes = [ctypes.c_void_p]
-            user32.SetClipboardData.restype  = ctypes.c_void_p
-            user32.SetClipboardData.argtypes = [ctypes.c_uint, ctypes.c_void_p]
-            text_bytes = (text + "\0").encode("utf-16-le")
-            size = len(text_bytes)
-            h_mem = kernel32.GlobalAlloc(GMEM_MOVEABLE, size)
-            if not h_mem:
-                raise RuntimeError("GlobalAlloc failed")
-            p_mem = kernel32.GlobalLock(h_mem)
-            if not p_mem:
-                kernel32.GlobalFree(h_mem)
-                raise RuntimeError("GlobalLock failed")
-            ctypes.memmove(p_mem, text_bytes, size)
-            kernel32.GlobalUnlock(h_mem)
-            if not user32.OpenClipboard(None):
-                kernel32.GlobalFree(h_mem)
-                raise RuntimeError("OpenClipboard failed")
-            user32.EmptyClipboard()
-            user32.SetClipboardData(CF_UNICODETEXT, h_mem)
-            user32.CloseClipboard()
-
         # --- Open Starmap ---
         keyboard.press("f2")
-        time.sleep(HOLD)
-        keyboard.release("f2")
-        time.sleep(3.5)
+        try:
+            await asyncio.sleep(HOLD)
+        finally:
+            keyboard.release("f2")
+        await asyncio.sleep(3.5)
 
         # --- Move mouse into map area ---
         mouse.move(self.map_x, self.map_y)
         mouse.click()
-        time.sleep(1.3)
+        await asyncio.sleep(1.3)
 
         # --- Scroll Out ---
         mouse.wheel(-60)
-        time.sleep(2.1)
+        await asyncio.sleep(2.1)
 
         # --- Click Search ---
         mouse.move(self.search_x, self.search_y)
         mouse.click()
-        time.sleep(1.5)
+        await asyncio.sleep(1.5)
 
         # --- Paste destination via clipboard ---
-        _set_clipboard(destination)
-        time.sleep(0.3)
+        self._set_clipboard(destination)
+        await asyncio.sleep(0.3)
         keyboard.press("ctrl")
         keyboard.press("v")
         keyboard.release("v")
         keyboard.release("ctrl")
-        time.sleep(1.0)
+        await asyncio.sleep(1.0)
 
         # --- Click Destination result ---
         mouse.move(self.destination_x, self.destination_y)
         mouse.click()
-        time.sleep(0.5)
+        await asyncio.sleep(0.5)
 
         # --- Move mouse into map area ---
         mouse.move(self.map_x, self.map_y)
         mouse.click()
-        time.sleep(1.3)
+        await asyncio.sleep(1.3)
 
         keyboard.press("r")
         keyboard.release("r")
@@ -598,15 +624,17 @@ class SetRouteAI(Skill):
         keyboard.release("r")
         keyboard.press("r")
         keyboard.release("r")
-        time.sleep(PAUSE)
+        await asyncio.sleep(PAUSE)
 
         keyboard.press("f2")
-        time.sleep(HOLD)
-        keyboard.release("f2")
+        try:
+            await asyncio.sleep(HOLD)
+        finally:
+            keyboard.release("f2")
 
         if self.settings.debug_mode:
             await self.printr.print_async(
-                f"RouteAI: Plotted route to: {destination}. Used map position: {self.map_x}, {self.map_y}; search position: {self.search_x}, {self.search_y}; destination position: {self.destination_x}, {self.destination_y}.",
+                f"RouteAI: Sent route macro for: {destination}. Used map position: {self.map_x}, {self.map_y}; search position: {self.search_x}, {self.search_y}; destination position: {self.destination_x}, {self.destination_y}.",
                 color=LogType.INFO,
             )
-        return f"The route to {destination} has been plotted. Use the proper name: {destination} when responding to the user."
+        return f"Route macro sent for {destination}. The in-game route was not verified. Use the proper name: {destination} when responding to the user."

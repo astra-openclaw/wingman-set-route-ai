@@ -2,14 +2,14 @@ import json
 import os
 import re
 from typing import Optional, Dict, List, Tuple
-from services.file import get_custom_skills_dir
-from rapidfuzz import process, fuzz, utils
+from pathlib import Path
+from rapidfuzz import process, fuzz
 
 class DestinationPhoneticEngine:
 
     def __init__(self):
         # /data folder within the skill directory
-        self.base_path = os.path.join(get_custom_skills_dir(), "set_route_ai", "data")
+        self.base_path = str(Path(__file__).resolve().parents[1] / "data")
 
         self.destinations_file = os.path.join(self.base_path, "destinations.json")
         self.learning_file = os.path.join(self.base_path, "phonetic_learning.json")
