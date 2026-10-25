@@ -37,3 +37,22 @@ are translated into keyboard-package names; no actionmaps file is edited.
 Tests use inert desktop, game-log and provider doubles. The compatibility probe
 loads the genuine schema, Skill base, facades, module manager and catalog with only
 external effects stubbed. A passing result does not prove a live in-game route.
+
+## Threaded turns and verification framing
+
+Core 3.2.11 `wingman_core.py:2063–2073` starts voice turns on separate threads
+and event loops. A skill instance therefore owns a threading lock, stop event
+and completion event; task cancellation is dispatched to its owning loop. No
+cross-loop task await is permitted.
+
+The documented `skills/skill_base.py:887–892` speech hook accepts `{SKIP-TTS}`.
+While route input is running, the hook suppresses unsolicited speech. Calibration
+instructions go directly through the supported TTS facade.
+
+`wingmen/facade.py:1627–1652` accepts `region` on screen capture.
+Core `services/screen_capture.py` passes the region through to mss in absolute
+virtual-screen pixels. Capture is restricted to the calibrated game-window
+rectangle; no configurable display number is required. The image encoding
+algorithm follows `services/image_generation.py:115–160` (1,150,000 pixels,
+JPEG quality 85/70/55 and a 250,000-character budget), implemented locally.
+These source files are read-only explanatory references, never runtime imports.
