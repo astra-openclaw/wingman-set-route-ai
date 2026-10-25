@@ -1,4 +1,5 @@
 import importlib.util
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -28,6 +29,9 @@ class ReleaseTests(unittest.TestCase):
         with zipfile.ZipFile(a) as z:
             names=z.namelist()
             self.assertTrue(all(n.startswith("set_route_ai/") for n in names))
+            self.assertIn("set_route_ai/logo.png", names)
+            self.assertEqual(hashlib.sha256(z.read("set_route_ai/logo.png")).hexdigest(), "b861755d0ab49b15f9eb14aedf17b8d31395fb50b9f6228fa59ad6c619f38625")
+            self.assertEqual(z.read("set_route_ai/logo.png"), (ROOT/"set_route_ai/logo.png").read_bytes())
             self.assertIn("set_route_ai/LICENSE",names)
             self.assertEqual(z.read("set_route_ai/LICENSE"),(ROOT/"LICENSE").read_bytes())
             self.assertFalse(any("/data/" in n or "calibration.json" in n or "backup" in n or "/tests/" in n for n in names))
@@ -41,7 +45,7 @@ class ReleaseTests(unittest.TestCase):
         data=copy/"set_route_ai/data";data.mkdir();(data/"mouse_calibration.json").write_text("USER-DATA-SENTINEL",encoding="utf-8")
         (copy/"set_route_ai/dependencies/backup.py").write_text("USER-DATA-SENTINEL",encoding="utf-8")
         archive=self.root/"copy.zip";BUILD.build(archive,copy)
-        with zipfile.ZipFile(archive) as z:self.assertFalse(any("USER-DATA-SENTINEL" in z.read(n).decode("utf-8") for n in z.namelist()))
+        with zipfile.ZipFile(archive) as z:self.assertFalse(any(b"USER-DATA-SENTINEL" in z.read(n) for n in z.namelist()))
 
     def test_static_check_requires_external_terms(self):
         with patch.dict(os.environ,{},clear=True):

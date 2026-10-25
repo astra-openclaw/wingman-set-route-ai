@@ -6,7 +6,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 PAYLOAD_FILES = (
-    "main.py", "default_config.yaml", "README.md", "database/destinations.json",
+    "logo.png", "main.py", "default_config.yaml", "README.md", "database/destinations.json",
     "dependencies/destination_engine.py", "dependencies/sra_storage.py",
     "dependencies/sra_keybinds.py", "dependencies/sra_desktop.py",
     "dependencies/sra_navigation.py",
