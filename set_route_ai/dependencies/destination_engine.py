@@ -98,7 +98,7 @@ class DestinationPhoneticEngine:
 
     def find_destination(self, phrase, system=None, fuzzy=True):
         key = normalize(phrase)
-        key = re.sub(r"^(?:plot (?:a )?route to|set course for|take me to|route to|navigate to)\s+", "", key)
+        key = re.sub(r"^(?:plot (?:a )?route to|set course for|take me to|route to|navigate to|to)\s+", "", key)
         if len(key) < 2 or self.state["blacklist"].get(key):
             return None, []
         if key in self.destinations:

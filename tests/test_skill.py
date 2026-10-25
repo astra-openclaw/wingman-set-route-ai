@@ -205,6 +205,27 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(self.obj.desktop().events)
         self.obj.wingman.ai.generate.assert_not_awaited()
 
+    async def test_single_heard_candidate_agrees_with_model(self):
+        self.calibrated()
+        self.assertEqual(self.obj.engine.find_destination("today, Mar"), (None, ["daymar"]))
+        self.assertIn("request sent for Daymar", await call(
+            self.obj, "plot_route", destination="Daymar", heard="today, Mar"))
+        self.assertEqual(self.obj.engine.find_destination("to daymar"), ("daymar", []))
+
+    async def test_single_uncertain_candidate_is_confirmation_not_which(self):
+        line = await call(self.obj, "plot_route", destination="today, Mar")
+        self.assertEqual(line, "Did you mean Daymar in Stanton?")
+        self.assertFalse(self.obj.desktop().events)
+        with patch.object(self.obj.engine, "find_destination", return_value=(None, ["daymar", "daymar"])):
+            self.assertEqual(await call(self.obj, "plot_route", destination="uncertain"), line)
+
+    async def test_conflicting_heard_candidate_list_asks(self):
+        self.calibrated()
+        with patch.object(self.obj.engine, "find_destination", side_effect=[("daymar", []), (None, ["orison"])]):
+            line = await call(self.obj, "plot_route", destination="Daymar", heard="uncertain")
+        self.assertEqual(line, "Which destination did you mean: Daymar in Stanton, or Orison in Stanton?")
+        self.assertFalse(self.obj.desktop().events)
+
     async def test_only_heard_resolves_and_schema_optional_heard(self):
         self.calibrated()
         self.assertIn("request sent for Daymar",await call(self.obj,"plot_route",destination="Imaginary Nebula",heard="Daymar"))
@@ -294,7 +315,7 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
             self.assertNotEqual(threading.get_ident(),owner)
             return original(*args,**kwargs)
         self.obj.engine.find_destination=check
-        self.assertIn("Which destination",await call(self.obj,"plot_route",destination="Gateway"))
+        self.assertIn("Did you mean",await call(self.obj,"plot_route",destination="Gateway"))
 
     async def test_gateway_search_excludes_system_qualifier(self):
         self.calibrated()

@@ -327,8 +327,8 @@ class SetRouteAI(Skill):
         heard = p.get("heard", "").strip()
         if heard and normalize(heard) != normalize(phrase):
             heard_target, heard_choices = await asyncio.to_thread(self.engine.find_destination, heard, state.get("system"))
-            if target and target in heard_choices:
-                target, candidates, must_ask = None, heard_choices, True
+            if target and heard_choices and set(heard_choices) != {target}:
+                target, candidates, must_ask = None, sorted({target, *heard_choices}), True
             elif target and heard_target and target != heard_target:
                 target, candidates, must_ask = None, sorted({target, heard_target}), True
             elif not target and heard_target:
@@ -339,6 +339,9 @@ class SetRouteAI(Skill):
             target = await self.choose(phrase, candidates[:3])
         if not target:
             if candidates:
+                candidates = list(dict.fromkeys(candidates))
+                if len(candidates) == 1:
+                    return "Did you mean " + self.engine.label(candidates[0]) + "?"
                 return "Which destination did you mean: " + ", or ".join(self.engine.label(k) for k in candidates[:3]) + "?"
             return f'Destination "{phrase}" is not in the navigation database. No route input was sent.'
         unavailable = self.engine.destinations[target].get("unavailable_reason")
