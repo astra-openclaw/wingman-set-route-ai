@@ -112,6 +112,7 @@ class NavigationTests(unittest.IsolatedAsyncioTestCase):
         verify = AsyncMock()
         await self.run_route(verify=verify)
         verify.assert_not_awaited()
+        self.assertEqual(self.desktop.events.count(("press", "r")), 4)
 
     async def test_every_vision_outcome_and_map_left_open_on_uncertainty(self):
         self.config["verify_route_with_vision"] = True
@@ -120,6 +121,78 @@ class NavigationTests(unittest.IsolatedAsyncioTestCase):
             line = await self.run_route(verify=AsyncMock(return_value=status))
             self.assertIn(text,line)
             self.assertEqual(self.desktop.events.count(("press","f2")),opens)
+
+    async def test_original_plan_taps_and_result_settle(self):
+        pauses = []
+        async def record(nav, seconds):
+            pauses.append((seconds, tuple(nav.held)))
+            await fast_pause(nav, seconds)
+        with patch.object(Navigator, "pause", record):
+            await self.run_route()
+        events = self.desktop.events
+        first = events.index(("press", "r"))
+        self.assertEqual(events[first:first+8], [("press", "r"), ("release", "r")] * 4)
+        self.assertEqual([seconds for seconds, keys in pauses if keys == ("r",)], [0] * 4)
+        self.assertIn((.5, ()), pauses)
+        self.assertEqual(self.config["plan_key_presses"], 4)
+
+    async def test_custom_plan_chord_and_tap_count(self):
+        self.config["plan_key_presses"] = 2
+        self.binds["plan"] = ("alt", "r")
+        await self.run_route()
+        first = self.desktop.events.index(("press", "alt"))
+        self.assertEqual(self.desktop.events[first:first+8],
+            [("press", "alt"), ("press", "r"), ("release", "r"), ("release", "alt")] * 2)
+
+    async def test_one_vision_retry_can_confirm_and_close_map(self):
+        self.config["verify_route_with_vision"] = True
+        for initial in ("NOT_SET", "UNSURE"):
+            self.desktop.events.clear()
+            verify = AsyncMock(side_effect=[initial, "ROUTE_SET"])
+            self.assertEqual(await self.run_route(verify=verify), "Route to Daymar verified.")
+            self.assertEqual(verify.await_count, 2)
+            self.assertEqual(self.desktop.events.count(("press", "r")), 8)
+            self.assertEqual(self.desktop.events.count(("press", "f2")), 2)
+            self.assertEqual(self.desktop.events.count(("press", "v")), 1)
+
+    async def test_failed_second_vision_leaves_map_open_without_more_retries(self):
+        self.config["verify_route_with_vision"] = True
+        for final, expected in (("NOT_SET", "Route to Daymar not confirmed — check the Starmap."),
+                                ("UNSURE", "Couldn't verify the route to Daymar — check the Starmap.")):
+            self.desktop.events.clear()
+            verify = AsyncMock(side_effect=["NOT_SET", final])
+            self.assertEqual(await self.run_route(verify=verify), expected)
+            self.assertEqual(verify.await_count, 2)
+            self.assertEqual(self.desktop.events.count(("press", "r")), 8)
+            self.assertEqual(self.desktop.events.count(("press", "f2")), 1)
+
+    async def test_focus_loss_during_retry_releases_and_restores(self):
+        self.config["verify_route_with_vision"] = True
+        def stop(event):
+            if event == ("press", "r") and self.desktop.events.count(event) == 5:
+                self.desktop.focus = False
+        self.desktop.on_event = stop
+        verify = AsyncMock(return_value="NOT_SET")
+        with self.assertRaisesRegex(NavigationStopped, "foreground"):
+            await self.run_route(verify=verify)
+        self.assertEqual(verify.await_count, 1)
+        self.assertEqual(self.desktop.events.count(("press", "r")), 5)
+        self.assertFalse(self.desktop.keys)
+        self.assertEqual(self.desktop.clipboard, "previous text")
+
+    async def test_cancellation_during_retry_releases_and_restores(self):
+        self.config["verify_route_with_vision"] = True
+        def stop(event):
+            if event == ("press", "r") and self.desktop.events.count(event) == 5:
+                self.cancelled.set()
+        self.desktop.on_event = stop
+        verify = AsyncMock(return_value="UNSURE")
+        with self.assertRaisesRegex(NavigationStopped, "cancelled"):
+            await self.run_route(verify=verify)
+        self.assertEqual(verify.await_count, 1)
+        self.assertEqual(self.desktop.events.count(("press", "r")), 5)
+        self.assertFalse(self.desktop.keys)
+        self.assertEqual(self.desktop.clipboard, "previous text")
 
     async def test_no_input_and_event_loop_free_while_waiting_for_vision(self):
         self.config["verify_route_with_vision"] = True

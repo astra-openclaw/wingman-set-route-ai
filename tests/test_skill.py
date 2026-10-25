@@ -103,7 +103,7 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("my yard",self.obj.engine.alias_index)
 
     async def test_bad_settings_and_live_settings_changes(self):
-        for key,value in (("key_hold",0),("zoom_steps",1.5),("plan_delay",float("nan")),("zoom_steps",101),("verify_route_with_vision","false")):
+        for key,value in (("key_hold",0),("zoom_steps",1.5),("plan_delay",float("nan")),("zoom_steps",101),("verify_route_with_vision","false"), ("plan_key_presses",0), ("plan_key_presses",7), ("plan_key_presses",1.5), ("result_click_settle",0)):
             self.obj.config.custom_properties=[types.SimpleNamespace(id=key,value=value)]
             with self.assertRaises(DataError):self.obj.settings_snapshot()
         self.obj.config.custom_properties=[types.SimpleNamespace(id="verify_route_with_vision",value=True)]
@@ -329,7 +329,23 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.calibrated()
         self.obj.config.custom_properties=[types.SimpleNamespace(id="verify_route_with_vision",value=True)]
         await call(self.obj,"plot_route",destination="Daymar")
-        self.obj.wingman.screen.capture.assert_awaited_once_with(region={"left":0,"top":0,"width":1920,"height":1080})
+        self.assertEqual(self.obj.wingman.screen.capture.await_count, 2)
+        for request in self.obj.wingman.screen.capture.await_args_list:
+            self.assertEqual(request.kwargs, {"region": {"left":0,"top":0,"width":1920,"height":1080}})
+
+    async def test_each_vision_verdict_logged_server_only_without_image(self):
+        from unittest.mock import Mock
+        self.calibrated()
+        self.obj.config.custom_properties = [types.SimpleNamespace(id="verify_route_with_vision", value=True)]
+        self.obj.log.info = Mock()
+        self.obj.wingman.ai.generate.side_effect = ["NOT_SET | DAYMAR", "ROUTE_SET | DAYMAR"]
+        self.assertEqual(await call(self.obj, "plot_route", destination="Daymar"), "Route to Daymar verified.")
+        self.assertEqual(self.obj.log.info.call_count, 2)
+        calls = self.obj.log.info.call_args_list
+        self.assertEqual(calls[0].args, ('Route verification: NOT_SET | "DAYMAR"',))
+        self.assertEqual(calls[1].args, ('Route verification: ROUTE_SET | "DAYMAR"',))
+        self.assertTrue(all(c.kwargs == {"server_only": True} for c in calls))
+        self.obj.printr.print_async.assert_not_awaited()
 
     async def test_route_filler_is_suppressed_until_completion(self):
         self.calibrated();ready=asyncio.Event()

@@ -19,6 +19,7 @@ References below are paths and line numbers in the official `ShipBit/wingman-ai`
 | Typed choices | `wingmen/facade.py:1773–1995` | Optional disambiguation: check `system_one.available`, use `choice` + `decide`; fallback to strictly allowlisted `ai.generate`. Never accept model-supplied destinations outside candidates. |
 | Cooperation | `skills/MIGRATING-TO-V3.md:255–290` | Accept other tools' destination strings through `plot_route` validation; no direct imports of other skills. |
 | Speech | `skills/MIGRATING-TO-V3.md:88–106` | Await `tts.speak(..., interrupt=False)`; drain `audio.is_playing` with finite, cancellable waits. |
+| Server logging | `skills/skill_base.py:32–46` | `self.log.info(..., server_only=True)` records each bounded, parsed vision status/read text; no image or raw provider payload. |
 | Manifest | `api/interface.py:950` | Free-form version `3.2.0`; original authors and Dominicus credited. |
 | Desktop | Python stdlib ctypes / Win32 API; bundled keyboard and mouse packages | Lazy import; Toolhelp process lookup of foreground window, monitor metadata, ordered HGLOBAL clipboard-format preservation; no desktop actions in tests. |
 

@@ -17,12 +17,12 @@ from sra_navigation import (NavigationStopped, Navigator, check_calibration,
 
 DEFAULTS = {
     "language": "en", "key_hold": .15, "starmap_hold": 1.4, "map_delay": 3.5,
-    "step_delay": 1.3, "zoom_delay": 2.1, "search_delay": 1.5, "plan_delay": 3.0, "zoom_steps": 60,
+    "step_delay": 1.3, "result_click_settle": .5, "plan_key_presses": 4, "zoom_delay": 2.1, "search_delay": 1.5, "plan_delay": 3.0, "zoom_steps": 60,
     "verify_route_with_vision": False,
     "show_verification_screenshot": False, "allow_ai_disambiguation": False,
 }
 BOUNDS = {"key_hold": (.05, 2), "starmap_hold": (.1, 3), "map_delay": (1, 15),
-          "step_delay": (.2, 5), "zoom_delay": (.2, 10), "search_delay": (.5, 10),
+          "step_delay": (.2, 5), "result_click_settle": (.1, 5), "plan_key_presses": (1, 6), "zoom_delay": (.2, 10), "search_delay": (.5, 10),
           "plan_delay": (.5, 15), "zoom_steps": (0, 100)}
 CANCELLED = "Route or calibration cancelled. Check the Starmap before trying again."
 UNEXPECTED = "Navigation stopped; nothing more was sent. The Wingman log has details."
@@ -83,7 +83,7 @@ class SetRouteAI(Skill):
                 raise DataError(f"Invalid {label} setting.") from None
             if not math.isfinite(value) or not low <= value <= high:
                 raise DataError(f"{label} must be between {low} and {high}.")
-            if key == "zoom_steps":
+            if key in ("zoom_steps", "plan_key_presses"):
                 if not value.is_integer():
                     raise DataError(f"{label} must be a whole number.")
                 value = int(value)
@@ -445,7 +445,7 @@ class SetRouteAI(Skill):
         try:
             result = await navigator.plot(destination, calibration, bindings,
                 lambda: verify_route(self.wingman, self.printr, destination,
-                                     region, config["show_verification_screenshot"]),
+                                     region, config["show_verification_screenshot"], logger=self.log),
                 search_text=self.engine.search_text(target))
         finally:
             if navigator.clipboard_partial:
