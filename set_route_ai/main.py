@@ -25,6 +25,9 @@ BOUNDS = {"key_hold": (.05, 2), "starmap_hold": (.1, 3), "map_delay": (1, 15),
           "step_delay": (.2, 5), "result_click_settle": (.1, 5), "plan_key_presses": (1, 6), "zoom_delay": (.2, 10), "search_delay": (.5, 10),
           "plan_delay": (.5, 15), "zoom_steps": (0, 100)}
 CANCELLED = "Route or calibration cancelled. Check the Starmap before trying again."
+ROUTE_CANCELLED = "Route cancelled. Check the Starmap before trying again."
+CALIBRATION_CANCELLED = "Calibration cancelled. Your previous calibration was kept."
+STOPPING = "Navigation is stopping. Wait before requesting another route."
 UNEXPECTED = "Navigation stopped; nothing more was sent. The Wingman log has details."
 BUSY = "Navigation is busy. Say 'cancel route' first."
 CALIBRATION = {
@@ -64,6 +67,8 @@ class SetRouteAI(Skill):
         self.user_dir = None
         self._guard_lock = threading.Lock()
         self._speech_guard = None
+        self._speech_suppressed = []
+        self._speech_allowed = []
         self._speech_subscriptions = []
 
     def settings_snapshot(self):
@@ -179,8 +184,27 @@ class SetRouteAI(Skill):
                     guard.update(text=self._speech_normalized(spoken), time=time.monotonic(),
                                  accepted=False, playing=False, final=final)
 
+    def _speech_once(self, entries, text):
+        # Caller holds _guard_lock. These receipts outlive the route guard and
+        # new user messages, since another turn can play its result much later.
+        now = time.monotonic()
+        entries[:] = [entry for entry in entries if entry[1] > now]
+        entries.append((self._speech_normalized(text), now + 30))
+
     async def on_play_to_user(self, text, sound_config):
         with self._guard_lock:
+            normalized = self._speech_normalized(text)
+            now = time.monotonic()
+            for entries, suppress in ((self._speech_suppressed, True),
+                                      (self._speech_allowed, False)):
+                entries[:] = [entry for entry in entries if entry[1] > now]
+                for index, (expected, _) in enumerate(entries):
+                    if normalized == expected:
+                        entries.pop(index)
+                        guard = self._guard_current()
+                        if suppress and guard and guard["final"] and guard["text"] == normalized:
+                            self._speech_guard = None
+                        return "{SKIP-TTS}" if suppress else text
             guard = self._guard_current()
             if guard:
                 if (guard["text"] is not None and not guard["accepted"]
@@ -213,90 +237,115 @@ class SetRouteAI(Skill):
         with self._guard_lock:
             self._speech_guard = None
 
-    async def cancel(self):
+    async def cancel(self, announce=False):
         with self._operation_lock:
             if not self._busy:
                 return "No route or calibration is running."
             already_stopping = self._cancelled.is_set()
+            if announce and already_stopping:
+                return STOPPING
             self._cancelled.set()
             task, loop, done = self._active, self._owner_loop, self._done
             completion = self._completion
+            if announce:
+                calibration = self._operation_kind == "calibrate_mouse"
+                completion["cancel_reply"] = CALIBRATION_CANCELLED if calibration else ROUTE_CANCELLED
+                completion["silent_line"] = ("Calibration operation cancelled." if calibration
+                                             else "Route operation cancelled.")
             if task is not None and loop is not None and not already_stopping:
                 loop.call_soon_threadsafe(task.cancel)
         # Never await a task/future owned by another turn's loop.
         if not await asyncio.to_thread(done.wait, 10):
-            return "Navigation is stopping. Wait before requesting another route."
-        return completion["line"] or CANCELLED
+            return STOPPING
+        return completion.get("cancel_reply", completion["line"] or CANCELLED)
 
     async def execute_tool(self, tool_name, parameters, benchmark):
         benchmark.start_snapshot(f"SetRouteAI: {tool_name}")
         claimed = False
-        line = ""
+        line = spoken = failure = ""
         guard = self._arm() if tool_name in ("plot_route", "calibrate_mouse") else None
         try:
             if tool_name == "cancel_route":
-                line = await self.cancel()
-                return line, line
-            # Covers validation and edits too: no stale engine snapshot or
-            # concurrent state write can race a navigation claim.
-            with self._operation_lock:
-                if self._busy:
-                    line = BUSY
-                    return line, line
-                self._busy = claimed = True
-                self._operation_kind = tool_name
-                self._cancelled = threading.Event()
-                self._done = threading.Event()
-                self._completion = {"line": ""}
-                self._clipboard_notice = ""
-                self._owner_loop = asyncio.get_running_loop()
-            if self.engine is None:
-                await self.validate()
-            if self._data_error:
-                line = self._data_error
-                return line, line
-            config = self.settings_snapshot()
-            known = dict(self.get_tools())
-            if tool_name not in known:
-                return "Unknown navigation request.", ""
-            required = known[tool_name]["function"]["parameters"]["required"]
-            if any(not isinstance(parameters.get(k), str) or not parameters[k].strip() for k in required):
-                return "Please supply the required destination or alias text.", ""
-            if "heard" in parameters and not isinstance(parameters["heard"], str):
-                return "Please repeat the destination name.", ""
-            with self._operation_lock:
-                if self._cancelled.is_set():
-                    raise NavigationStopped(CANCELLED)
-                if tool_name in ("plot_route", "calibrate_mouse"):
-                    self._active = asyncio.create_task(self._navigation(tool_name, parameters, config, guard))
-            if self._active is not None:
-                try:
-                    line = await self._active
-                except asyncio.CancelledError:
-                    if not self._cancelled.is_set():
-                        raise
-                    line = CANCELLED
+                line = spoken = await self.cancel(announce=True)
+                with self._guard_lock:
+                    self._speech_once(self._speech_allowed, spoken)
             else:
-                line = self._edit(tool_name, parameters)
-            line += self._clipboard_notice
-            return line, line
+                # Covers validation and edits too: no stale engine snapshot or
+                # concurrent state write can race a navigation claim.
+                with self._operation_lock:
+                    if not self._busy:
+                        self._busy = claimed = True
+                        self._operation_kind = tool_name
+                        self._cancelled = threading.Event()
+                        self._done = threading.Event()
+                        self._completion = {"line": ""}
+                        self._clipboard_notice = ""
+                        self._owner_loop = asyncio.get_running_loop()
+                if claimed:
+                    line, spoken = await self._execute_request(tool_name, parameters, guard)
+                else:
+                    line = spoken = BUSY
         except (DataError, BindError, NavigationStopped) as exc:
-            line = str(exc) + getattr(self, "_clipboard_notice", "")
-            return line, line
+            failure = str(exc)
+            line = spoken = failure + getattr(self, "_clipboard_notice", "")
         except Exception as exc:
             self.log.error(f"SetRouteAI operation failed: {exc!r}")
-            line = UNEXPECTED + getattr(self, "_clipboard_notice", "")
-            return line, line
+            failure = UNEXPECTED
+            line = spoken = failure + getattr(self, "_clipboard_notice", "")
         finally:
-            self._expect_speech(guard, line, final=True)
             if claimed:
                 with self._operation_lock:
-                    self._completion["line"] = line
+                    completion = self._completion
+                    completion["line"] = line
+                    if "cancel_reply" in completion:
+                        # The cancel turn owns speech. Keep cleanup warnings on
+                        # that one reply; the stopped turn has a distinct line.
+                        if failure and failure not in (CANCELLED, "Route cancelled."):
+                            completion["cancel_reply"] += " " + failure
+                        completion["cancel_reply"] += self._clipboard_notice
+                        line = spoken = completion["silent_line"]
+                        with self._guard_lock:
+                            self._speech_once(self._speech_suppressed, spoken)
+                    self._expect_speech(guard, spoken, final=True)
                     self._active = self._owner_loop = None
                     self._busy = False
                     self._operation_kind = None
                     self._done.set()
+            else:
+                self._expect_speech(guard, spoken, final=True)
             benchmark.finish_snapshot()
+        return line, spoken
+
+    async def _execute_request(self, tool_name, parameters, guard):
+        if self.engine is None:
+            await self.validate()
+        if self._data_error:
+            return self._data_error, self._data_error
+        config = self.settings_snapshot()
+        known = dict(self.get_tools())
+        if tool_name not in known:
+            return "Unknown navigation request.", ""
+        required = known[tool_name]["function"]["parameters"]["required"]
+        if any(not isinstance(parameters.get(k), str) or not parameters[k].strip() for k in required):
+            return "Please supply the required destination or alias text.", ""
+        if "heard" in parameters and not isinstance(parameters["heard"], str):
+            return "Please repeat the destination name.", ""
+        with self._operation_lock:
+            if self._cancelled.is_set():
+                raise NavigationStopped(CANCELLED)
+            if tool_name in ("plot_route", "calibrate_mouse"):
+                self._active = asyncio.create_task(self._navigation(tool_name, parameters, config, guard))
+        if self._active is not None:
+            try:
+                line = await self._active
+            except asyncio.CancelledError:
+                if not self._cancelled.is_set():
+                    raise
+                line = CANCELLED
+        else:
+            line = self._edit(tool_name, parameters)
+        line += self._clipboard_notice
+        return line, line
 
     def _edit(self, name, p):
         if name == "list_aliases":

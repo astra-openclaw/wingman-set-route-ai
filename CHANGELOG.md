@@ -6,7 +6,7 @@ SetRouteAI by **Thord - galacticgearjammer - ProjectGnome**, expanded by **Domin
 
 - Detect the game's monitor automatically; require valid monitor/resolution/window calibration.
 - Guard every input burst by StarCitizen.exe foreground ownership and clean up held keys on stop.
-- Make cancellation work across Wingman's separate voice-turn threads; accept only one macro at a time.
+- Make cancellation work across Wingman's separate voice-turn threads; accept only one macro at a time. Speak one route- or calibration-specific confirmation from the cancel turn; suppress the stopped turn's separate internal result even if playback finishes or a new request arrives first.
 - Keep the original Starmap hold (1.4 seconds), zoom settle (2.1 seconds), result settle (0.5 seconds), and four immediate bound-plan-key taps, with bounded settings.
 - Clear search before paste and restore ordered clipboard formats, including images, file selections and rich text, after routing or interruption. Snapshot up to 256 MB off-thread; unreadable/unsupported content produces one short notice without blocking routing.
 - Respect keyboard overrides while ignoring joystick/gamepad binds; report explicit unbindings and conflicting maps.

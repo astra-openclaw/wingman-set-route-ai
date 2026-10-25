@@ -57,6 +57,15 @@ verification. All guard state uses a threading lock. Calibration stages the expe
 step before TTS, keeps the guard between steps, then stages its final result. This adapts the
 MIT SC Keybindings guard by Dominicus without its permissive first-second fallback.
 
+A user cancellation assigns speech ownership to the cancel turn under the operation
+lock. Before releasing the stopped operation, its distinct internal final line gets
+one suppression receipt; the cancel turn gets a separate allowance for its specific
+confirmation. Both receipts are protected by the speech lock, consumed once and
+expire after 30 seconds independently of the guard, playback events or new messages.
+The speech hook checks suppression first, then allowances, then the normal guard.
+Cleanup warnings move to the single cancel confirmation. Internal stops, focus loss
+and unload without a cancel turn retain their own ordinary stop speech.
+
 Clipboard snapshots enumerate formats with `EnumClipboardFormats`, copy HGLOBAL
 bytes with `GetClipboardData` / `GlobalSize` / `GlobalLock`, and restore saved formats
 in order with `GlobalAlloc` / `SetClipboardData`. Non-HGLOBAL GDI/owner-display

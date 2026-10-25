@@ -32,7 +32,7 @@ Your wingman still uses its normal AI provider to understand voice requests.
 | “Take me to my mission.” | Uses a known location in your active mission log, or asks for a destination. |
 | “Take me to aerial.” | Asks “Arial in Stanton, or Ariel in Sol?” unless the game-log system decides. |
 | “Fly to Stanton Gateway.” | Uses the current system, or asks which gateway you mean. |
-| “Cancel route.” | Stops the current input sequence, calibration or vision wait. It does not clear a route already set in the game. |
+| “Cancel route.” | Stops the current input sequence, calibration or vision wait, with one confirmation. It does not clear a route already set in the game. |
 | “Calibrate starmap.” | Records the three click positions again. |
 | “Add the alias ‘my yard’ for Brio's Breaker Yard.” | Saves your alias. |
 | “List the aliases for Brio's Breaker Yard.” | Reads your aliases. |
@@ -99,7 +99,7 @@ Future upgrades replace the shipped database, not those files. Do not manually c
 Unreadable data is preserved and backed up, never reset to an empty database.
 Repair other corrupt personal files from a known-good backup.
 For corrupt calibration, a successful new calibration can replace it **after backing up the exact old bytes**.
-Timeout or cancellation keeps the previous file.
+Timeout or cancellation keeps the previous file. Cancelling calibration confirms once: “Calibration cancelled. Your previous calibration was kept.”
 
 ## Troubleshooting
 
@@ -125,6 +125,8 @@ Timeout or cancellation keeps the previous file.
 The read-only keybind file is **LIVE/user/client/0/Profiles/default/actionmaps.xml**, under the game folder configured in Wingman.
 Starmap defaults to **F2**; plan route defaults to **R**. Missing files/actions use those defaults.
 The skill never edits your game bindings.
+
+Cancelling a route confirms once: “Route cancelled. Check the Starmap before trying again.” The stopped operation’s own turn stays silent, even if its result arrives after that confirmation finishes. A repeated cancel during cleanup reports that navigation is still stopping.
 
 The search field is cleared before pasting. Your clipboard, images and file selections included, is put back after routing, failure, cancellation or focus loss. Saved formats and their bytes are restored in their original order. Snapshotting and restoration run off the speech/event loop.
 

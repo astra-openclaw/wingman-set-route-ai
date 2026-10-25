@@ -399,4 +399,4 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
             await call(self.obj,"cancel_route")
             line = await route
         self.assertEqual(await self.obj.on_play_to_user("Finished",None),"{SKIP-TTS}")
-        self.assertEqual(await self.obj.on_play_to_user(line,None),line)
+        self.assertEqual(await self.obj.on_play_to_user(line,None),"{SKIP-TTS}")

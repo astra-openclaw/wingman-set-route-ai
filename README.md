@@ -8,7 +8,9 @@ SetRouteAI drives your calibrated Star Citizen Starmap in **Wingman AI 3.2.11 on
 It detects the game monitor, respects keyboard overrides alongside HOTAS binds, and stops
 when you say **“cancel route”** or leave the game window. Your clipboard, including images,
 is restored afterward. Routing and calibration allow only the skill's expected speech
-through the final reply, preventing premature filler announcements.
+through the final reply, preventing premature filler announcements. Cancellation speaks one
+route- or calibration-specific confirmation. When a corrected destination has no match,
+similar heard-word matches are offered as questions before any route input.
 
 **First use:** install the ZIP's single skill folder, enable it, focus Star Citizen and say
 **“calibrate starmap.”** Close the map before requesting a route.

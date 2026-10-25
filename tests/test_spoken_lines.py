@@ -10,7 +10,7 @@ class SpokenLineTests(unittest.TestCase):
         files = [ROOT/"set_route_ai/main.py", *sorted((ROOT/"set_route_ai/dependencies").glob("*.py"))]
         lines = []
         trusted_errors = {"DataError","BindError","NavigationStopped"}
-        main_functions = {"cancel","execute_tool","_navigation","_edit","calibrate","settings_snapshot"}
+        main_functions = {"cancel","execute_tool","_execute_request","_navigation","_edit","calibrate","settings_snapshot"}
         for path in files:
             tree = ast.parse(path.read_text(encoding="utf-8"))
             # Trusted exception constructors are the only errors spoken verbatim.
@@ -40,7 +40,7 @@ class SpokenLineTests(unittest.TestCase):
             if path.name == "main.py":
                 for node in tree.body:
                     if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and
-                            t.id in {"CANCELLED","UNEXPECTED","BUSY","CALIBRATION"} for t in node.targets):
+                            t.id in {"CANCELLED","ROUTE_CANCELLED","CALIBRATION_CANCELLED","STOPPING","UNEXPECTED","BUSY","CALIBRATION"} for t in node.targets):
                         lines.extend(c.value for c in ast.walk(node.value)
                                      if isinstance(c,ast.Constant) and isinstance(c.value,str))
         self.assertGreater(len(lines),70)
