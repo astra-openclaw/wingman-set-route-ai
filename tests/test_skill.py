@@ -271,12 +271,14 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         clicks=iter([False,False,True,False]*3)
         self.obj.desktop().left_pressed=lambda:next(clicks)
         async def speak(text,**kwargs):
-            self.assertEqual(await self.obj.on_play_to_user("Other text",None),"Other text")
+            self.assertEqual(await self.obj.on_play_to_user("Other text",None),"{SKIP-TTS}")
             self.assertEqual(await self.obj.on_play_to_user(text,None),text)
             return True
         self.obj.wingman.tts.speak=speak
-        self.assertIn("complete",await call(self.obj,"calibrate_mouse"))
-        self.assertEqual(await self.obj.on_play_to_user("Finished",None),"Finished")
+        line = await call(self.obj,"calibrate_mouse")
+        self.assertIn("complete",line)
+        self.assertEqual(await self.obj.on_play_to_user("Finished",None),"{SKIP-TTS}")
+        self.assertEqual(await self.obj.on_play_to_user(line,None),line)
 
     async def test_decommissioned_and_closed_refused(self):
         self.calibrated()
@@ -315,5 +317,7 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
             route=asyncio.create_task(call(self.obj,"plot_route",destination="Daymar"))
             await asyncio.wait_for(ready.wait(),2)
             self.assertEqual(await self.obj.on_play_to_user("Route set!",None),"{SKIP-TTS}")
-            await call(self.obj,"cancel_route");await route
-        self.assertEqual(await self.obj.on_play_to_user("Finished",None),"Finished")
+            await call(self.obj,"cancel_route")
+            line = await route
+        self.assertEqual(await self.obj.on_play_to_user("Finished",None),"{SKIP-TTS}")
+        self.assertEqual(await self.obj.on_play_to_user(line,None),line)

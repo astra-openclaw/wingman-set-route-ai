@@ -4,6 +4,7 @@ import json
 import math
 import re
 import threading
+import time
 from pathlib import Path
 
 from skills.skill_base import Skill
@@ -61,6 +62,9 @@ class SetRouteAI(Skill):
         self._operation_kind = None
         self._desktop = None
         self.user_dir = None
+        self._guard_lock = threading.Lock()
+        self._speech_guard = None
+        self._speech_subscriptions = []
 
     def settings_snapshot(self):
         values = dict(DEFAULTS)
@@ -105,8 +109,21 @@ class SetRouteAI(Skill):
             self._data_error = "Saved navigation data could not be loaded. The original was preserved; check the Wingman log."
         return errors
 
+    async def prepare(self):
+        await super().prepare()
+        if not self._speech_subscriptions:
+            self._speech_subscriptions = [
+                self.wingman.audio.on_playback_started(self._playback_started),
+                self.wingman.audio.on_playback_finished(self._playback_finished),
+            ]
+
     async def unload(self):
         await self.cancel()
+        with self._guard_lock:
+            self._speech_guard = None
+        for subscription in self._speech_subscriptions:
+            subscription.unsubscribe()
+        self._speech_subscriptions.clear()
         await super().unload()
 
     def desktop(self):
@@ -132,10 +149,69 @@ class SetRouteAI(Skill):
                                 "required": list(params), "additionalProperties": False}}})
                 for name, description, params in specs]
 
+    @staticmethod
+    def _speech_normalized(text):
+        # Keep Unicode letters/digits for every calibration language.
+        return re.sub(r"[^\w]+", "", text.casefold())
+
+    def _arm(self):
+        with self._guard_lock:
+            guard = {"text": None, "time": time.monotonic(), "accepted": False,
+                     "playing": False, "final": False}
+            self._speech_guard = guard
+            return guard
+
+    def _guard_current(self):
+        # Active operations own their guard; timeout bounds a final reply that
+        # never starts/finishes playback, not a player waiting to calibrate.
+        if (self._speech_guard and self._speech_guard["final"]
+                and time.monotonic() - self._speech_guard["time"] >= 25):
+            self._speech_guard = None
+        return self._speech_guard
+
+    def _expect_speech(self, guard, spoken, final=False):
+        with self._guard_lock:
+            # A later user turn can clear/replace an old operation's guard.
+            if guard is not None and self._speech_guard is guard:
+                if final and not spoken:
+                    self._speech_guard = None
+                else:
+                    guard.update(text=self._speech_normalized(spoken), time=time.monotonic(),
+                                 accepted=False, playing=False, final=final)
+
     async def on_play_to_user(self, text, sound_config):
-        with self._operation_lock:
-            suppress = self._busy and self._operation_kind == "plot_route"
-        return "{SKIP-TTS}" if suppress else text
+        with self._guard_lock:
+            guard = self._guard_current()
+            if guard:
+                if (guard["text"] is not None and not guard["accepted"]
+                        and self._speech_normalized(text) == guard["text"]):
+                    guard["accepted"] = True
+                else:
+                    return "{SKIP-TTS}"
+        return text
+
+    async def _playback_started(self, wingman_name):
+        if wingman_name != self.wingman.name:
+            return
+        with self._guard_lock:
+            guard = self._guard_current()
+            if guard and guard["accepted"]:
+                guard["playing"] = True
+
+    async def _playback_finished(self, wingman_name):
+        if wingman_name != self.wingman.name:
+            return
+        with self._guard_lock:
+            guard = self._guard_current()
+            if guard and guard["playing"]:
+                if guard["final"]:
+                    self._speech_guard = None
+                else:
+                    guard.update(text=None, accepted=False, playing=False)
+
+    async def on_add_user_message(self, message):
+        with self._guard_lock:
+            self._speech_guard = None
 
     async def cancel(self):
         with self._operation_lock:
@@ -156,6 +232,7 @@ class SetRouteAI(Skill):
         benchmark.start_snapshot(f"SetRouteAI: {tool_name}")
         claimed = False
         line = ""
+        guard = self._arm() if tool_name in ("plot_route", "calibrate_mouse") else None
         try:
             if tool_name == "cancel_route":
                 line = await self.cancel()
@@ -164,7 +241,8 @@ class SetRouteAI(Skill):
             # concurrent state write can race a navigation claim.
             with self._operation_lock:
                 if self._busy:
-                    return BUSY, BUSY
+                    line = BUSY
+                    return line, line
                 self._busy = claimed = True
                 self._operation_kind = tool_name
                 self._cancelled = threading.Event()
@@ -175,7 +253,8 @@ class SetRouteAI(Skill):
             if self.engine is None:
                 await self.validate()
             if self._data_error:
-                return self._data_error, self._data_error
+                line = self._data_error
+                return line, line
             config = self.settings_snapshot()
             known = dict(self.get_tools())
             if tool_name not in known:
@@ -189,7 +268,7 @@ class SetRouteAI(Skill):
                 if self._cancelled.is_set():
                     raise NavigationStopped(CANCELLED)
                 if tool_name in ("plot_route", "calibrate_mouse"):
-                    self._active = asyncio.create_task(self._navigation(tool_name, parameters, config))
+                    self._active = asyncio.create_task(self._navigation(tool_name, parameters, config, guard))
             if self._active is not None:
                 try:
                     line = await self._active
@@ -209,6 +288,7 @@ class SetRouteAI(Skill):
             line = UNEXPECTED + getattr(self, "_clipboard_notice", "")
             return line, line
         finally:
+            self._expect_speech(guard, line, final=True)
             if claimed:
                 with self._operation_lock:
                     self._completion["line"] = line
@@ -311,9 +391,9 @@ class SetRouteAI(Skill):
         path = Path(live) / "user/client/0/Profiles/default/actionmaps.xml" if live else None
         return read_bindings(path)
 
-    async def _navigation(self, name, p, config):
+    async def _navigation(self, name, p, config, guard=None):
         if name == "calibrate_mouse":
-            return await self.calibrate(config)
+            return await self.calibrate(config, guard)
         phrase = p["destination"].strip()
         state = self.game_state()
         if normalize(phrase) in ("my mission", "mission", "take me to my mission", "route to my mission"):
@@ -370,7 +450,7 @@ class SetRouteAI(Skill):
         # not evidence that a guessed destination was the user's intended one.
         return result
 
-    async def calibrate(self, config):
+    async def calibrate(self, config, guard=None):
         desktop = self.desktop()
         navigator = Navigator(desktop, config, self._cancelled)
         navigator.guard()
@@ -380,6 +460,7 @@ class SetRouteAI(Skill):
         instructions = CALIBRATION[config["language"]]
         points = {}
         async def step(prompt):
+            self._expect_speech(guard, prompt)
             if not await self.wingman.tts.speak(prompt, interrupt=False):
                 raise NavigationStopped("Calibration instructions could not be spoken. Check your voice settings.")
             while self.wingman.audio.is_playing:

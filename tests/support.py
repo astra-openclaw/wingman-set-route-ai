@@ -15,6 +15,7 @@ class BaseSkill:
         self.printr = types.SimpleNamespace(print_async=AsyncMock())
         self.log = types.SimpleNamespace(error=lambda *a: None)
     async def validate(self): return []
+    async def prepare(self): pass
     async def unload(self): pass
     def get_generated_files_dir(self): return self._test_user
 
@@ -79,9 +80,12 @@ class Benchmark:
 async def skill(user, props=None, state=None):
     from PIL import Image
     wingman = types.SimpleNamespace(
+        name="Test Pilot",
         ai=types.SimpleNamespace(generate=AsyncMock(return_value="UNSURE | NONE")),
         screen=types.SimpleNamespace(capture=AsyncMock(return_value=Image.new("RGB", (1920,1080)))),
-        audio=types.SimpleNamespace(is_playing=False),
+        audio=types.SimpleNamespace(is_playing=False,
+            on_playback_started=lambda callback: types.SimpleNamespace(unsubscribe=lambda: None),
+            on_playback_finished=lambda callback: types.SimpleNamespace(unsubscribe=lambda: None)),
         tts=types.SimpleNamespace(speak=AsyncMock(return_value=True)),
         sc_gamelog=types.SimpleNamespace(available=state is not None, state=lambda: state),
         star_citizen=types.SimpleNamespace(environment_path=lambda _: None),

@@ -15,11 +15,11 @@ SetRouteAI by **Thord - galacticgearjammer - ProjectGnome**, expanded by **Domin
 - Merge 32 duplicate records with aliases preserved; keep 1,330 destinations and no new cross-destination alias collisions.
 - Resolve all 20 L-point short forms uniquely; require 0.90 fuzzy confidence and a 0.05 lead for automatic matching.
 - Keep in-game search text separate from system-qualified keys; ask about same-named gateways using their systems.
-- Support corrected/translated names alongside the player's original words, with disagreement checks.
+- Support corrected/translated names with exact heard-word disagreement checks; agreement never produces a one-option “which” question. Recognize spoken L-point numbers and letter variants.
 - Add game-log mission/system awareness and validated destinations from cooperating skills.
 - Verify routes optionally with an in-memory, game-window-only image using a 1.15 MP budget suited to ultrawide screens.
 - Tolerate harmless vision formatting differences; leave the map open when uncertain.
-- Speak natural guidance, hide unexpected exception text, and suppress premature filler claims during navigation.
+- Speak natural guidance and hide unexpected exception text. Guard routing and calibration through the final reply: only the expected skill lines play, even after a fast return; clear after final playback, a 25-second reply timeout or a new user message.
 - Refuse explicitly closed, offline or decommissioned UEX locations; never delete a place merely because UEX lacks it.
 - Include the unchanged original logo, MIT license and author credits in the deterministic install ZIP.
 - Publish a player-first guide to setup, upgrades, settings, troubleshooting and vision privacy/cost.

@@ -52,8 +52,9 @@ class Compatibility(unittest.IsolatedAsyncioTestCase):
         self.runtime=types.SimpleNamespace(
             context_budget=types.SimpleNamespace(tool_cap=32000),
             play_to_user=AsyncMock(return_value=True),
-            audio_player=types.SimpleNamespace(is_playing=False))
+            audio_player=types.SimpleNamespace(is_playing=False, playback_events=Events()))
         self.facade=types.SimpleNamespace(
+            name="Test Pilot",
             ai=FACADE.SkillAi(self.runtime),tts=FACADE.SkillTts(self.runtime),
             audio=FACADE.SkillAudio(self.runtime),screen=FACADE.SkillScreen(),
             system_one=FACADE.SkillSystemOne(None),

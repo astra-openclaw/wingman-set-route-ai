@@ -46,12 +46,14 @@ and completion event; task cancellation is dispatched to its owning loop. No
 cross-loop task await is permitted.
 
 The documented `skills/skill_base.py:887–892` speech hook accepts `{SKIP-TTS}`.
-The route guard is armed before resolution and remains armed after fast returns,
-allowing only the expected instant response once. `wingmen/facade.py:852–864`
+The operation guard is armed before route resolution or calibration and remains
+armed after fast returns, allowing only each expected skill line once. `wingmen/facade.py:852–864`
 provides playback-started/finished subscriptions, detached at unload via
 `Subscription.unsubscribe()` (`:69–83`). `skills/skill_base.py:879–881` clears the
-guard on a new user message; a 25-second monotonic expiry bounds abandoned speech.
-All guard state uses a threading lock. Calibration is unguarded. This adapts the
+guard on a new user message; a 25-second monotonic expiry after tool return bounds
+abandoned final speech. Active operations keep the guard while awaiting input or
+verification. All guard state uses a threading lock. Calibration stages the expected
+step before TTS, keeps the guard between steps, then stages its final result. This adapts the
 MIT SC Keybindings guard by Dominicus without its permissive first-second fallback.
 
 Clipboard snapshots enumerate formats with `EnumClipboardFormats`, copy HGLOBAL

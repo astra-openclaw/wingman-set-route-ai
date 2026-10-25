@@ -116,7 +116,7 @@ Timeout or cancellation keeps the previous file.
 | The route goes to the wrong result | Check calibration and the exact destination name. Increase **Search result delay** on slower PCs. |
 | A location is marked closed, offline or decommissioned | No route input is sent. These are explicit UEX status records, not guesses based on missing data. |
 | “Navigation is busy” | Wait, or say **“cancel route.”** Two simultaneous requests never run two macros. |
-| Your wingman goes quiet while a route is entered | Expected. Speech from that wingman is skipped until the route request finishes, so a filler line can't claim the route is set early. It then speaks the result. |
+| Your wingman goes quiet while routing or calibrating | Expected. Only this skill's calibration steps, questions and result can play; filler lines are skipped, even when the tool answers quickly. Normal speech resumes after the final reply plays, after a 25-second final-reply timeout, or on your next message. |
 | “The Wingman log has details” | An unexpected error stopped navigation. Check that log; Python exceptions are not read aloud. |
 
 The read-only keybind file is **LIVE/user/client/0/Profiles/default/actionmaps.xml**, under the game folder configured in Wingman.
