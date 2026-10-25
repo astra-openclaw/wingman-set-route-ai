@@ -1,328 +1,183 @@
-import json
-import os
+"""Database-only destination matching and transactional personal edits."""
+import copy
 import re
-from typing import Optional, Dict, List, Tuple
+import unicodedata
 from pathlib import Path
-from rapidfuzz import process, fuzz
+from difflib import SequenceMatcher
+
+from sra_storage import (DataError, atomic_json, backup_bytes, empty_state,
+                         load_json, migrate_legacy, validate_state)
+
+
+def normalize(text):
+    text = unicodedata.normalize("NFKD", str(text)).casefold()
+    text = "".join(c for c in text if not unicodedata.combining(c))
+    text = re.sub(r"[^\w\s-]", "", text)
+    return re.sub(r"\s+", " ", text).strip()
+
 
 class DestinationPhoneticEngine:
+    normalize = staticmethod(normalize)
 
-    def __init__(self):
-        # /data folder within the skill directory
-        self.base_path = str(Path(__file__).resolve().parents[1] / "data")
-
-        self.destinations_file = os.path.join(self.base_path, "destinations.json")
-        self.learning_file = os.path.join(self.base_path, "phonetic_learning.json")
-        self.blacklist_file = os.path.join(self.base_path, "blacklist.json")
-
-        self.destinations: Dict[str, Dict] = self._load_json(self.destinations_file)
-        self.learning: Dict[str, str] = self._load_json(self.learning_file)
-        self.blacklist: Dict[str, bool] = self._load_json(self.blacklist_file)
-        
-        # Pre-calculate keys for faster lookup during fuzzy matching
-        self.destination_keys = list(self.destinations.keys())
-
-    # ------------------------------------------------------------
-    #                        JSON HELPERS
-    # ------------------------------------------------------------
-    def _load_json(self, path: str) -> dict:
-        if not os.path.exists(path):
-            return {}
+    def __init__(self, skill_dir, user_dir):
+        self.skill_dir, self.user_dir = Path(skill_dir), Path(user_dir)
+        self.state_file = self.user_dir / "user_data.json"
+        shipped = load_json(self.skill_dir / "database" / "destinations.json",
+                            backup_dir=self.user_dir / "recovery")
+        self.shipped = self._records(shipped)
+        self.state = load_json(self.state_file, empty_state(), self.user_dir / "recovery")
         try:
-            with open(path, "r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception:
-            return {}
+            validate_state(self.state)
+            self._records(self.state["overrides"])
+            if any(not isinstance(v, str) for v in self.state["learning"].values()):
+                raise DataError("Invalid learned mappings.")
+        except DataError:
+            if self.state_file.exists():
+                backup_bytes(self.state_file, self.user_dir / "recovery")
+            raise
+        self.state = migrate_legacy(self.skill_dir, self.user_dir, self.state, normalize)
+        self._refresh()
 
-    def _save_json(self, path: str, data: dict):
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2, ensure_ascii=False)
-
-    # ------------------------------------------------------------
-    #                SIMPLE PHONETIC NORMALIZATION
-    # ------------------------------------------------------------
-    def normalize(self, text: str) -> str:
-        text = text.lower()
-        
-        # Remove accents/diacritics
-        text = (
-            text.replace("á", "a")
-            .replace("é", "e")
-            .replace("í", "i")
-            .replace("ó", "o")
-            .replace("ú", "u")
-        )
-        
-        # Remove non-useful characters (keep only alphanumeric, spaces, hyphens)
-        text = re.sub(r"[^a-z0-9\s-]", "", text)
-        
-        # Convert multiple spaces to a single space
-        text = re.sub(r"\s+", " ", text).strip()
-        
-        return text
-
-    # ------------------------------------------------------------
-    #                    COMMON ROOT DETECTION
-    # ------------------------------------------------------------
-    def share_root(self, a: str, b: str) -> bool:
-        """Two names are considered equivalent if they share a main root word."""
-        na = self.normalize(a)
-        nb = self.normalize(b)
-
-        ta = na.split()
-        tb = nb.split()
-
-        # At least one word in common implies they share a root
-        return any(t in tb for t in ta)
-
-    # ------------------------------------------------------------
-    #                        PHASE 1: EXACT MATCH
-    # ------------------------------------------------------------
-    def find_exact(self, phrase: str) -> Optional[str]:
-        key = self.normalize(phrase)
-        if key in self.destinations:
-            return key
-            
-        # Check normalized keys in destinations
-        # (Useful if keys in JSON are not perfectly normalized)
-        for d in self.destinations:
-            if key == self.normalize(d):
-                return d
-        return None
-
-    # ------------------------------------------------------------
-    #                        PHASE 2: LEARNING
-    # ------------------------------------------------------------
-    def find_learning_alias(self, phrase: str) -> Optional[str]:
-        key = self.normalize(phrase)
-        return self.learning.get(key)
-
-    # ------------------------------------------------------------
-    #                        PHASE 3: USER ALIASES
-    # ------------------------------------------------------------
-    def find_alias(self, phrase: str) -> Optional[str]:
-        n = self.normalize(phrase)
-        
-        for dest, data in self.destinations.items():
-            aliases = data.get("aliases", [])
-            for a in aliases:
-                # Aliases are stored normalized, but we normalize again for safety
-                if n == self.normalize(a):
-                    return dest
-        return None
-
-    # ------------------------------------------------------------
-    #                 PHASE 4: SPECIFIC SC PATTERNS
-    # ------------------------------------------------------------
-    def detect_special_patterns(self, phrase: str) -> Optional[str]:
-        n = self.normalize(phrase)
-
-        # SPAL-X
-        spal = re.search(r"spal\s*-?\s*(\d+)", n)
-        if spal:
-            num = spal.group(1)
-            return f"spal {num}"
-
-        # Lagrange nodes (CRU L1, ARC L2, MIC L5...)
-        lagr = re.search(r"(cru|crew|mic|hur|arc)[ -]?l[ -]?(\d+)", n)
-        if lagr:
-            prefix = lagr.group(1)
-            num = lagr.group(2)
-            prefix = "cru" if prefix in ["cru", "crew"] else prefix  # Fix common typo crew->cru
-            return f"{prefix} l{num}"
-
-        # Astro 042 (CryAstro)
-        astro = re.search(r"(astro|cryastro|crias|crias tro)[ -]?(\d+)", n)
-        if astro:
-            num = astro.group(2)
-            return f"astro {num}"
-
-        return None
-
-    # ------------------------------------------------------------
-    #                 PHASE 4: RAPIDFUZZ MATCHING (EXPANDED)
-    # ------------------------------------------------------------
-    def fuzzy_match(self, phrase: str) -> List[str]:
-        """
-        Searches both primary destinations AND aliases.
-        Returns a list of primary destination keys (up to 20).
-        """
-        normalized_phrase = self.normalize(phrase)
-        
-        # 1. Build a combined search list and a lookup map
-        # We want: {'alias_name': 'primary_destination'}
-        search_choices = list(self.destinations.keys())
-        alias_to_dest = {}
-
-        for dest, data in self.destinations.items():
-            aliases = data.get("aliases", [])
-            for alias in aliases:
-                norm_alias = self.normalize(alias)
-                search_choices.append(norm_alias)
-                alias_to_dest[norm_alias] = dest
-
-        if not search_choices:
-            return []
-
-        # 2. Perform the fuzzy search across all names and aliases
-        results = process.extract(
-            normalized_phrase,
-            search_choices,
-            scorer=fuzz.WRatio,
-            score_cutoff=60.0,
-            limit=20,
-            processor=None
-        )
-
-        if results:
-            matches = []
-            seen_primary = set()
-            for best_match, score, index in results:
-                # 3. Resolve the match back to the primary destination
-                primary_destination = alias_to_dest.get(best_match, best_match)
-                if primary_destination not in seen_primary:
-                    matches.append(primary_destination)
-                    seen_primary.add(primary_destination)
-            return matches
-
-        return []
-
-    # ------------------------------------------------------------
-    #                        MAIN FUNCTION
-    # ------------------------------------------------------------
-    def find_destination(self, phrase: str) -> Tuple[Optional[str], List[str]]:
-        """
-        Returns:
-           (normalized_destination, alternatives[])
-        If destination is None and alternatives has >1 item -> Multiple matches found.
-        If destination is None and alternatives is empty -> Unknown destination.
-        """
-        if not phrase:
-            return None, []
-
-        normalized_phrase = self.normalize(phrase)
-
-        # 1. Exact Match (User defined name)
-        exact = self.find_exact(normalized_phrase)
-        if exact:
-            return exact, []
-
-        # 2. Learned Automatic Aliases
-        alias_learn = self.find_learning_alias(normalized_phrase)
-        if alias_learn:
-            return alias_learn, []
-
-        # 3. User Defined Aliases
-        alias_user = self.find_alias(normalized_phrase)
-        if alias_user:
-            return alias_user, []
-
-        # 4. Special SC Patterns
-        special = self.detect_special_patterns(normalized_phrase)
-        if special:
-            return special, []
-
-        # 5. Fuzzy Matching
-        fuzzy_matches = self.fuzzy_match(normalized_phrase)
-        if len(fuzzy_matches) == 1:
-            return fuzzy_matches[0], []
-        elif len(fuzzy_matches) > 1:
-            return None, fuzzy_matches
-
-        # 6. Nothing found -> Unknown destination
-        return None, []
-
-    # ------------------------------------------------------------
-    #            LEARNING AND BLACKLIST (ADJUSTED)
-    # ------------------------------------------------------------
-    def learn(self, phrase: str, destination: str):
-        """Adds a smart learned alias."""
-        key = self.normalize(phrase)
-        dest = self.normalize(destination)
-
-        # Protection: Only link if they share a root word
-        if self.share_root(key, dest):
-            self.learning[key] = dest
-            self._save_json(self.learning_file, self.learning)
-            return
-
-        # If they don't share a root, DO NOT learn
-        return
-
-    def add_to_blacklist(self, phrase: str):
-        key = self.normalize(phrase)
-        self.blacklist[key] = True
-        self._save_json(self.blacklist_file, self.blacklist)
-
-    # ------------------------------------------------------------
-    #                 MANUAL ALIAS MANAGEMENT
-    # ------------------------------------------------------------
-    def add_alias(self, destination: str, alias: str) -> str:
-        """
-        Adds an alias to a destination.
-        Returns:
-          - "destination_not_found"
-          - "alias_exists"
-          - "ok"
-        """
-        dest_key = self.normalize(destination)
-        if dest_key not in self.destinations:
-            return "destination_not_found"
-
-        alias_key = self.normalize(alias)
-
-        aliases: List[str] = self.destinations[dest_key].get("aliases", [])
-        # Avoid duplicates via normalization
-        if any(self.normalize(a) == alias_key for a in aliases):
-            return "alias_exists"
-
-        aliases.append(alias_key)
-        self.destinations[dest_key]["aliases"] = aliases
-        self._save_json(self.destinations_file, self.destinations)
-        return "ok"
-
-    def remove_alias(self, destination: str, alias: str) -> str:
-        """
-        Removes an alias from a destination.
-        Returns:
-          - "destination_not_found"
-          - "alias_not_found"
-          - "ok"
-        """
-        dest_key = self.normalize(destination)
-        if dest_key not in self.destinations:
-            return "destination_not_found"
-
-        alias_key = self.normalize(alias)
-        aliases: List[str] = self.destinations[dest_key].get("aliases", [])
-        new_aliases = [a for a in aliases if self.normalize(a) != alias_key]
-
-        if len(new_aliases) == len(aliases):
-            return "alias_not_found"
-
-        self.destinations[dest_key]["aliases"] = new_aliases
-        self._save_json(self.destinations_file, self.destinations)
-        return "ok"
-
-    def get_aliases(self, destination: str) -> Optional[List[str]]:
-        """
-        Returns the list of aliases for a destination,
-        or None if the destination does not exist.
-        """
-        dest_key = self.normalize(destination)
-        if dest_key not in self.destinations:
-            return None
-        return self.destinations[dest_key].get("aliases", [])
-
-    def get_all_aliases(self) -> Dict[str, List[str]]:
-        """
-        Returns a dictionary:
-          { destination: [aliases...] } only for those that have aliases.
-        """
-        result: Dict[str, List[str]] = {}
-        for dest, data in self.destinations.items():
-            aliases = data.get("aliases", [])
-            if aliases:
-                result[dest] = aliases
+    @staticmethod
+    def _records(raw):
+        if not isinstance(raw, dict):
+            raise DataError("Destination database must be an object.")
+        result = {}
+        for name, value in raw.items():
+            if (not isinstance(value, dict) or not isinstance(value.get("aliases", []), list)
+                    or any(not isinstance(a, str) for a in value.get("aliases", []))):
+                raise DataError("Invalid destination record.")
+            key = normalize(name)
+            if not key or len(key) == 1:
+                continue
+            record = {**value, "name": value.get("name", name),
+                      "aliases": sorted(set(normalize(a) for a in value.get("aliases", []) if len(normalize(a)) > 1))}
+            if key in result:
+                record["aliases"] = sorted(set(record["aliases"] + result[key]["aliases"]))
+            result[key] = record
         return result
+
+    def _refresh(self):
+        self.destinations = copy.deepcopy(self.shipped)
+        for key, value in self._records(self.state["overrides"]).items():
+            self.destinations[key] = {**self.destinations.get(key, {}), **value}
+        for key in self.state["deleted"]:
+            self.destinations.pop(normalize(key), None)
+        self.learning = {normalize(k): normalize(v) for k, v in self.state["learning"].items()
+                         if normalize(v) in self.destinations}
+        self.alias_index = {}
+        for dest, data in self.destinations.items():
+            for alias in data["aliases"]:
+                self.alias_index.setdefault(alias, set()).add(dest)
+
+    def _commit(self, state):
+        atomic_json(self.state_file, state)
+        self.state = state
+        self._refresh()
+
+    def display(self, key):
+        return self.destinations[key]["name"]
+
+    def find_destination(self, phrase, system=None, fuzzy=True):
+        key = normalize(phrase)
+        key = re.sub(r"^(?:plot (?:a )?route to|set course for|take me to|route to|navigate to)\s+", "", key)
+        if len(key) < 2 or self.state["blacklist"].get(key):
+            return None, []
+        if key in self.destinations:
+            return key, []
+        candidates = set(self.alias_index.get(key, set()))
+        if key in self.learning:
+            candidates.add(self.learning[key])
+        if not candidates:
+            special = re.fullmatch(r"(cru|crew|mic|hur|arc)[ -]?l[ -]?(\d+)", key)
+            if special:
+                prefix, number = special.groups()
+                target = ("cru" if prefix == "crew" else prefix) + " l" + number
+                return (target, []) if target in self.destinations else (None, [])
+            if fuzzy:
+                scored = {}
+                for token, destinations in self.alias_index.items():
+                    score = SequenceMatcher(None, key, token).ratio()
+                    if score >= .82:
+                        for dest in destinations:
+                            scored[dest] = max(scored.get(dest, 0), score)
+                for dest in self.destinations:
+                    score = SequenceMatcher(None, key, dest).ratio()
+                    if score >= .82:
+                        scored[dest] = max(scored.get(dest, 0), score)
+                candidates = set(sorted(scored, key=lambda d: (-scored[d], d))[:3])
+        if system and len(candidates) > 1:
+            local = {d for d in candidates if normalize(self.destinations[d].get("system", "")) == normalize(system)}
+            if len(local) == 1:
+                return next(iter(local)), []
+        if len(candidates) == 1:
+            return next(iter(candidates)), []
+        return None, sorted(candidates)[:3]
+
+    def get_aliases(self, destination):
+        record = self.destinations.get(normalize(destination))
+        return list(record["aliases"]) if record else None
+
+    def add_destination(self, name):
+        key = normalize(name)
+        if len(key) < 2:
+            raise DataError("Use a destination name of at least two characters.")
+        if key in self.destinations:
+            raise DataError("That destination already exists.")
+        state = copy.deepcopy(self.state)
+        state["deleted"] = [d for d in state["deleted"] if d != key]
+        state["overrides"][key] = {"name": name.strip(), "aliases": []}
+        self._commit(state)
+
+    def delete_destination(self, name):
+        key = normalize(name)
+        if key not in self.destinations:
+            raise DataError("Destination not found.")
+        state = copy.deepcopy(self.state)
+        state["overrides"].pop(key, None)
+        state["deleted"] = sorted(set(state["deleted"] + [key]))
+        state["learning"] = {k: v for k, v in state["learning"].items() if normalize(v) != key}
+        self._commit(state)
+
+    def rename_destination(self, old, new):
+        old, key = normalize(old), normalize(new)
+        if old not in self.destinations:
+            raise DataError("Destination not found.")
+        if len(key) < 2 or key in self.destinations:
+            raise DataError("New name must be unique and have at least two characters.")
+        state = copy.deepcopy(self.state)
+        state["overrides"].pop(old, None)
+        state["overrides"][key] = {**self.destinations[old], "name": new.strip()}
+        state["deleted"] = sorted((set(state["deleted"]) | {old}) - {key})
+        state["learning"] = {k: key if normalize(v) == old else v for k, v in state["learning"].items()}
+        self._commit(state)
+
+    def edit_alias(self, destination, alias, remove=False):
+        key, alias = normalize(destination), normalize(alias)
+        if key not in self.destinations:
+            raise DataError("Destination not found.")
+        if len(alias) < 2:
+            raise DataError("Use an alias of at least two characters.")
+        state = copy.deepcopy(self.state)
+        record = copy.deepcopy(self.destinations[key])
+        aliases = set(record["aliases"])
+        if remove:
+            aliases.discard(alias)
+            if normalize(state["learning"].get(alias, "")) == key:
+                state["learning"].pop(alias, None)
+        else:
+            aliases.add(alias)
+        record["aliases"] = sorted(aliases)
+        state["overrides"][key] = record
+        self._commit(state)
+
+    def learn(self, phrase, destination):
+        key, dest = normalize(phrase), normalize(destination)
+        if dest not in self.destinations or key == dest or len(key) < 2:
+            return
+        # Never make a collision disappear through a learned first-match shortcut.
+        if self.alias_index.get(key, set()) - {dest}:
+            return
+        state = copy.deepcopy(self.state)
+        state["learning"][key] = dest
+        self._commit(state)

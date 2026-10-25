@@ -1,127 +1,60 @@
 api_version: 3
+version: 3.2.0
 platforms: [windows]
 module: skills.set_route_ai.main
 name: SetRouteAI
-display_name: Set Route Star Citizen
-author: Thord - galacticgearjammer - ProjectGnome
-tags:
-  - Star Citizen
-  - Navigation
-  - Utility
+display_name: SetRouteAI
+author: Thord - galacticgearjammer - ProjectGnome, Dominicus
+tags: [Star Citizen, Navigation, Utility]
 description:
-  en: Natural-language navigation assistant for Star Citizen. Plots routes using the in-game Starmap.
-  de: Natürlichsprachlicher Navigationsassistent für Star Citizen. Plant Routen mit der In-Game-Sternenkarte.
-  es: Asistente de navegación en lenguaje natural para Star Citizen. Traza rutas usando el Starmap del juego.
+  en: Calibrated, foreground-guarded Star Citizen navigation with optional route vision.
 hint:
-  en: Important - You must run the calibrate starmap command and follow the audio instructions before attempting to route.
-  de: Wichtig - Sie müssen den Befehl Starmap kalibrieren ausführen und den Audioanweisungen folgen, bevor Sie versuchen, eine Route zu erstellen.
-discovery_keywords:
-  - plot route
-  - set route
-  - calibrate
-  - calibrate starmap
-  - calibrate mouse
-  - directory
-  - list route destinations
-  - list route aliases
-  - destination
-  - alias
-  - navigate
+  en: Calibrate first. Start routing with the Starmap closed and Star Citizen focused.
 discoverable_by_default: false
+discovery_keywords: [plot route, set course, navigation, calibrate starmap, cancel route, my mission, alias]
 examples:
   - en: Plot a route to Daymar.
-    de: Plane eine Route zu Daymar.
-    es: Traza una ruta a Daymar.
-  - en: Add Crusader L2 as a known destination.
-    de: Fügen Sie Crusader L2 als bekanntes Ziel hinzu.
-    es: Agrega Cru L2 como destino conocido.
-  - en: Add the alias Home Base to Everus Harbor.
-    de: Fügen Sie das Alias Home Base zu Everus Harbor hinzu.
-    es: Añade el alias Base a Everus Harbor.
-
+  - en: Set course for cruel one.
+  - en: Take me to my mission.
 prompt: |
-  You are the navigation intelligence for Star Citizen.
-  You understand user speech in **Spanish, English, German and French**, including mispronunciations.
-  You can also calibrate the user's starmap or mouse for use for navigation on demand.
-
-  Your responsibilities:
-
-  1) **Navigation intent (plot_route)**
-     If the user expresses any intention to:
-       - navigate, go to, plot a route, set course, jump to, travel to, fly to…
-     you MUST call the tool **plot_route**.
-
-     The `destination` argument should be the **intended in-game name** corrected by your Star Citizen knowledge.
-     Examples:
-       - “cru ele uno”, “cruel one” → destination = "Cru L1"
-       - “bajina poin”, “baillini poin” → destination = "Baijini Point"
-       - “estación serafín”, “serapine station” → destination = "Seraphim Station"
-
-     The skill will then:
-       - try to match it with its local destinations/aliases,
-       - ask the AI to choose among ambiguous database matches,
-       - and report failure if no destination can be resolved. Unknown destinations are not automatically added; use add_destination explicitly.
-
-  2) **Destination management tools**
-
-     - If the user says:
-         - “add X as a known destination”
-         - “agrega X como destino conocido”
-       → Call **add_destination** with `name = "X"` (the canonical destination name).
-
-     - If the user says:
-         - “delete destination X”
-         - “elimina el destino X”
-       → Call **delete_destination** with `name` set to that destination name.
-
-     - If the user says:
-         - “rename destination A to B”
-         - “renombra el destino A a B”
-       → Call **rename_destination** with `old_name = "A"` and `new_name = "B"`.
-
-  3) **Alias management tools**
-
-     Aliases are user-friendly names like “home”, “base”, “mina”, etc. that internally map to a real destination.
-
-     - If the user says:
-         - “add alias Home Base to Everus Harbor”
-         - “añade el alias Base a Everus Harbor”
-       → Call **add_alias** with:
-            - `destination` = the canonical destination name (e.g. "Everus Harbor")
-            - `alias` = the user-specified alias (e.g. "Base").
-
-     - If the user says:
-         - “remove alias Home from Everus Harbor”
-         - “elimina el alias Base de Everus Harbor”
-       → Call **delete_alias** with:
-            - `destination` = "Everus Harbor"
-            - `alias` = "Base".
-
-     - If the user says:
-         - “list aliases for Orison”
-         - “lista los alias de Orison”
-       → Call **list_aliases** with `destination = "Orison"`.
-
-  4) General behavior
-
-     - Prefer calling tools over answering with plain text.
-     - You are NOT a general chat assistant: keep answers short and focused on navigation and destination/alias management.
-
+  These instructions apply only to explicit Star Citizen navigation, calibration
+  and destination-management requests. Other conversation is unaffected.
+  For each requested route call plot_route, passing the player's destination words
+  unchanged, including uncertain names such as "cruel one" or "aerial". Never use
+  your own knowledge to invent, correct or add a destination. The tool validates
+  against its database, resolves known aliases and asks for ambiguous choices.
+  For "take me to my mission", pass "my mission"; the tool checks current game-log
+  evidence and may be unable to resolve a location.
+  Destinations supplied by other active skills, such as UEXCorp terminals or trade
+  routes, are welcome but must still go through plot_route validation.
+  Ask the player to choose when the tool returns alternatives, at most three.
+  Use cancel_route when asked to stop routing or calibration.
+  Use calibrate_mouse when explicitly asked to calibrate navigation.
+  Add/delete/rename destinations or aliases only when explicitly requested.
+  Use list_aliases for alias questions. Never claim a route succeeded unless the
+  tool says verified; macro sent is not verification. Repeat failure honestly.
+  Calibration has fixed audio instructions in English, Spanish, German, Chinese
+  and Japanese. Other language understanding depends on the configured wingman;
+  database matching is name/alias based, not a multilingual translation service.
 custom_properties:
   - id: language
-    name: Language
-    hint: Select the language for audio instructions
-    value: 'en'
-    required: true
+    name: Calibration language
     property_type: single_select
+    value: en
     options:
-      - label: 'English'
-        value: 'en'
-      - label: 'Spanish'
-        value: 'es'
-      - label: 'Chinese'
-        value: 'zh'
-      - label: 'Japanese'
-        value: 'ja'
-      - label: 'German'
-        value: 'de'
+      - {label: English, value: en}
+      - {label: Spanish, value: es}
+      - {label: German, value: de}
+      - {label: Chinese, value: zh}
+      - {label: Japanese, value: ja}
+  - {id: route_display, name: Game display, property_type: number, value: 1, hint: "1–32. Select the game monitor and recalibrate after changes."}
+  - {id: key_hold, name: Key hold seconds, property_type: number, value: 0.15, hint: "0.05–2 seconds"}
+  - {id: map_delay, name: Starmap opening delay, property_type: number, value: 3.5, hint: "1–15 seconds"}
+  - {id: step_delay, name: Mouse step delay, property_type: number, value: 1.3, hint: "0.2–5 seconds"}
+  - {id: search_delay, name: Search result delay, property_type: number, value: 1.5, hint: "0.5–10 seconds"}
+  - {id: plan_delay, name: Route planning delay, property_type: number, value: 3.0, hint: "0.5–15 seconds"}
+  - {id: zoom_steps, name: Zoom-out wheel steps, property_type: number, value: 60, hint: "0–100 whole steps"}
+  - {id: allow_ai_disambiguation, name: Allow AI candidate choice, property_type: boolean, value: false, hint: "Optional provider call; otherwise ambiguous names ask you."}
+  - {id: verify_route_with_vision, name: Verify route with vision, property_type: boolean, value: false, hint: "Sends an in-memory Starmap screenshot to your configured AI provider."}
+  - {id: vision_display, name: Vision display, property_type: number, value: 1, hint: "1–32. Select the monitor showing the Starmap."}
+  - {id: show_verification_screenshot, name: Show verification image in client log, property_type: boolean, value: false, hint: "Also exposes the screenshot in the client log."}

@@ -1,0 +1,26 @@
+<ActionMaps version="1">
+ <ActionProfiles>
+  <options type="keyboard"/>
+  <modifiers/>
+  <actionmap name="spaceship_hud">
+   <action name="v_starmap">
+    <rebind input="kb1_ralt+3"/>
+   </action>
+  </actionmap>
+  <actionmap name="player">
+   <action name="v_starmap">
+    <rebind input="kb1_ralt+3"/>
+   </action>
+  </actionmap>
+  <actionmap name="vehicle_general">
+   <action name="v_starmap">
+    <rebind input="kb1_ralt+3"/>
+   </action>
+  </actionmap>
+  <actionmap name="mapui">
+   <action name="mapui_action_planroute">
+    <rebind input="kb1_lctrl+r"/>
+   </action>
+  </actionmap>
+ </ActionProfiles>
+</ActionMaps>
