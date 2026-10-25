@@ -77,7 +77,7 @@ class ThreadedTurnTests(unittest.TestCase):
         self.assertIn("cancelled", self.results["calibrate"])
         self.assertIn("cancelled", self.results["cancel"])
         self.assertEqual((self.user/"mouse_calibration.json").read_bytes(), original)
-        self.assertIsNone(self.obj._calibration_prompt)
+        self.assertIsNone(self.obj._operation_kind)
 
     def test_unload_alone_from_another_loop_stops_route(self):
         ready = threading.Event()

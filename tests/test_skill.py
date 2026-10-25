@@ -269,11 +269,11 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(json.loads(path.read_text())["version"],2)
         self.assertIn(b"{broken",[p.read_bytes() for p in (self.user/"recovery").glob("*.bak")])
 
-    async def test_filler_suppressed_but_calibration_instructions_allowed(self):
+    async def test_calibration_speech_passes_through_hook(self):
         clicks=iter([False,False,True,False]*3)
         self.obj.desktop().left_pressed=lambda:next(clicks)
         async def speak(text,**kwargs):
-            self.assertEqual(await self.obj.on_play_to_user("Route set!",None),"{SKIP-TTS}")
+            self.assertEqual(await self.obj.on_play_to_user("Other text",None),"Other text")
             self.assertEqual(await self.obj.on_play_to_user(text,None),text)
             return True
         self.obj.wingman.tts.speak=speak
@@ -308,3 +308,25 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.obj.config.custom_properties=[types.SimpleNamespace(id="verify_route_with_vision",value=True)]
         await call(self.obj,"plot_route",destination="Daymar")
         self.obj.wingman.screen.capture.assert_awaited_once_with(region={"left":0,"top":0,"width":1920,"height":1080})
+
+    async def test_route_filler_is_suppressed_until_completion(self):
+        self.calibrated();ready=asyncio.Event()
+        async def hold(nav,seconds):
+            ready.set();await asyncio.Event().wait()
+        with patch.object(Navigator,"pause",hold):
+            route=asyncio.create_task(call(self.obj,"plot_route",destination="Daymar"))
+            await asyncio.wait_for(ready.wait(),2)
+            self.assertEqual(await self.obj.on_play_to_user("Route set!",None),"{SKIP-TTS}")
+            await call(self.obj,"cancel_route");await route
+        self.assertEqual(await self.obj.on_play_to_user("Finished",None),"Finished")
+
+    async def test_nontext_failed_write_reports_uncertainty(self):
+        from sra_desktop import NonTextClipboard
+        self.calibrated()
+        self.obj.config.custom_properties=[types.SimpleNamespace(id="replace_non_text_clipboard",value=True)]
+        def nontext():raise NonTextClipboard()
+        def fail(text):raise OSError("clipboard busy")
+        self.obj.desktop().clipboard_get=nontext;self.obj.desktop().clipboard_set=fail
+        line=await call(self.obj,"plot_route",destination="Daymar")
+        self.assertIn("may have been replaced",line)
+        self.assertNotIn("clipboard busy",line)

@@ -111,6 +111,7 @@ class Navigator:
         self.held = []
         self.geometry = None
         self.replaced_nontext = False
+        self.nontext_attempted = False
 
     def guard(self, geometry=False):
         if self.cancelled.is_set():
@@ -184,8 +185,9 @@ class Navigator:
             await self.chord(("backspace",))
             self.guard(geometry=True)
             clipboard_touched = True
-            self.replaced_nontext = replace_nontext
+            self.nontext_attempted = replace_nontext
             self.desktop.clipboard_set(search_text or destination)
+            self.replaced_nontext = replace_nontext
             await self.chord(("ctrl", "v"))
             await self.pause(self.config["search_delay"])
             await self.click(points["destination"])
@@ -210,7 +212,7 @@ class Navigator:
         finally:
             if self.release_all():
                 cleanup_errors.append("Release held keys manually.")
-            if clipboard_touched and not self.replaced_nontext:
+            if clipboard_touched and not self.nontext_attempted:
                 restored = False
                 for _ in range(3):
                     try:
@@ -228,9 +230,9 @@ class Navigator:
         task = asyncio.create_task(coroutine)
         try:
             while not task.done():
-                self.guard()
+                self.guard(geometry=self.geometry is not None)
                 await asyncio.wait({task}, timeout=.05)
-            self.guard()
+            self.guard(geometry=self.geometry is not None)
             return await task
         finally:
             if not task.done():

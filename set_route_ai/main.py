@@ -58,7 +58,7 @@ class SetRouteAI(Skill):
         self._done = threading.Event()
         self._done.set()
         self._completion = {"line": ""}
-        self._calibration_prompt = None
+        self._operation_kind = None
         self._desktop = None
         self.user_dir = None
 
@@ -134,7 +134,7 @@ class SetRouteAI(Skill):
 
     async def on_play_to_user(self, text, sound_config):
         with self._operation_lock:
-            suppress = self._busy and text != self._calibration_prompt
+            suppress = self._busy and self._operation_kind == "plot_route"
         return "{SKIP-TTS}" if suppress else text
 
     async def cancel(self):
@@ -166,6 +166,7 @@ class SetRouteAI(Skill):
                 if self._busy:
                     return BUSY, BUSY
                 self._busy = claimed = True
+                self._operation_kind = tool_name
                 self._cancelled = threading.Event()
                 self._done = threading.Event()
                 self._completion = {"line": ""}
@@ -213,6 +214,7 @@ class SetRouteAI(Skill):
                     self._completion["line"] = line
                     self._active = self._owner_loop = None
                     self._busy = False
+                    self._operation_kind = None
                     self._done.set()
             benchmark.finish_snapshot()
 
@@ -361,6 +363,8 @@ class SetRouteAI(Skill):
         finally:
             if navigator.replaced_nontext:
                 self._clipboard_notice = " Your clipboard image or other non-text content was replaced."
+            elif navigator.nontext_attempted:
+                self._clipboard_notice = " Your clipboard image or other non-text content may have been replaced."
         # Only explicit alias edits persist new phrases. An automated macro is
         # not evidence that a guessed destination was the user's intended one.
         return result
@@ -375,14 +379,8 @@ class SetRouteAI(Skill):
         instructions = CALIBRATION[config["language"]]
         points = {}
         async def step(prompt):
-            with self._operation_lock:
-                self._calibration_prompt = prompt
-            try:
-                if not await self.wingman.tts.speak(prompt, interrupt=False):
-                    raise NavigationStopped("Calibration instructions could not be spoken. Check your voice settings.")
-            finally:
-                with self._operation_lock:
-                    self._calibration_prompt = None
+            if not await self.wingman.tts.speak(prompt, interrupt=False):
+                raise NavigationStopped("Calibration instructions could not be spoken. Check your voice settings.")
             while self.wingman.audio.is_playing:
                 await navigator.pause(.02)
             while desktop.left_pressed():
