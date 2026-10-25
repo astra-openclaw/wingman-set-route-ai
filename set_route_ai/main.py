@@ -3,6 +3,7 @@ import asyncio
 import json
 import math
 import re
+import threading
 from pathlib import Path
 
 from skills.skill_base import Skill
@@ -14,14 +15,17 @@ from sra_navigation import (NavigationStopped, Navigator, check_calibration,
                             read_calibration, verify_route)
 
 DEFAULTS = {
-    "language": "en", "route_display": 1, "key_hold": .15, "map_delay": 3.5,
-    "step_delay": 1.3, "search_delay": 1.5, "plan_delay": 3.0, "zoom_steps": 60,
-    "verify_route_with_vision": False, "vision_display": 1,
+    "language": "en", "key_hold": .15, "starmap_hold": 1.4, "map_delay": 3.5,
+    "step_delay": 1.3, "zoom_delay": 2.1, "search_delay": 1.5, "plan_delay": 3.0, "zoom_steps": 60,
+    "verify_route_with_vision": False, "replace_non_text_clipboard": False,
     "show_verification_screenshot": False, "allow_ai_disambiguation": False,
 }
-BOUNDS = {"route_display": (1, 32), "vision_display": (1, 32),
-          "key_hold": (.05, 2), "map_delay": (1, 15), "step_delay": (.2, 5),
-          "search_delay": (.5, 10), "plan_delay": (.5, 15), "zoom_steps": (0, 100)}
+BOUNDS = {"key_hold": (.05, 2), "starmap_hold": (.1, 3), "map_delay": (1, 15),
+          "step_delay": (.2, 5), "zoom_delay": (.2, 10), "search_delay": (.5, 10),
+          "plan_delay": (.5, 15), "zoom_steps": (0, 100)}
+CANCELLED = "Route or calibration cancelled. Check the Starmap before trying again."
+UNEXPECTED = "Navigation stopped; nothing more was sent. The Wingman log has details."
+BUSY = "Navigation is busy. Say 'cancel route' first."
 CALIBRATION = {
     "en": ("Open the Starmap with your bound key, {key}, then click the search bar.",
            "Type a destination in your current system, then click its search result.",
@@ -47,7 +51,14 @@ class SetRouteAI(Skill):
         self.engine = None
         self._data_error = None
         self._active = None
-        self._cancelled = asyncio.Event()
+        self._cancelled = threading.Event()
+        self._operation_lock = threading.Lock()
+        self._busy = False
+        self._owner_loop = None
+        self._done = threading.Event()
+        self._done.set()
+        self._completion = {"line": ""}
+        self._calibration_prompt = None
         self._desktop = None
         self.user_dir = None
 
@@ -56,24 +67,27 @@ class SetRouteAI(Skill):
         for prop in self.config.custom_properties or []:
             if prop.id in values:
                 values[prop.id] = prop.value
+        labels = {prop.id: getattr(prop, "name", None) for prop in self.config.custom_properties or []}
         for key, (low, high) in BOUNDS.items():
+            label = labels.get(key) or key.replace("_", " ")
             value = values[key]
             if isinstance(value, bool):
-                raise DataError(f"Invalid {key} setting.")
+                raise DataError(f"Invalid {label} setting.")
             try:
                 value = float(value)
             except (TypeError, ValueError):
-                raise DataError(f"Invalid {key} setting.") from None
+                raise DataError(f"Invalid {label} setting.") from None
             if not math.isfinite(value) or not low <= value <= high:
-                raise DataError(f"{key} must be between {low} and {high}.")
-            if key in ("route_display", "vision_display", "zoom_steps"):
+                raise DataError(f"{label} must be between {low} and {high}.")
+            if key == "zoom_steps":
                 if not value.is_integer():
-                    raise DataError(f"{key} must be a whole number.")
+                    raise DataError(f"{label} must be a whole number.")
                 value = int(value)
             values[key] = value
-        for key in ("verify_route_with_vision", "show_verification_screenshot", "allow_ai_disambiguation"):
+        for key in ("verify_route_with_vision", "show_verification_screenshot", "allow_ai_disambiguation", "replace_non_text_clipboard"):
             if not isinstance(values[key], bool):
-                raise DataError(f"{key} must be true or false.")
+                label = labels.get(key) or key.replace("_", " ")
+                raise DataError(f"{label} must be true or false.")
         if values["language"] not in CALIBRATION:
             raise DataError("Calibration language must be en, es, de, zh or ja.")
         return values
@@ -87,8 +101,8 @@ class SetRouteAI(Skill):
             self._data_error = None
         except (DataError, OSError) as exc:
             self.engine = None
-            self._data_error = str(exc)
-            self.log.error(self._data_error)
+            self.log.error(f"SetRouteAI data initialization failed: {exc!r}")
+            self._data_error = "Saved navigation data could not be loaded. The original was preserved; check the Wingman log."
         return errors
 
     async def unload(self):
@@ -102,9 +116,9 @@ class SetRouteAI(Skill):
 
     def get_tools(self):
         specs = [
-            ("plot_route", "Plot a route to an existing database destination. Pass the player's actual destination words or 'my mission'.", ("destination",)),
+            ("plot_route", "Plot a route to a database destination. Correct mishearings and translate to the intended in-game name using Star Citizen knowledge; pass the original words in heard when different. Use my mission for mission routing.", ("destination",)),
             ("cancel_route", "Cancel active routing or calibration immediately.", ()),
-            ("calibrate_mouse", "Calibrate three Starmap positions on the selected display; follow spoken instructions.", ()),
+            ("calibrate_mouse", "Calibrate three Starmap positions on the game monitor; follow spoken instructions.", ()),
             ("add_destination", "Explicitly add a custom in-game destination.", ("name",)),
             ("delete_destination", "Delete a destination and all its aliases and learned mappings.", ("name",)),
             ("rename_destination", "Rename a destination and preserve its aliases and learned names.", ("old_name", "new_name")),
@@ -113,29 +127,50 @@ class SetRouteAI(Skill):
             ("list_aliases", "List aliases for a destination.", ("destination",)),
         ]
         return [(name, {"type": "function", "function": {"name": name, "description": description,
-                 "parameters": {"type": "object", "properties": {p: {"type": "string"} for p in params},
+                 "parameters": {"type": "object", "properties": {**{p: {"type": "string"} for p in params},
+                                               **({"heard": {"type": "string", "description": "Player's original words when different from destination."}} if name == "plot_route" else {})},
                                 "required": list(params), "additionalProperties": False}}})
                 for name, description, params in specs]
 
+    async def on_play_to_user(self, text, sound_config):
+        with self._operation_lock:
+            suppress = self._busy and text != self._calibration_prompt
+        return "{SKIP-TTS}" if suppress else text
+
     async def cancel(self):
-        task = self._active
-        if task is None or task.done():
-            return "No route or calibration is running."
-        self._cancelled.set()
-        task.cancel()
-        results = await asyncio.gather(task, return_exceptions=True)
-        if results and isinstance(results[0], NavigationStopped):
-            return str(results[0])
-        return "Route or calibration cancelled. The in-game route was not verified."
+        with self._operation_lock:
+            if not self._busy:
+                return "No route or calibration is running."
+            already_stopping = self._cancelled.is_set()
+            self._cancelled.set()
+            task, loop, done = self._active, self._owner_loop, self._done
+            completion = self._completion
+            if task is not None and loop is not None and not already_stopping:
+                loop.call_soon_threadsafe(task.cancel)
+        # Never await a task/future owned by another turn's loop.
+        if not await asyncio.to_thread(done.wait, 10):
+            return "Navigation is stopping. Wait before requesting another route."
+        return completion["line"] or CANCELLED
 
     async def execute_tool(self, tool_name, parameters, benchmark):
         benchmark.start_snapshot(f"SetRouteAI: {tool_name}")
+        claimed = False
+        line = ""
         try:
             if tool_name == "cancel_route":
                 line = await self.cancel()
                 return line, line
-            if self._active and not self._active.done():
-                return "Navigation is busy. Use cancel_route first.", ""
+            # Covers validation and edits too: no stale engine snapshot or
+            # concurrent state write can race a navigation claim.
+            with self._operation_lock:
+                if self._busy:
+                    return BUSY, BUSY
+                self._busy = claimed = True
+                self._cancelled = threading.Event()
+                self._done = threading.Event()
+                self._completion = {"line": ""}
+                self._clipboard_notice = ""
+                self._owner_loop = asyncio.get_running_loop()
             if self.engine is None:
                 await self.validate()
             if self._data_error:
@@ -143,26 +178,42 @@ class SetRouteAI(Skill):
             config = self.settings_snapshot()
             known = dict(self.get_tools())
             if tool_name not in known:
-                return "Unknown SetRouteAI tool.", ""
+                return "Unknown navigation request.", ""
             required = known[tool_name]["function"]["parameters"]["required"]
             if any(not isinstance(parameters.get(k), str) or not parameters[k].strip() for k in required):
                 return "Please supply the required destination or alias text.", ""
-            if tool_name in ("plot_route", "calibrate_mouse"):
-                self._cancelled = asyncio.Event()
-                self._active = asyncio.create_task(self._navigation(tool_name, parameters, config))
+            if "heard" in parameters and not isinstance(parameters["heard"], str):
+                return "Please repeat the destination name.", ""
+            with self._operation_lock:
+                if self._cancelled.is_set():
+                    raise NavigationStopped(CANCELLED)
+                if tool_name in ("plot_route", "calibrate_mouse"):
+                    self._active = asyncio.create_task(self._navigation(tool_name, parameters, config))
+            if self._active is not None:
                 try:
                     line = await self._active
                 except asyncio.CancelledError:
-                    line = "Route or calibration cancelled. The in-game route was not verified."
-                finally:
-                    self._active = None
+                    if not self._cancelled.is_set():
+                        raise
+                    line = CANCELLED
             else:
                 line = self._edit(tool_name, parameters)
+            line += self._clipboard_notice
             return line, line
-        except (DataError, BindError, NavigationStopped, OSError, RuntimeError) as exc:
-            line = str(exc)
+        except (DataError, BindError, NavigationStopped) as exc:
+            line = str(exc) + getattr(self, "_clipboard_notice", "")
+            return line, line
+        except Exception as exc:
+            self.log.error(f"SetRouteAI operation failed: {exc!r}")
+            line = UNEXPECTED + getattr(self, "_clipboard_notice", "")
             return line, line
         finally:
+            if claimed:
+                with self._operation_lock:
+                    self._completion["line"] = line
+                    self._active = self._owner_loop = None
+                    self._busy = False
+                    self._done.set()
             benchmark.finish_snapshot()
 
     def _edit(self, name, p):
@@ -229,7 +280,7 @@ class SetRouteAI(Skill):
     async def choose(self, phrase, candidates):
         if not candidates:
             return None
-        labels = {d: self.engine.display(d) for d in candidates}
+        labels = {d: self.engine.label(d) for d in candidates}
         try:
             so = getattr(self.wingman, "system_one", None)
             if so and so.available:
@@ -269,22 +320,47 @@ class SetRouteAI(Skill):
                 return "I can't resolve an active mission location from the game log to a database destination. Name the destination."
             target = candidates[0] if len(candidates) == 1 else None
         else:
-            target, candidates = self.engine.find_destination(phrase, state.get("system"))
-        if not target and candidates and config["allow_ai_disambiguation"]:
+            target, candidates = await asyncio.to_thread(self.engine.find_destination, phrase, state.get("system"))
+        must_ask = False
+        heard = p.get("heard", "").strip()
+        if heard and normalize(heard) != normalize(phrase):
+            heard_target, heard_choices = await asyncio.to_thread(self.engine.find_destination, heard, state.get("system"))
+            if target and target in heard_choices:
+                target, candidates, must_ask = None, heard_choices, True
+            elif target and heard_target and target != heard_target:
+                target, candidates, must_ask = None, sorted({target, heard_target}), True
+            elif not target and heard_target:
+                target, candidates = heard_target, []
+            elif not target and heard_choices:
+                candidates = sorted(set(candidates) | set(heard_choices))
+        if not target and candidates and not must_ask and config["allow_ai_disambiguation"]:
             target = await self.choose(phrase, candidates[:3])
         if not target:
             if candidates:
-                return "Which destination did you mean: " + ", ".join(self.engine.display(k) for k in candidates[:3]) + "?"
+                return "Which destination did you mean: " + ", or ".join(self.engine.label(k) for k in candidates[:3]) + "?"
             return f'Destination "{phrase}" is not in the navigation database. No route input was sent.'
-        calibration = read_calibration(self.user_dir / "mouse_calibration.json")
+        unavailable = self.engine.destinations[target].get("unavailable_reason")
+        if unavailable:
+            return f"{self.engine.display(target)} is marked {unavailable} by UEX. No route input was sent."
+        try:
+            calibration = read_calibration(self.user_dir / "mouse_calibration.json")
+        except DataError:
+            return "Calibration is unreadable; the original was preserved and backed up. Say 'calibrate starmap' to replace it."
         if calibration is None:
-            return "Calibration is required. Run calibrate_mouse with Star Citizen focused."
+            return "Calibration is required. Focus Star Citizen and say 'calibrate starmap'."
         bindings = self.bindings()
         navigator = Navigator(self.desktop(), config, self._cancelled)
         destination = self.engine.display(target)
-        result = await navigator.plot(destination, calibration, bindings,
-            lambda: verify_route(self.wingman, self.printr, destination,
-                                 config["vision_display"], config["show_verification_screenshot"]))
+        left, top, right, bottom = calibration["geometry"]["window"] if calibration.get("geometry") else (0,0,0,0)
+        region = {"left": left, "top": top, "width": right-left, "height": bottom-top}
+        try:
+            result = await navigator.plot(destination, calibration, bindings,
+                lambda: verify_route(self.wingman, self.printr, destination,
+                                     region, config["show_verification_screenshot"]),
+                search_text=self.engine.search_text(target))
+        finally:
+            if navigator.replaced_nontext:
+                self._clipboard_notice = " Your clipboard image or other non-text content was replaced."
         # Only explicit alias edits persist new phrases. An automated macro is
         # not evidence that a guessed destination was the user's intended one.
         return result
@@ -293,14 +369,20 @@ class SetRouteAI(Skill):
         desktop = self.desktop()
         navigator = Navigator(desktop, config, self._cancelled)
         navigator.guard()
-        geometry = desktop.geometry(config["route_display"])
+        geometry = desktop.geometry()
         navigator.geometry = geometry
         keys = "+".join(self.bindings()["starmap"])
         instructions = CALIBRATION[config["language"]]
         points = {}
         async def step(prompt):
-            if not await self.wingman.tts.speak(prompt, interrupt=False):
-                raise RuntimeError("Calibration instructions could not be spoken.")
+            with self._operation_lock:
+                self._calibration_prompt = prompt
+            try:
+                if not await self.wingman.tts.speak(prompt, interrupt=False):
+                    raise NavigationStopped("Calibration instructions could not be spoken. Check your voice settings.")
+            finally:
+                with self._operation_lock:
+                    self._calibration_prompt = None
             while self.wingman.audio.is_playing:
                 await navigator.pause(.02)
             while desktop.left_pressed():
@@ -320,7 +402,10 @@ class SetRouteAI(Skill):
         navigator.guard(geometry=True)
         data = {"version": 2, "geometry": geometry, "starmap": points}
         check_calibration(data, geometry)
-        # Do not overwrite corrupt calibration even after a successful capture.
-        read_calibration(self.user_dir / "mouse_calibration.json")
+        # A complete recalibration may replace corrupt bytes only after backup.
+        from sra_storage import backup_bytes
+        path = self.user_dir / "mouse_calibration.json"
+        if path.exists():
+            backup_bytes(path, self.user_dir / "recovery")
         atomic_json(self.user_dir / "mouse_calibration.json", data)
         return "Mouse calibration complete. Close the Starmap before requesting a route."

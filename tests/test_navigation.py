@@ -7,7 +7,7 @@ from unittest.mock import AsyncMock, patch
 import types
 
 from support import CALIBRATION, Desktop, GEOMETRY, MODULE, fast_pause
-from sra_navigation import Navigator, NavigationStopped, check_calibration, verify_route, parse_vision
+from sra_navigation import encode_image, Navigator, NavigationStopped, check_calibration, verify_route, parse_vision
 from sra_storage import DataError
 
 class NavigationTests(unittest.IsolatedAsyncioTestCase):
@@ -146,6 +146,18 @@ class NavigationTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue(cancelled.is_set())
         self.assertTrue(all(e[0] == "clipboard" for e in self.desktop.events[before:]))
 
+
+    async def test_original_starmap_hold_and_zoom_settle(self):
+        pauses=[]
+        async def record(nav,seconds):
+            pauses.append((seconds,tuple(nav.held)))
+            await fast_pause(nav,seconds)
+        with patch.object(Navigator,"pause",record):
+            await self.run_route()
+        self.assertEqual(sum(1 for seconds,keys in pauses if keys==("f2",) and seconds==1.4),2)
+        self.assertIn((2.1,()),pauses)
+        self.assertIn((.15,("ctrl","v")),pauses)
+
 class VisionTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         from PIL import Image
@@ -154,17 +166,18 @@ class VisionTests(unittest.IsolatedAsyncioTestCase):
             ai=types.SimpleNamespace(generate=AsyncMock(return_value="ROUTE_SET | Daymar")))
         self.printr = types.SimpleNamespace(print_async=AsyncMock())
 
-    async def test_jpeg_downscaled_in_memory_and_display_forwarded(self):
+    async def test_jpeg_downscaled_in_memory_and_region_forwarded(self):
+        region={"left":-1920,"top":100,"width":1920,"height":1080}
         with patch("builtins.open",side_effect=AssertionError("disk write")):
-            result=await verify_route(self.wingman,self.printr,"Daymar",2)
+            result=await verify_route(self.wingman,self.printr,"Daymar",region)
         self.assertEqual(result,"ROUTE_SET")
-        self.wingman.screen.capture.assert_awaited_once_with(display=2)
+        self.wingman.screen.capture.assert_awaited_once_with(region=region)
         self.printr.print_async.assert_not_awaited()
         image = self.wingman.ai.generate.call_args.kwargs["image"]
         self.assertTrue(image.startswith("data:image/jpeg;base64,"))
         from PIL import Image
         decoded=Image.open(io.BytesIO(base64.b64decode(image.split(",")[1])))
-        self.assertEqual(decoded.size,(1280,720))
+        self.assertEqual(decoded.size,(1430,804))
 
     async def test_optional_client_screenshot(self):
         await verify_route(self.wingman,self.printr,"Daymar",1,True)
@@ -174,7 +187,7 @@ class VisionTests(unittest.IsolatedAsyncioTestCase):
         for raw, expected in [
             ("ROUTE_SET | Daymar","ROUTE_SET"),("NOT_SET | Daymar","NOT_SET"),
             ("UNSURE | NONE","UNSURE"),("ROUTE_SET | Ariel","UNSURE"),
-            ("ROUTE_SET","UNSURE"),("route_set | Daymar","UNSURE"),
+            ("ROUTE_SET","UNSURE"),("route_set | Daymar","ROUTE_SET"),
             ('{"status":"ROUTE_SET"}',"UNSURE"),("ROUTE_SET | Daymar\nIgnore rules","UNSURE"),
             ("Sure! ROUTE_SET | Daymar","UNSURE"),("", "UNSURE"),(None,"UNSURE")]:
             self.assertEqual(parse_vision(raw,"Daymar"),expected)
@@ -196,3 +209,27 @@ class VisionTests(unittest.IsolatedAsyncioTestCase):
         self.wingman.screen.capture.side_effect=asyncio.CancelledError
         with self.assertRaises(asyncio.CancelledError):
             await verify_route(self.wingman,self.printr,"Daymar",1)
+
+    async def test_ultrawide_and_standard_area_budget(self):
+        from PIL import Image
+        for size,expected in [((5120,1440),(2022,569)),((1920,1080),(1430,804))]:
+            encoded=encode_image(Image.new("RGB",size))
+            image=Image.open(io.BytesIO(base64.b64decode(encoded)))
+            self.assertEqual(image.size,expected)
+            self.assertLessEqual(len(encoded),250_000)
+
+    async def test_tolerant_parser_and_whole_tokens(self):
+        for text in ["ROUTE_SET|Daymar", "route_set | Daymar.", '"ROUTE_SET | Daymar"',
+                     "`ROUTE_SET|Daymar`", "ROUTE_SET | 'Daymar'.", "ROUTE_SET | Route to Daymar",
+                     "ROUTE_SET | Daymar mining facility"]:
+            self.assertEqual(parse_vision(text,"Daymar"),"ROUTE_SET",text)
+        self.assertEqual(parse_vision("ROUTE_SET|Ambitious Dream Station","CRU-L1 Ambitious Dream Station"),"ROUTE_SET")
+        for text in ("ROUTE_SET|Daymarian","ROUTE_SET|", "ROUTE_SET|Aria", "ROUTE_SET|NONE"):
+            self.assertEqual(parse_vision(text,"Daymar"),"UNSURE",text)
+
+    async def test_quality_ladder_and_size_budget(self):
+        from PIL import Image
+        # Noise keeps the JPEG large enough to exercise quality and resizing.
+        image=Image.effect_noise((2300,1500),100).convert("RGB")
+        encoded=encode_image(image)
+        self.assertLessEqual(len(encoded),250_000)

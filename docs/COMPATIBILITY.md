@@ -11,7 +11,7 @@ References below are paths and line numbers in the official `ShipBit/wingman-ai`
 | Legacy tool API | `skills/skill_base.py:442–445`, `:698`, `:826` | Keep supported `get_tools` / `execute_tool`; benchmark object is duck-typed, no service import. |
 | Lifecycle | `skills/skill_base.py:514`, `:585`, `:664`, `:689`, `:777` | Fresh settings per operation; validation loads data; unload cancels owned work; base hooks preserved. |
 | Persistent user data | `skills/skill_base.py:929–945` | `get_generated_files_dir()` only; shipped database is immutable. Atomic JSON overlay stores edits, learning and migration receipt. |
-| Screen capture | `wingmen/facade.py:1627–1652` | Await `screen.capture(display=...)`; handle `RuntimeError`; no direct screen-capture services. |
+| Screen capture | `wingmen/facade.py:1627–1652` | Await `screen.capture(region=...)`; handle `RuntimeError`; no direct screen-capture services. |
 | Vision | `wingmen/facade.py:359–444`, `:280`, `:23`; `skills/vision_ai/main.py:60–92` | Await `ai.generate(prompt, system=..., image=...)`, a string result. Capped calls may raise `FacadeError`. JPEG encoding/downscaling on a worker thread; no disk screenshots. Pillow ships in `requirements.txt:93`. |
 | Client image logging | `skills/MIGRATING-TO-V3.md:150–177` | Optional `printr.print_async(additional_data={"image_base64": ...})`; off by default. |
 | Game folder | `wingmen/facade.py:1653–1711` | `star_citizen.environment_path("LIVE")`; read `user/client/0/Profiles/default/actionmaps.xml`, never write it. |
@@ -27,9 +27,9 @@ References below are paths and line numbers in the official `ShipBit/wingman-ai`
 Read the real `ActionMaps/ActionProfiles/actionmap/action/rebind` hierarchy.
 `v_starmap` defaults to F2 across `spaceship_hud`, `player`, `vehicle_general`;
 `mapui_action_planroute` defaults to R in `mapui`. Missing files/actions use defaults.
-An explicit empty binding is unbound, not a default. Conflicting effective Starmap
+An explicit blank kb1_ keyboard binding is unbound, not a default. Conflicting effective Starmap
 bindings across maps refuse routing, since the active gameplay context is unknown.
-Unsupported device bindings or key names refuse routing with guidance. Modifiers
+Joystick/gamepad rebinds do not override keyboard defaults. Unknown keyboard key names refuse routing with guidance. Modifiers
 are translated into keyboard-package names; no actionmaps file is edited.
 
 ## Verification boundary
@@ -47,7 +47,7 @@ cross-loop task await is permitted.
 
 The documented `skills/skill_base.py:887–892` speech hook accepts `{SKIP-TTS}`.
 While route input is running, the hook suppresses unsolicited speech. Calibration
-instructions go directly through the supported TTS facade.
+instructions use the supported TTS facade and are explicitly allowed by the hook.
 
 `wingmen/facade.py:1627–1652` accepts `region` on screen capture.
 Core `services/screen_capture.py` passes the region through to mss in absolute

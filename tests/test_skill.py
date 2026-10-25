@@ -33,8 +33,8 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.calibrated()
         for phrase,name in (("plot a route to Daymar","Daymar"),("set course for cruel one","CRU-L1 Ambitious Dream Station")):
             line=await call(self.obj,"plot_route",destination=phrase)
-            self.assertEqual(line,f"Route macro sent for {name}. The in-game route was not verified.")
-        self.assertEqual(await call(self.obj,"plot_route",destination="aerial"),"Which destination did you mean: Arial, Ariel?")
+            self.assertEqual(line,f"Route request sent for {name}. The in-game route was not verified.")
+        self.assertEqual(await call(self.obj,"plot_route",destination="aerial"),"Which destination did you mean: Arial in Stanton, or Ariel in Sol?")
         self.assertEqual(await call(self.obj,"plot_route",destination="CRU L99"),
                          'Destination "CRU L99" is not in the navigation database. No route input was sent.')
 
@@ -48,7 +48,7 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.obj.wingman.sc_gamelog=types.SimpleNamespace(available=True,state=lambda:{
             "system":"Stanton","active_missions":{"m":{"name":"Delivery","objective":"Deliver cargo to Daymar","objectives":["Deliver cargo to Daymar"]}}})
         line=await call(self.obj,"plot_route",destination="take me to my mission")
-        self.assertIn("macro sent for Daymar",line)
+        self.assertIn("request sent for Daymar",line)
 
     async def test_multiple_mission_locations_ask(self):
         self.obj.wingman.sc_gamelog=types.SimpleNamespace(available=True,state=lambda:{
@@ -103,7 +103,7 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("my yard",self.obj.engine.alias_index)
 
     async def test_bad_settings_and_live_settings_changes(self):
-        for key,value in (("key_hold",0),("route_display",1.5),("plan_delay",float("nan")),("zoom_steps",101),("verify_route_with_vision","false")):
+        for key,value in (("key_hold",0),("zoom_steps",1.5),("plan_delay",float("nan")),("zoom_steps",101),("verify_route_with_vision","false")):
             self.obj.config.custom_properties=[types.SimpleNamespace(id=key,value=value)]
             with self.assertRaises(DataError):self.obj.settings_snapshot()
         self.obj.config.custom_properties=[types.SimpleNamespace(id="verify_route_with_vision",value=True)]
@@ -184,3 +184,127 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertNotIn("NOT a general chat",config["prompt"])
         self.assertEqual(config["author"],"Thord - galacticgearjammer - ProjectGnome, Dominicus")
         self.assertEqual(config["version"],"3.2.0")
+
+    async def test_translated_and_original_phrases(self):
+        self.calibrated()
+        line=await call(self.obj,"plot_route",destination="Seraphim Station",heard="estación serafín")
+        self.assertIn("request sent for Seraphim Station",line)
+        self.obj.desktop().events.clear()
+        line=await call(self.obj,"plot_route",destination="Arial",heard="aerial")
+        self.assertEqual(line,"Which destination did you mean: Arial in Stanton, or Ariel in Sol?")
+        self.assertFalse(self.obj.desktop().events)
+        self.obj.wingman.sc_gamelog=types.SimpleNamespace(available=True,state=lambda:{"system":"Stanton"})
+        self.assertIn("request sent for Arial",await call(self.obj,"plot_route",destination="Arial",heard="aerial"))
+
+    async def test_unique_mismatch_asks_even_with_ai_enabled(self):
+        self.calibrated()
+        self.obj.config.custom_properties=[types.SimpleNamespace(id="allow_ai_disambiguation",value=True)]
+        line=await call(self.obj,"plot_route",destination="Daymar",heard="Orison")
+        self.assertIn("Which destination",line)
+        self.assertIn("Daymar in Stanton",line);self.assertIn("Orison in Stanton",line)
+        self.assertFalse(self.obj.desktop().events)
+        self.obj.wingman.ai.generate.assert_not_awaited()
+
+    async def test_only_heard_resolves_and_schema_optional_heard(self):
+        self.calibrated()
+        self.assertIn("request sent for Daymar",await call(self.obj,"plot_route",destination="Imaginary Nebula",heard="Daymar"))
+        schema=dict(self.obj.get_tools())["plot_route"]["function"]["parameters"]
+        self.assertEqual(schema["required"],["destination"])
+        self.assertIn("heard",schema["properties"])
+
+    async def test_unknown_exceptions_logged_never_spoken(self):
+        from unittest.mock import Mock
+        self.obj.log.error=Mock()
+        for exc in (RuntimeError("SECRET_EXCEPTION_DETAIL"), OSError("SECRET_EXCEPTION_DETAIL")):
+            with patch.object(self.obj,"_navigation",side_effect=exc):
+                line=await call(self.obj,"plot_route",destination="Daymar")
+            self.assertEqual(line,MODULE.UNEXPECTED)
+            self.assertNotIn("SECRET_EXCEPTION_DETAIL",line)
+        self.assertEqual(self.obj.log.error.call_count,2)
+
+    async def test_external_cancellation_propagates_and_cleans(self):
+        self.calibrated();ready=asyncio.Event()
+        async def hold(nav,seconds):
+            if "v" in nav.held:
+                ready.set();await asyncio.Event().wait()
+            await fast_pause(nav,seconds)
+        with patch.object(Navigator,"pause",hold):
+            task=asyncio.create_task(call(self.obj,"plot_route",destination="Daymar"))
+            await asyncio.wait_for(ready.wait(),2);task.cancel()
+            with self.assertRaises(asyncio.CancelledError):await task
+        self.assertFalse(self.obj._busy);self.assertTrue(self.obj._done.is_set())
+        self.assertEqual(self.obj.desktop().clipboard,"previous text")
+        self.assertFalse(self.obj.desktop().keys)
+
+    async def test_nontext_clipboard_opt_in_and_notice(self):
+        from sra_desktop import NonTextClipboard
+        self.calibrated()
+        def nontext():raise NonTextClipboard()
+        self.obj.desktop().clipboard_get=nontext
+        line=await call(self.obj,"plot_route",destination="Daymar")
+        self.assertIn("Copy some text first",line);self.assertFalse(self.obj.desktop().events)
+        self.obj.config.custom_properties=[types.SimpleNamespace(id="replace_non_text_clipboard",value=True)]
+        line=await call(self.obj,"plot_route",destination="Daymar")
+        self.assertIn("clipboard image or other non-text content was replaced",line)
+        self.assertEqual(self.obj.desktop().clipboard,"Daymar")
+
+    async def test_nontext_clipboard_cancel_notice(self):
+        from sra_desktop import NonTextClipboard
+        self.calibrated()
+        self.obj.config.custom_properties=[types.SimpleNamespace(id="replace_non_text_clipboard",value=True)]
+        def nontext():raise NonTextClipboard()
+        self.obj.desktop().clipboard_get=nontext
+        self.obj.desktop().on_event=lambda event:self.obj._cancelled.set() if event==("clipboard","Daymar") else None
+        line=await call(self.obj,"plot_route",destination="Daymar")
+        self.assertIn("cancelled",line)
+        self.assertIn("clipboard image or other non-text content was replaced",line)
+
+    async def test_recalibration_replaces_corrupt_only_after_byte_backup(self):
+        import json
+        path=self.user/"mouse_calibration.json";path.write_bytes(b"{broken")
+        clicks=iter([False,False,True,False]*3)
+        self.obj.desktop().left_pressed=lambda:next(clicks)
+        self.obj.desktop().position=lambda:(200,120)
+        self.assertIn("complete",await call(self.obj,"calibrate_mouse"))
+        self.assertEqual(json.loads(path.read_text())["version"],2)
+        self.assertIn(b"{broken",[p.read_bytes() for p in (self.user/"recovery").glob("*.bak")])
+
+    async def test_filler_suppressed_but_calibration_instructions_allowed(self):
+        clicks=iter([False,False,True,False]*3)
+        self.obj.desktop().left_pressed=lambda:next(clicks)
+        async def speak(text,**kwargs):
+            self.assertEqual(await self.obj.on_play_to_user("Route set!",None),"{SKIP-TTS}")
+            self.assertEqual(await self.obj.on_play_to_user(text,None),text)
+            return True
+        self.obj.wingman.tts.speak=speak
+        self.assertIn("complete",await call(self.obj,"calibrate_mouse"))
+        self.assertEqual(await self.obj.on_play_to_user("Finished",None),"Finished")
+
+    async def test_decommissioned_and_closed_refused(self):
+        self.calibrated()
+        for place in ("Port Olisar","Kudre Ore Mine","MT DataCenter L8P-JUC-8"):
+            line=await call(self.obj,"plot_route",destination=place)
+            self.assertIn("marked",line);self.assertIn("No route input",line)
+        self.assertFalse(self.obj.desktop().events)
+
+    async def test_fuzzy_resolution_is_off_event_loop(self):
+        import threading
+        owner=threading.get_ident();original=self.obj.engine.find_destination
+        def check(*args,**kwargs):
+            self.assertNotEqual(threading.get_ident(),owner)
+            return original(*args,**kwargs)
+        self.obj.engine.find_destination=check
+        self.assertIn("Which destination",await call(self.obj,"plot_route",destination="Gateway"))
+
+    async def test_gateway_search_excludes_system_qualifier(self):
+        self.calibrated()
+        self.obj.wingman.sc_gamelog=types.SimpleNamespace(available=True,state=lambda:{"system":"Nyx"})
+        self.assertIn("Stanton Gateway",await call(self.obj,"plot_route",destination="Stanton Gateway"))
+        self.assertIn(("clipboard","Stanton Gateway"),self.obj.desktop().events)
+        self.assertNotIn(("clipboard","Stanton Gateway (Nyx)"),self.obj.desktop().events)
+
+    async def test_window_region_uses_calibrated_absolute_pixels(self):
+        self.calibrated()
+        self.obj.config.custom_properties=[types.SimpleNamespace(id="verify_route_with_vision",value=True)]
+        await call(self.obj,"plot_route",destination="Daymar")
+        self.obj.wingman.screen.capture.assert_awaited_once_with(region={"left":0,"top":0,"width":1920,"height":1080})

@@ -53,3 +53,26 @@ class Win32Tests(unittest.TestCase):
         emptied=[];self.user.EmptyClipboard.action=lambda:emptied.append(True)
         with self.assertRaisesRegex(RuntimeError,"non-text"):self.desktop.clipboard_get()
         self.assertEqual(emptied,[])
+
+    def test_geometry_selects_game_monitor_with_absolute_pixels(self):
+        # Two monitors; the foreground game lives on the negative-X monitor.
+        self.user.MonitorFromWindow.action=lambda *a:202
+        def info(handle,pointer):
+            record=pointer._obj
+            record.szDevice="DISPLAY2" if handle==202 else "DISPLAY1"
+            r=record.rcMonitor
+            r.left=-1920 if handle==202 else 0;r.top=0
+            r.right=0 if handle==202 else 1920;r.bottom=1080
+            return 1
+        self.user.GetMonitorInfoW.action=info
+        def rect(hwnd,pointer):
+            r=pointer._obj;r.left=-1800;r.top=100;r.right=-200;r.bottom=1000
+            return 1
+        self.user.GetWindowRect.action=rect
+        def enumerate_monitors(hdc,clip,callback,data):
+            return callback(101,None,None,0) and callback(202,None,None,0)
+        self.user.EnumDisplayMonitors.action=enumerate_monitors
+        with patch.object(ctypes,"WINFUNCTYPE",ctypes.CFUNCTYPE,create=True):
+            geometry=self.desktop.geometry()
+        self.assertEqual(geometry,{"display":2,"device":"DISPLAY2","left":-1920,"top":0,
+                                   "width":1920,"height":1080,"window":[-1800,100,-200,1000]})

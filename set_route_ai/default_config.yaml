@@ -7,11 +7,11 @@ display_name: SetRouteAI
 author: Thord - galacticgearjammer - ProjectGnome, Dominicus
 tags: [Star Citizen, Navigation, Utility]
 description:
-  en: Calibrated, foreground-guarded Star Citizen navigation with optional route vision.
+  en: "Plot a route, set course, or say take me to a Star Citizen destination. Calibrate your Starmap, navigate by voice, and optionally check the route with vision."
 hint:
   en: Calibrate first. Start routing with the Starmap closed and Star Citizen focused.
 discoverable_by_default: false
-discovery_keywords: [plot route, set course, navigation, calibrate starmap, cancel route, my mission, alias]
+discovery_keywords: [plot a route, plot route, set course, take me to, navigate to, fly to, Starmap, calibrate starmap, cancel route, my mission, alias]
 examples:
   - en: Plot a route to Daymar.
   - en: Set course for cruel one.
@@ -19,10 +19,14 @@ examples:
 prompt: |
   These instructions apply only to explicit Star Citizen navigation, calibration
   and destination-management requests. Other conversation is unaffected.
-  For each requested route call plot_route, passing the player's destination words
-  unchanged, including uncertain names such as "cruel one" or "aerial". Never use
-  your own knowledge to invent, correct or add a destination. The tool validates
-  against its database, resolves known aliases and asks for ambiguous choices.
+  For each requested route call plot_route with destination set to the intended
+  in-game name. Use Star Citizen knowledge to correct mishearings and translate
+  other languages, as in "cru ele uno" or "cruel one" -> "CRU L1",
+  "estación serafín" -> "Seraphim Station", or "the prison on Aberdeen" ->
+  "Klescher Rehabilitation Facility". When the words differ, also pass the
+  player's original words as heard. Do not silently choose between ambiguous
+  names: destination "Arial" with heard "aerial" lets the tool check the ambiguity.
+  The tool validates both against its database; never invent or add a destination.
   For "take me to my mission", pass "my mission"; the tool checks current game-log
   evidence and may be unable to resolve a location.
   Destinations supplied by other active skills, such as UEXCorp terminals or trade
@@ -35,7 +39,8 @@ prompt: |
   tool says verified; macro sent is not verification. Repeat failure honestly.
   Calibration has fixed audio instructions in English, Spanish, German, Chinese
   and Japanese. Other language understanding depends on the configured wingman;
-  database matching is name/alias based, not a multilingual translation service.
+  the model can translate to in-game names, but only database names can route.
+  Fixed tool-result lines are English. Do not promise universal language support.
 custom_properties:
   - id: language
     name: Calibration language
@@ -47,7 +52,9 @@ custom_properties:
       - {label: German, value: de}
       - {label: Chinese, value: zh}
       - {label: Japanese, value: ja}
-  - {id: route_display, name: Game display, property_type: number, value: 1, hint: "1–32. Select the game monitor and recalibrate after changes."}
+  - {id: starmap_hold, name: Starmap key hold seconds, property_type: number, value: 1.4, hint: "0.1–3 seconds; original timing"}
+  - {id: zoom_delay, name: Zoom settle delay, property_type: number, value: 2.1, hint: "0.2–10 seconds; original timing"}
+  - {id: replace_non_text_clipboard, name: Replace a non-text clipboard, property_type: boolean, value: false, hint: "Allows replacing a clipboard image or other non-text content. It cannot be restored."}
   - {id: key_hold, name: Key hold seconds, property_type: number, value: 0.15, hint: "0.05–2 seconds"}
   - {id: map_delay, name: Starmap opening delay, property_type: number, value: 3.5, hint: "1–15 seconds"}
   - {id: step_delay, name: Mouse step delay, property_type: number, value: 1.3, hint: "0.2–5 seconds"}
@@ -56,5 +63,4 @@ custom_properties:
   - {id: zoom_steps, name: Zoom-out wheel steps, property_type: number, value: 60, hint: "0–100 whole steps"}
   - {id: allow_ai_disambiguation, name: Allow AI candidate choice, property_type: boolean, value: false, hint: "Optional provider call; otherwise ambiguous names ask you."}
   - {id: verify_route_with_vision, name: Verify route with vision, property_type: boolean, value: false, hint: "Sends an in-memory Starmap screenshot to your configured AI provider."}
-  - {id: vision_display, name: Vision display, property_type: number, value: 1, hint: "1–32. Select the monitor showing the Starmap."}
   - {id: show_verification_screenshot, name: Show verification image in client log, property_type: boolean, value: false, hint: "Also exposes the screenshot in the client log."}

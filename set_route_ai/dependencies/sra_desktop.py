@@ -3,6 +3,10 @@ import sys
 from contextlib import contextmanager
 
 
+class NonTextClipboard(RuntimeError):
+    """The clipboard has content that cannot be restored as Unicode text."""
+
+
 class WindowsDesktop:
     def __init__(self):
         if sys.platform != "win32":
@@ -81,7 +85,7 @@ class WindowsDesktop:
         finally:
             self.u.SetThreadDpiAwarenessContext(old)
 
-    def geometry(self, display):
+    def geometry(self):
         c, w = self.c, self.w
         class Info(c.Structure):
             _fields_ = [("cbSize", w.DWORD), ("rcMonitor", w.RECT), ("rcWork", w.RECT),
@@ -102,12 +106,13 @@ class WindowsDesktop:
             self.u.EnumDisplayMonitors.argtypes = [w.HDC, c.c_void_p, callback_type, w.LPARAM]
             if not self.u.EnumDisplayMonitors(None, None, callback, 0):
                 raise RuntimeError("Could not inspect displays.")
-            if not 1 <= display <= len(monitors):
-                raise RuntimeError("Configured display is unavailable.")
             hwnd = self.u.GetForegroundWindow()
-            handle, info = monitors[display-1]
-            if self.u.MonitorFromWindow(hwnd, 2) != handle:
-                raise RuntimeError("Star Citizen is on a different display; select its display and recalibrate.")
+            game_monitor = self.u.MonitorFromWindow(hwnd, 2)
+            selected = next(((i, info) for i, (handle, info) in enumerate(monitors, 1)
+                             if handle == game_monitor), None)
+            if selected is None:
+                raise RuntimeError("Could not identify the game monitor.")
+            display, info = selected
             rect = w.RECT()
             if not self.u.GetWindowRect(hwnd, c.byref(rect)):
                 raise RuntimeError("Could not inspect the game window.")
@@ -154,7 +159,7 @@ class WindowsDesktop:
         try:
             if not self.u.IsClipboardFormatAvailable(13):
                 if self.u.CountClipboardFormats():
-                    raise RuntimeError("Clipboard contains non-text data. Copy text or clear it before routing.")
+                    raise NonTextClipboard("Clipboard contains non-text data.")
                 return None
             handle = self.u.GetClipboardData(13)
             pointer = self.k.GlobalLock(handle) if handle else None
