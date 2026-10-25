@@ -108,7 +108,7 @@ class DestinationPhoneticEngine:
                 candidates = set(sorted(scored, key=lambda d: (-scored[d], d))[:3])
         if system and len(candidates) > 1:
             local = {d for d in candidates if normalize(self.destinations[d].get("system", "")) == normalize(system)}
-            if len(local) == 1:
+            if len(local) == 1 and all(self.destinations[d].get("system") for d in candidates):
                 return next(iter(local)), []
         if len(candidates) == 1:
             return next(iter(candidates)), []

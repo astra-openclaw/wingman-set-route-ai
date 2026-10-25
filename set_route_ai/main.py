@@ -123,8 +123,10 @@ class SetRouteAI(Skill):
             return "No route or calibration is running."
         self._cancelled.set()
         task.cancel()
-        await asyncio.gather(task, return_exceptions=True)
-        return "Route or calibration cancelled. Held keys released and clipboard restoration attempted."
+        results = await asyncio.gather(task, return_exceptions=True)
+        if results and isinstance(results[0], NavigationStopped):
+            return str(results[0])
+        return "Route or calibration cancelled. The in-game route was not verified."
 
     async def execute_tool(self, tool_name, parameters, benchmark):
         benchmark.start_snapshot(f"SetRouteAI: {tool_name}")
@@ -262,7 +264,7 @@ class SetRouteAI(Skill):
         phrase = p["destination"].strip()
         state = self.game_state()
         if normalize(phrase) in ("my mission", "mission", "take me to my mission", "route to my mission"):
-            candidates = self.mission_destinations(state)
+            candidates = await asyncio.to_thread(self.mission_destinations, state)
             if not candidates:
                 return "I can't resolve an active mission location from the game log to a database destination. Name the destination."
             target = candidates[0] if len(candidates) == 1 else None

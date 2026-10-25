@@ -795,7 +795,15 @@
       "arielle",
       "aryel"
     ],
-    "name": "Ariel"
+    "availability_note": "Not available live according to UEX; retained from original database.",
+    "name": "Ariel",
+    "system": "Sol",
+    "uex": [
+      {
+        "endpoint": "moons",
+        "id": 5
+      }
+    ]
   },
   "armitage planet": {
     "aliases": [

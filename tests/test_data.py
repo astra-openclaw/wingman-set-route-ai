@@ -35,6 +35,10 @@ class DataTests(unittest.TestCase):
         self.assertEqual(self.engine.find_destination("cross", "Pyro"), ("other", []))
         self.assertEqual(self.engine.find_destination("cross", "Stanton"), ("brios breaker yard", []))
 
+    def test_unknown_candidate_system_does_not_decide_a_tie(self):
+        self.engine.destinations["other"].pop("system")
+        self.assertIsNone(self.engine.find_destination("cross", "Stanton")[0])
+
     def test_consistent_apostrophe_and_accent_normalization(self):
         self.assertEqual(self.engine.get_aliases("Brio’s Breaker Yard"), ["brios", "cross"])
         self.assertEqual(normalize("  BRÍO'S   Breaker Yard "), "brios breaker yard")

@@ -90,9 +90,9 @@ async def skill(user, props=None, state=None):
     obj._desktop = Desktop()
     return obj
 
-async def call(obj, name, **args):
+async def call(obj, tool_name, **args):
     benchmark = Benchmark()
-    result = await obj.execute_tool(name, args, benchmark)
+    result = await obj.execute_tool(tool_name, args, benchmark)
     assert benchmark.open == 0
     return result[0]
 
