@@ -255,6 +255,47 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(schema["required"],["destination"])
         self.assertIn("heard",schema["properties"])
 
+    async def test_failed_model_reading_suggests_heard_then_followup_routes(self):
+        self.calibrated()
+        line = await call(self.obj, "plot_route", destination="Nuen", heard="Neymar")
+        self.assertEqual(line, "Did you mean Daymar in Stanton?")
+        self.assertFalse(self.obj.desktop().events)
+        self.assertIn("request sent for Daymar", await call(self.obj, "plot_route", destination="Daymar"))
+
+    async def test_high_confidence_fuzzy_heard_still_asks_with_ai_enabled(self):
+        self.calibrated()
+        self.obj.config.custom_properties = [types.SimpleNamespace(id="allow_ai_disambiguation", value=True)]
+        self.assertEqual(self.obj.engine.find_destination("Daymaar", fuzzy=False), (None, []))
+        # This real fuzzy spelling meets the engine's >= 0.90 automatic threshold.
+        self.assertEqual(self.obj.engine.find_destination("Daymaar"), ("daymar", []))
+        self.assertEqual(await call(self.obj, "plot_route", destination="Nuen", heard="Daymaar"),
+                         "Did you mean Daymar in Stanton?")
+        self.assertFalse(self.obj.desktop().events)
+        self.obj.wingman.ai.generate.assert_not_awaited()
+
+    async def test_failed_model_reading_fuzzy_heard_options_and_refusal(self):
+        self.assertEqual(await call(self.obj, "plot_route", destination="Nuen", heard="Stanton Gatewy"),
+                         "Which destination did you mean: Stanton Gateway in Nyx, or Stanton Gateway in Pyro?")
+        self.assertEqual(await call(self.obj, "plot_route", destination="Nuen", heard="Xylqzv"),
+                         'I couldn\'t find "Xylqzv" in the navigation database. No route input was sent.')
+        self.assertEqual(await call(self.obj, "plot_route", destination="Nuen"),
+                         'Destination "Nuen" is not in the navigation database. No route input was sent.')
+        self.assertFalse(self.obj.desktop().events)
+
+    async def test_fuzzy_heard_never_suggests_unavailable_system(self):
+        self.assertIs(self.obj.engine.destinations["corel ii"]["system_available_live"], False)
+        self.assertEqual(await call(self.obj, "plot_route", destination="Nuen", heard="Corel IIx"),
+                         'I couldn\'t find "Corel IIx" in the navigation database. No route input was sent.')
+        self.assertFalse(self.obj.desktop().events)
+
+    async def test_existing_model_candidates_do_not_use_fuzzy_heard(self):
+        original = self.obj.engine.find_destination
+        with patch.object(self.obj.engine, "find_destination", wraps=original) as resolver:
+            self.assertEqual(await call(self.obj, "plot_route", destination="today, Mar", heard="Stanton Gatewy"),
+                             "Did you mean Daymar in Stanton?")
+        self.assertEqual(resolver.call_count, 2)
+        self.assertIs(resolver.call_args.kwargs["fuzzy"], False)
+
     async def test_unknown_exceptions_logged_never_spoken(self):
         from unittest.mock import Mock
         self.obj.log.error=Mock()

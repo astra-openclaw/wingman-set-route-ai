@@ -417,6 +417,13 @@ class SetRouteAI(Skill):
                 target, candidates = heard_target, []
             elif not target and heard_choices:
                 candidates = sorted(set(candidates) | set(heard_choices))
+        if not target and not candidates and heard:
+            # Only a failed model reading opens the fuzzy heard-word fallback.
+            # Even a high-confidence match needs the player's confirmation.
+            heard_target, heard_choices = await asyncio.to_thread(
+                self.engine.find_destination, heard, state.get("system"), fuzzy=True)
+            candidates = list(dict.fromkeys(([heard_target] if heard_target else []) + heard_choices))
+            must_ask = True
         if not target and candidates and not must_ask and config["allow_ai_disambiguation"]:
             target = await self.choose(phrase, candidates[:3])
         if not target:
@@ -425,6 +432,8 @@ class SetRouteAI(Skill):
                 if len(candidates) == 1:
                     return "Did you mean " + self.engine.label(candidates[0]) + "?"
                 return "Which destination did you mean: " + ", or ".join(self.engine.label(k) for k in candidates[:3]) + "?"
+            if heard:
+                return f'I couldn\'t find "{heard}" in the navigation database. No route input was sent.'
             return f'Destination "{phrase}" is not in the navigation database. No route input was sent.'
         if self.engine.destinations[target].get("system_available_live") is False:
             return f"{self.engine.display(target)} is in a system that isn\'t in the game yet. No route input was sent."

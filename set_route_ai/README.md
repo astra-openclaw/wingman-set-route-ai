@@ -133,6 +133,8 @@ The full route sequence is never automatically retried. With vision enabled, an 
 
 Names such as “crew l one”, “cru el five” and “arc l two” resolve as spoken L-point designations. Original heard words can question a corrected destination only when they resolve exactly to a different name or alias; fuzzy transcript guesses cannot overrule it. A real exact alias collision such as “aerial” still asks between alternatives. A single uncertain option is phrased “Did you mean …?” rather than a one-option “Which destination …?” question.
 
+If the corrected destination has no match or candidates, the skill also checks the original heard words for similar names in available systems. It asks you to confirm these suggestions before sending input, even at high confidence and with AI disambiguation enabled. Answer with the destination’s name to route. If nothing matches, the refusal quotes your heard words when provided.
+
 ## Vision: privacy and cost
 
 > **Off by default.** Turning on **Verify route with vision** sends an image of your calibrated game window to your configured AI provider. Image-input charges and that provider's retention policy apply. Overlays, chat or personal information inside the game-window rectangle may be included.

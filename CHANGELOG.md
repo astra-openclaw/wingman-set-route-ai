@@ -2,7 +2,7 @@
 
 SetRouteAI by **Thord - galacticgearjammer - ProjectGnome**, expanded by **Dominicus**.
 
-## 3.2.0
+## 3.2.0 (unreleased)
 
 - Detect the game's monitor automatically; require valid monitor/resolution/window calibration.
 - Guard every input burst by StarCitizen.exe foreground ownership and clean up held keys on stop.
@@ -16,6 +16,7 @@ SetRouteAI by **Thord - galacticgearjammer - ProjectGnome**, expanded by **Domin
 - Resolve all 20 L-point short forms uniquely; require 0.90 fuzzy confidence and a 0.05 lead for automatic matching.
 - Keep in-game search text separate from system-qualified keys; ask about same-named gateways using their systems.
 - Support corrected/translated names with exact heard-word disagreement checks; agreement never produces a one-option “which” question. Recognize spoken L-point numbers and letter variants.
+- If the corrected destination has no match or candidates, suggest matches from the player's heard words as a question, even at high fuzzy confidence. If neither resolves, quote the heard words in the refusal.
 - Add game-log mission/system awareness and validated destinations from cooperating skills.
 - Verify routes optionally with an in-memory, game-window-only image using a 1.15 MP budget suited to ultrawide screens.
 - Tolerate harmless vision formatting differences. On NOT_SET/UNSURE, retry only the plan taps once and verify once more; otherwise leave the map open. Log each parsed verdict and read text server-side only, never the image.
