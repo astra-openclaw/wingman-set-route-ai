@@ -1,0 +1,5999 @@
+{
+  "credit": "Location cross-check data provided by UEX (https://uexcorp.space/).",
+  "documentation": "https://uexcorp.space/api/documentation/",
+  "endpoint_counts": {
+    "cities": {
+      "all": 5,
+      "available": 5
+    },
+    "jump_points": {
+      "all": 6,
+      "available": 0
+    },
+    "moons": {
+      "all": 73,
+      "available": 18
+    },
+    "outposts": {
+      "all": 119,
+      "available": 116
+    },
+    "planets": {
+      "all": 324,
+      "available": 11
+    },
+    "poi": {
+      "all": 232,
+      "available": 232
+    },
+    "space_stations": {
+      "all": 60,
+      "available": 59
+    },
+    "star_systems": {
+      "all": 96,
+      "available": 3
+    }
+  },
+  "exact_matches": [
+    {
+      "key": "aaron halo",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 221,
+          "name": "Aaron Halo",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "aberdeen",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 1,
+          "name": "Aberdeen",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "adir",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 2,
+          "name": "Adir",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "arc-l1 wide forest station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 1,
+          "name": "ARC-L1 Wide Forest Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arc-l2 lively pathway station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 2,
+          "name": "ARC-L2 Lively Pathway Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arc-l3 modern express station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 3,
+          "name": "ARC-L3 Modern Express Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arc-l4 faint glen station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 4,
+          "name": "ARC-L4 Faint Glen Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arc-l5 yellow core station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 5,
+          "name": "ARC-L5 Yellow Core Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 4,
+          "name": "ArcCorp",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp mining area 045",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 1,
+          "name": "ArcCorp Mining Area 045",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp mining area 048",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 2,
+          "name": "ArcCorp Mining Area 048",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp mining area 056",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 3,
+          "name": "ArcCorp Mining Area 056",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp mining area 061",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 4,
+          "name": "ArcCorp Mining Area 061",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp mining area 141",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 5,
+          "name": "ArcCorp Mining Area 141",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp mining area 157",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 6,
+          "name": "ArcCorp Mining Area 157",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp processing center 115",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 154,
+          "name": "Arccorp Processing Center 115",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arccorp processing center 123",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 157,
+          "name": "Arccorp Processing Center 123",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arial",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 4,
+          "name": "Arial",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "arid reach",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 90,
+          "name": "Arid Reach",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "ashburn channel aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 122,
+          "name": "Ashburn Channel Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "ashland",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 98,
+          "name": "Ashland",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "aston ridge aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 145,
+          "name": "Aston Ridge Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "astors clearing",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 60,
+          "name": "Astor's Clearing",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "august dunlow spaceport",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 93,
+          "name": "August Dunlow Spaceport",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "baijini point",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 6,
+          "name": "Baijini Point",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "barton flats aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 26,
+          "name": "Barton Flats Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "benson mining outpost",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 7,
+          "name": "Benson Mining Outpost",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 144,
+          "name": "Benson Mining Outpost",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "blackrock exchange",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 104,
+          "name": "Blackrock Exchange",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "bloodshot ridge",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 82,
+          "name": "Bloodshot Ridge",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "bloom",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 242,
+          "name": "Bloom",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "bountiful harvest hydroponics",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 8,
+          "name": "Bountiful Harvest Hydroponics",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "brios breaker yard",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 9,
+          "name": "Brio's Breaker Yard",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "buckets",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 153,
+          "name": "Buckets",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "buds growery",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 10,
+          "name": "Bud's Growery",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "bueno ravine",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 73,
+          "name": "Bueno Ravine",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "bullocks reach",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 105,
+          "name": "Bullock's Reach",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "calliope",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 16,
+          "name": "Calliope",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "canard view",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 106,
+          "name": "Canard View",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "carvers ridge",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 93,
+          "name": "Carver's Ridge",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cellin",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 18,
+          "name": "Cellin",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "chawlas beach",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 99,
+          "name": "Chawla's Beach",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "checkmate station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 31,
+          "name": "Checkmate Station",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "clio",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 23,
+          "name": "Clio",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "cloudrest retreat",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 163,
+          "name": "Cloudrest Retreat",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "cluster bgr-560",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 222,
+          "name": "Cluster BGR-560",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster caj-445",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 254,
+          "name": "Cluster CAJ-445",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster dlo-486",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 255,
+          "name": "Cluster DLO-486",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster emm-567",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 256,
+          "name": "Cluster EMM-567",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster fsn-704",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 257,
+          "name": "Cluster FSN-704",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster grp-839",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 258,
+          "name": "Cluster GRP-839",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster hjs-232",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 259,
+          "name": "Cluster HJS-232",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster jwy-925",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 260,
+          "name": "Cluster JWY-925",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster kke-717",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 261,
+          "name": "Cluster KKE-717",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster lhb-976",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 262,
+          "name": "Cluster LHB-976",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster mnk-833",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 263,
+          "name": "Cluster MNK-833",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster nbd-102",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 264,
+          "name": "Cluster NBD-102",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster rsc-340",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 265,
+          "name": "Cluster RSC-340",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster wdh-387",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 266,
+          "name": "Cluster WDH-387",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "cluster yka-011",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 267,
+          "name": "Cluster YKA-011",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "comm array st1-02",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 24,
+          "name": "Comm Array ST1-02",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st1-13",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 22,
+          "name": "Comm Array ST1-13",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st1-48",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 25,
+          "name": "Comm Array ST1-48",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st1-61",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 23,
+          "name": "Comm Array ST1-61",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st1-92",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 21,
+          "name": "Comm Array ST1-92",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st2-28",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 125,
+          "name": "Comm Array ST2-28",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st2-47",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 127,
+          "name": "Comm Array ST2-47",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st2-55",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 126,
+          "name": "Comm Array ST2-55",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st2-76",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 128,
+          "name": "Comm Array ST2-76",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st3-18",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 159,
+          "name": "Comm Array ST3-18",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st3-35",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 158,
+          "name": "Comm Array ST3-35",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st3-90",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 160,
+          "name": "Comm Array ST3-90",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st4-22",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 9,
+          "name": "Comm Array ST4-22",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st4-31",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 6,
+          "name": "Comm Array ST4-31",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st4-59",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 7,
+          "name": "Comm Array ST4-59",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "comm array st4-64",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 8,
+          "name": "Comm Array ST4-64",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "connors",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 143,
+          "name": "Connor's",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "covalex distribution center s4dc05",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 89,
+          "name": "Covalex Distribution Center S4DC05",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "cru-l1 ambitious dream station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 7,
+          "name": "CRU-L1 Ambitious Dream Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "cru-l4 shallow fields station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 8,
+          "name": "CRU-L4 Shallow Fields Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "cru-l5 beautiful glen station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 9,
+          "name": "CRU-L5 Beautiful Glen Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "crusader",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 59,
+          "name": "Crusader",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "cutters rig",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 79,
+          "name": "Cutter's Rig",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "daymar",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 25,
+          "name": "Daymar",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "deakins research",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 11,
+          "name": "Deakins Research",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "delamar",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 325,
+          "name": "Delamar",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "devlin scrap salvage",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 12,
+          "name": "Devlin Scrap & Salvage",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "dudley daughters",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 42,
+          "name": "Dudley & Daughters",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "dunboro",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 62,
+          "name": "Dunboro",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "dunlow ridge aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 137,
+          "name": "Dunlow Ridge Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "eager flats aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 129,
+          "name": "Eager Flats Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "elsewhere",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 99,
+          "name": "Elsewhere",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "empyrean park",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 162,
+          "name": "Empyrean Park",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "endgame",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 41,
+          "name": "Endgame",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "euterpe",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 34,
+          "name": "Euterpe",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "everus harbor",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 10,
+          "name": "Everus Harbor",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "fairo",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 35,
+          "name": "Fairo",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "fallow field",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 100,
+          "name": "Fallow Field",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "feo canyon depot",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 117,
+          "name": "Feo Canyon Depot",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "finns folly",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 80,
+          "name": "Finn's Folly",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "flanagans ravine aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 119,
+          "name": "Flanagan's Ravine Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "frigid knot",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 94,
+          "name": "Frigid Knot",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "frostbite",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 83,
+          "name": "Frostbite",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "fuego",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 36,
+          "name": "Fuego",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "gallete family farms",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 13,
+          "name": "Gallete Family Farms",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "gaslight",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 46,
+          "name": "Gaslight",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "ghost hollow",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 84,
+          "name": "Ghost Hollow",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "glaciem ring",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 226,
+          "name": "Glaciem Ring",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "goners deal",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 101,
+          "name": "Goner's Deal",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "good times temple",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 156,
+          "name": "Good Times Temple",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "gray gardens depot",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 118,
+          "name": "Gray Gardens Depot",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "greycat stanton iv production complex-a",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 86,
+          "name": "Greycat Stanton IV Production Complex-A",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "harpers point",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 61,
+          "name": "Harper's Point",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-anderson",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 14,
+          "name": "HDMS-Anderson",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-bezdek",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 15,
+          "name": "HDMS-Bezdek",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-edmond",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 16,
+          "name": "HDMS-Edmond",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-hadley",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 17,
+          "name": "HDMS-Hadley",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-hahn",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 18,
+          "name": "HDMS-Hahn",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-lathan",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 19,
+          "name": "HDMS-Lathan",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-norgaard",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 20,
+          "name": "HDMS-Norgaard",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-oparei",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 21,
+          "name": "HDMS-Oparei",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-perlman",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 22,
+          "name": "HDMS-Perlman",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-pinewood",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 23,
+          "name": "HDMS-Pinewood",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-ryder",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 24,
+          "name": "HDMS-Ryder",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-stanhope",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 25,
+          "name": "HDMS-Stanhope",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-thedus",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 26,
+          "name": "HDMS-Thedus",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdms-woodruff",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 27,
+          "name": "HDMS-Woodruff",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-adlai",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 28,
+          "name": "HDSF-Adlai",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-barnabas",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 29,
+          "name": "HDSF-Barnabas",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-breckinridge",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 30,
+          "name": "HDSF-Breckinridge",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-colfax",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 31,
+          "name": "HDSF-Colfax",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-damaris",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 32,
+          "name": "HDSF-Damaris",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-elbridge",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 33,
+          "name": "HDSF-Elbridge",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-hendricks",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 34,
+          "name": "HDSF-Hendricks",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-hiram",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 35,
+          "name": "HDSF-Hiram",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-hobart",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 36,
+          "name": "HDSF-Hobart",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-millerand",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 38,
+          "name": "HDSF-Millerand",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-rufus",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 39,
+          "name": "HDSF-Rufus",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-sherman",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 40,
+          "name": "HDSF-Sherman",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-tamar",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 41,
+          "name": "HDSF-Tamar",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-tompkins",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 37,
+          "name": "HDSF-Tompkins",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf-zacharias",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 42,
+          "name": "HDSF-Zacharias",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hickes research",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 28,
+          "name": "Hickes Research",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "humboldt mines",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 29,
+          "name": "Humboldt Mines",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hur-l1 green glade station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 12,
+          "name": "HUR-L1 Green Glade Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hur-l2 faithful dream station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 13,
+          "name": "HUR-L2 Faithful Dream Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hur-l3 thundering express station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 14,
+          "name": "HUR-L3 Thundering Express Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hur-l4 melodic fields station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 15,
+          "name": "HUR-L4 Melodic Fields Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hur-l5 high course station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 16,
+          "name": "HUR-L5 High Course Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hurston",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 116,
+          "name": "Hurston",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "ignis",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 43,
+          "name": "Ignis",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "ins jericho",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 44,
+          "name": "INS Jericho",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "ita",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 45,
+          "name": "Ita",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "jacksons swap",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 69,
+          "name": "Jackson's Swap",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "julep aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 123,
+          "name": "Julep Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "jumptown",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 30,
+          "name": "Jumptown",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "outposts",
+          "id": 87,
+          "name": "Jumptown",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "kabirs post",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 103,
+          "name": "Kabir's Post",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "kants peak",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 168,
+          "name": "Kant's Peak",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "keeger belt",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 225,
+          "name": "Keeger Belt",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "kinder plots",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 107,
+          "name": "Kinder Plots",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "klescher rehabilitation facility",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 82,
+          "name": "Klescher Rehabilitation Facility",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "kosso basin aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 149,
+          "name": "Kosso Basin Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "kudre ore",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 31,
+          "name": "Kudre Ore",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 132,
+          "name": "Kudre Ore",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "kudre ore mine closed",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 131,
+          "name": "Kudre Ore Mine (Closed)",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "last ditch",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 70,
+          "name": "Last Ditch",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "last landings",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 108,
+          "name": "Last Landings",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "levski",
+      "records": [
+        {
+          "endpoint": "cities",
+          "id": 2,
+          "name": "Levski",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "lorville",
+      "records": [
+        {
+          "endpoint": "cities",
+          "id": 3,
+          "name": "Lorville",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "lost and found",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 155,
+          "name": "Lost And Found",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "loveridge mineral reserve",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 32,
+          "name": "Loveridge Mineral Reserve",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "ludlow",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 81,
+          "name": "Ludlow",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "lyria",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 50,
+          "name": "Lyria",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "magda",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 51,
+          "name": "Magda",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "makers point",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 64,
+          "name": "Maker's Point",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "megumi refueling",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 43,
+          "name": "Megumi Refueling",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "mic-l1 shallow frontier station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 17,
+          "name": "MIC-L1 Shallow Frontier Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mic-l2 long forest station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 18,
+          "name": "MIC-L2 Long Forest Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mic-l3 endless odyssey station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 19,
+          "name": "MIC-L3 Endless Odyssey Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mic-l4 red crossroads station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 20,
+          "name": "MIC-L4 Red Crossroads Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mic-l5 modern icarus station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 21,
+          "name": "MIC-L5 Modern Icarus Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "microtech",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 190,
+          "name": "MicroTech",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "microtech logistics depot s4ld01",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 87,
+          "name": "Microtech Logistics Depot S4LD01",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "microtech logistics depot s4ld13",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 88,
+          "name": "Microtech Logistics Depot S4LD13",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "miners lament",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 152,
+          "name": "Miner's Lament",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 1xa-3gi",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 203,
+          "name": "Mining Base #1XA-3GI",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 4pi-3yy",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 211,
+          "name": "Mining Base #4PI-3YY",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 4ro-nvx",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 170,
+          "name": "Mining Base #4RO-NVX",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 51f-ogh",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 214,
+          "name": "Mining Base #51F-OGH",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 5u5-tlc",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 197,
+          "name": "Mining Base #5U5-TLC",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 6in-po2",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 191,
+          "name": "Mining Base #6IN-PO2",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 74h-2do",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 179,
+          "name": "Mining Base #74H-2DO",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 7iq-29q",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 182,
+          "name": "Mining Base #7IQ-29Q",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 7li-oda",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 188,
+          "name": "Mining Base #7LI-ODA",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 7yh-jx7",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 174,
+          "name": "Mining Base #7YH-JX7",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 8cg-osa",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 173,
+          "name": "Mining Base #8CG-OSA",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base 8pv-wne",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 175,
+          "name": "Mining Base #8PV-WNE",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base a73-htj",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 180,
+          "name": "Mining Base #A73-HTJ",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base al5-xpd",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 202,
+          "name": "Mining Base #AL5-XPD",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base bbr-4jq",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 194,
+          "name": "Mining Base #BBR-4JQ",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base bre-582",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 178,
+          "name": "Mining Base #BRE-582",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base bsk-ij5",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 181,
+          "name": "Mining Base #BSK-IJ5",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base cvf-t6h",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 200,
+          "name": "Mining Base #CVF-T6H",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base czw-rry",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 184,
+          "name": "Mining Base #CZW-RRY",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base e38-s5g",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 220,
+          "name": "Mining Base #E38-S5G",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base go4-cho",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 201,
+          "name": "Mining Base #GO4-CHO",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base igb-fxw",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 186,
+          "name": "Mining Base #IGB-FXW",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base io3-h1f",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 210,
+          "name": "Mining Base #IO3-H1F",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base jug-okz",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 205,
+          "name": "Mining Base #JUG-OKZ",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base lbp-un5",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 192,
+          "name": "Mining Base #LBP-UN5",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base n6j-xkh",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 183,
+          "name": "Mining Base #N6J-XKH",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base o1k-i43",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 193,
+          "name": "Mining Base #O1K-I43",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base odd-e9b",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 195,
+          "name": "Mining Base #ODD-E9B",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base oyv-jke",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 171,
+          "name": "Mining Base #OYV-JKE",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base oyx-o7z",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 177,
+          "name": "Mining Base #OYX-O7Z",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base q4u-i2o",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 218,
+          "name": "Mining Base #Q4U-I2O",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base q9q-o9o",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 199,
+          "name": "Mining Base #Q9Q-O9O",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base qxs-nbs",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 213,
+          "name": "Mining Base #QXS-NBS",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base r75-5pz",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 215,
+          "name": "Mining Base #R75-5PZ",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base r7j-wj7",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 204,
+          "name": "Mining Base #R7J-WJ7",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base rcd-ob3",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 198,
+          "name": "Mining Base #RCD-OB3",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base ro8-y3k",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 190,
+          "name": "Mining Base #RO8-Y3K",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base rsv-8hl",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 172,
+          "name": "Mining Base #RSV-8HL",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base sag-2un",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 196,
+          "name": "Mining Base #SAG-2UN",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base u5x-ngq",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 209,
+          "name": "Mining Base #U5X-NGQ",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base udk-ijx",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 208,
+          "name": "Mining Base #UDK-IJX",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base urb-h3v",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 212,
+          "name": "Mining Base #URB-H3V",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base uu6-1ei",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 217,
+          "name": "Mining Base #UU6-1EI",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base w79-2h7",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 219,
+          "name": "Mining Base #W79-2H7",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base wuo-zru",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 189,
+          "name": "Mining Base #WUO-ZRU",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base x92-iva",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 207,
+          "name": "Mining Base #X92-IVA",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base xjz-jr2",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 176,
+          "name": "Mining Base #XJZ-JR2",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 206,
+          "name": "Mining Base #XJZ-JR2",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base yto-glq",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 185,
+          "name": "Mining Base #YTO-GLQ",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mining base z48-o13",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 216,
+          "name": "Mining Base #Z48-O13",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mogote aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 120,
+          "name": "Mogote Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "monox",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 241,
+          "name": "Monox",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "moreland hills",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 85,
+          "name": "Moreland Hills",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter 4hj-lve-a",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 10,
+          "name": "MT DataCenter 4HJ-LVE-A",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter 5wq-r2v-c",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 11,
+          "name": "MT Datacenter 5WQ-R2V-C",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter 8fk-q2x-k",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 12,
+          "name": "MT DataCenter 8FK-Q2X-K",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter d79-ecg-r",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 13,
+          "name": "MT DataCenter D79-ECG-R",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 169,
+          "name": "MT Datacenter D79-ECG-R",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter e2q-nsg-y",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 20,
+          "name": "MT DataCenter E2Q-NSG-Y",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter kh3-aae-l",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 14,
+          "name": "MT DataCenter KH3-AAE-L",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter l8p-juc-8 offline",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 15,
+          "name": "MT DataCenter L8P-JUC-8 (Offline)",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter qvx-j88-j",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 16,
+          "name": "MT DataCenter QVX-J88-J",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter tmg-xev-2",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 17,
+          "name": "MT DataCenter TMG-XEV-2",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt opcenter tli-4",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 18,
+          "name": "MT OpCenter TLI-4",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nakamura valley aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 150,
+          "name": "Nakamura Valley Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "narenas rest",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 95,
+          "name": "Narena's Rest",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "new babbage",
+      "records": [
+        {
+          "endpoint": "cities",
+          "id": 4,
+          "name": "New Babbage",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "new babbage interstellar spaceport",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 90,
+          "name": "New Babbage Interstellar Spaceport",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nt-999-xv",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 116,
+          "name": "NT-999-XV",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nt-999-xvi",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 133,
+          "name": "NT-999-XVI",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nt-999-xx",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 33,
+          "name": "NT-999-XX",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 148,
+          "name": "NT-999-XX",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nt-999-xxii",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 67,
+          "name": "NT-999-XXII",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 141,
+          "name": "NT-999-XXII",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nuen waste management",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 34,
+          "name": "Nuen Waste Management",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nyx gateway pyro",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 55,
+          "name": "Nyx Gateway (Pyro)",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "nyx gateway stanton",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 25,
+          "name": "Nyx Gateway (Stanton)",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "orbituary",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 32,
+          "name": "Orbituary",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "orison",
+      "records": [
+        {
+          "endpoint": "cities",
+          "id": 5,
+          "name": "Orison",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "ostlers claim",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 92,
+          "name": "Ostler's Claim",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "outpost 54",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 35,
+          "name": "Outpost 54",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "paradise cove",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 36,
+          "name": "Paradise Cove",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 98,
+          "name": "Paradise Cove",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "patch city",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 34,
+          "name": "Patch City",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "peoples service station alpha",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 59,
+          "name": "People's Service Station Alpha",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "peoples service station delta",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 58,
+          "name": "People's Service Station Delta",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "peoples service station lambda",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 61,
+          "name": "People's Service Station Lambda",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "peoples service station theta",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 60,
+          "name": "People's Service Station Theta",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "pickers field",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 66,
+          "name": "Picker's Field",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "port tressler",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 23,
+          "name": "Port Tressler",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "private property",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 37,
+          "name": "Private Property",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 117,
+          "name": "Private Property",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "prophets peak",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 112,
+          "name": "Prophet's Peak",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "prospect depot",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 114,
+          "name": "Prospect Depot",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "prospect point",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 161,
+          "name": "Prospect Point",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-1-2",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 28,
+          "name": "PYAM-FARSTAT-1-2",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-1-3",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 29,
+          "name": "PYAM-FARSTAT-1-3",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-1-5",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 30,
+          "name": "PYAM-FARSTAT-1-5",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-3-5",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 35,
+          "name": "PYAM-FARSTAT-3-5",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-5-1",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 36,
+          "name": "PYAM-FARSTAT-5-1",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-6-2",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 40,
+          "name": "PYAM-FARSTAT-6-2",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-supvisr-3-4",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 48,
+          "name": "PYAM-SUPVISR-3-4",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-supvisr-3-5",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 49,
+          "name": "PYAM-SUPVISR-3-5",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyro gateway nyx",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 57,
+          "name": "Pyro Gateway (Nyx)",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "pyro gateway stanton",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 24,
+          "name": "Pyro Gateway (Stanton)",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "pyro i",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 240,
+          "name": "Pyro I",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyro iv",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 243,
+          "name": "Pyro IV",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyro v",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 244,
+          "name": "Pyro V",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-alpha",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 227,
+          "name": "RAB-ALPHA",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-bravo",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 228,
+          "name": "RAB-BRAVO",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-charlie",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 229,
+          "name": "RAB-CHARLIE",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-cook",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 230,
+          "name": "RAB-COOK",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-delta",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 231,
+          "name": "RAB-DELTA",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-echo",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 232,
+          "name": "RAB-ECHO",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-foxtrot",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 224,
+          "name": "RAB-FOXTROT",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-gulf",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 233,
+          "name": "RAB-GULF",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-helio",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 234,
+          "name": "RAB-HELIO",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-ignition",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 235,
+          "name": "RAB-IGNITION",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-ion",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 236,
+          "name": "RAB-ION",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-jak",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 237,
+          "name": "RAB-JAK",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-kilo",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 223,
+          "name": "RAB-KILO",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-lamda",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 238,
+          "name": "RAB-LAMDA",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-lynx",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 239,
+          "name": "RAB-LYNX",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-mat",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 240,
+          "name": "RAB-MAT",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-november",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 241,
+          "name": "RAB-NOVEMBER",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-over",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 242,
+          "name": "RAB-OVER",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-point",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 243,
+          "name": "RAB-POINT",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-quagmire",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 244,
+          "name": "RAB-QUAGMIRE",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-roth",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 245,
+          "name": "RAB-ROTH",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-sierra",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 246,
+          "name": "RAB-SIERRA",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-tung",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 247,
+          "name": "RAB-TUNG",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-ultra",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 248,
+          "name": "RAB-ULTRA",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-victory",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 249,
+          "name": "RAB-VICTORY",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-whiskey",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 250,
+          "name": "RAB-WHISKEY",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-xeno",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 251,
+          "name": "RAB-XENO",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-york",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 252,
+          "name": "RAB-YORK",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rab-zeta",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 253,
+          "name": "RAB-ZETA",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rappel",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 65,
+          "name": "Rappel",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "rats nest",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 39,
+          "name": "Rat's Nest",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "ravens roost",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 38,
+          "name": "Raven's Roost",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "rayari anvik research outpost",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 39,
+          "name": "Rayari Anvik Research Outpost",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "rayari cantwell research outpost",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 40,
+          "name": "Rayari Cantwell Research Outpost",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "rayari deltana research outpost",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 41,
+          "name": "Rayari Deltana Research Outpost",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "rayari kaltag research outpost",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 42,
+          "name": "Rayari Kaltag Research Outpost",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "rayari mcgrath research outpost",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 43,
+          "name": "Rayari McGrath Research Outpost",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "razors edge",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 86,
+          "name": "Razor's Edge",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "reclamation disposal orinth",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 44,
+          "name": "Reclamation & Disposal Orinth",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "riker memorial spaceport",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 91,
+          "name": "Riker Memorial Spaceport",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "rods fuel n supplies",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 38,
+          "name": "Rod's Fuel 'N Supplies",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rough landing",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 109,
+          "name": "Rough Landing",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "ruin station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 45,
+          "name": "Ruin Station",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "rustville",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 68,
+          "name": "Rustville",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "sacrens plot",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 102,
+          "name": "Sacren's Plot",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "sakura sun goldenrod workcenter",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 120,
+          "name": "Sakura Sun Goldenrod Workcenter",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 84,
+          "name": "Sakura Sun Goldenrod Workcenter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "sakura sun magnolia workcenter",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 88,
+          "name": "Sakura Sun Magnolia Workcenter",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 85,
+          "name": "Sakura Sun Magnolia Workcenter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "scarpers turn",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 110,
+          "name": "Scarper's Turn",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "security post criska",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 124,
+          "name": "Security Post Criska",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security post dipur",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 118,
+          "name": "Security Post Dipur",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security post lespin",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 121,
+          "name": "Security Post Lespin",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security post moluto",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 134,
+          "name": "Security Post Moluto",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security post opal",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 146,
+          "name": "Security Post Opal",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security post prashad",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 139,
+          "name": "Security Post Prashad",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security post thaquray",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 130,
+          "name": "Security Post Thaquray",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security post wan",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 151,
+          "name": "Security Post Wan",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "seers canyon",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 113,
+          "name": "Seer's Canyon",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "seraphim station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 27,
+          "name": "Seraphim Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shadowfall",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 74,
+          "name": "Shadowfall",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "shepherds rest",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 75,
+          "name": "Shepherd's Rest",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility sal-2",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 46,
+          "name": "Shubin Mining Facility SAL-2",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility sal-5",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 47,
+          "name": "Shubin Mining Facility SAL-5",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility scd-1",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 48,
+          "name": "Shubin Mining Facility SCD-1",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility sm0-10",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 49,
+          "name": "Shubin Mining Facility SM0-10",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility sm0-13",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 50,
+          "name": "Shubin Mining Facility SM0-13",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility sm0-18",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 51,
+          "name": "Shubin Mining Facility SM0-18",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility sm0-22",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 52,
+          "name": "Shubin Mining Facility SM0-22",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility smca-6",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 53,
+          "name": "Shubin Mining Facility SMCa-6",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 112,
+          "name": "Shubin Mining Facility SMCA-6",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin mining facility smca-8",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 54,
+          "name": "Shubin Mining Facility SMCa-8",
+          "system": "Stanton"
+        },
+        {
+          "endpoint": "poi",
+          "id": 111,
+          "name": "Shubin Mining Facility SMCA-8",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spal-12",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 102,
+          "name": "Shubin Processing Facility SPAL-12",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spal-16",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 103,
+          "name": "Shubin Processing Facility SPAL-16",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spal-21",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 104,
+          "name": "Shubin Processing Facility SPAL-21",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spal-3",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 105,
+          "name": "Shubin Processing Facility SPAL-3",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spal-7",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 106,
+          "name": "Shubin Processing Facility SPAL-7",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spal-9",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 107,
+          "name": "Shubin Processing Facility SPAL-9",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spmc-10",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 114,
+          "name": "Shubin Processing Facility SPMC-10",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spmc-11",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 108,
+          "name": "Shubin Processing Facility SPMC-11",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spmc-14",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 109,
+          "name": "Shubin Processing Facility SPMC-14",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spmc-3",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 110,
+          "name": "Shubin Processing Facility SPMC-3",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shubin processing facility spmc-5",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 113,
+          "name": "Shubin Processing Facility SPMC-5",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "slowburn depot",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 116,
+          "name": "Slowburn Depot",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "stags rut",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 89,
+          "name": "Stag's Rut",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "stanton gateway nyx",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 56,
+          "name": "Stanton Gateway (Nyx)",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "stanton gateway pyro",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 50,
+          "name": "Stanton Gateway (Pyro)",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "starlight service station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 33,
+          "name": "Starlight Service Station",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "stonetree",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 111,
+          "name": "Stonetree",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "sunset mesa",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 71,
+          "name": "Sunset Mesa",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "talarine divide aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 142,
+          "name": "Talarine Divide Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "tamdon plains aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 140,
+          "name": "Tamdon Plains Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "teasa spaceport",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 92,
+          "name": "Teasa Spaceport",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "teddys playhouse",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 96,
+          "name": "Teddy's Playhouse",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "terminus",
+      "records": [
+        {
+          "endpoint": "planets",
+          "id": 245,
+          "name": "Terminus",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "terra gateway stanton",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 26,
+          "name": "Terra Gateway (Stanton)",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "terra mills hydrofarm",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 55,
+          "name": "Terra Mills HydroFarm",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "the garden",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 138,
+          "name": "The Garden",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "the golden riviera",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 76,
+          "name": "The Golden Riviera",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "the icebreaker",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 115,
+          "name": "The Icebreaker",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "the necropolis",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 56,
+          "name": "The Necropolis",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "the orphanage",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 57,
+          "name": "The Orphanage",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "the pit",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 95,
+          "name": "The Pit",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "the sky scraper",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 94,
+          "name": "The Sky Scraper",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "the yard",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 77,
+          "name": "The Yard",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "tpf",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 135,
+          "name": "TPF",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "tram myers mining",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 58,
+          "name": "Tram & Myers Mining",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "tremonte",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 167,
+          "name": "Tremonte",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "trilo",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 166,
+          "name": "Trilo",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "utopia",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 147,
+          "name": "Utopia",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "vatra",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 69,
+          "name": "Vatra",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "vuur",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 73,
+          "name": "Vuur",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "wala",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 74,
+          "name": "Wala",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "washout",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 164,
+          "name": "Washout",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "weeping cove",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 63,
+          "name": "Weeping Cove",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "wheelers",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 97,
+          "name": "Wheelers",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "wikelo emporium dasi station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 52,
+          "name": "Wikelo Emporium Dasi Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "wikelo emporium kinga station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 51,
+          "name": "Wikelo Emporium Kinga Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "wikelo emporium selo station",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 53,
+          "name": "Wikelo Emporium Selo Station",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "wiley flats",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 165,
+          "name": "Wiley Flats",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "windfall",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 96,
+          "name": "Windfall",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "wolf point aid shelter",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 136,
+          "name": "Wolf Point Aid Shelter",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "yangs place",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 72,
+          "name": "Yang's Place",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "yela",
+      "records": [
+        {
+          "endpoint": "moons",
+          "id": 75,
+          "name": "Yela",
+          "system": "Stanton"
+        }
+      ]
+    }
+  ],
+  "jump_connections": [
+    {
+      "id": 1,
+      "orbit_destination_name": "Stanton Gateway (Pyro system)",
+      "orbit_origin_name": "Pyro Gateway (Stanton system)",
+      "star_system_destination_name": "Pyro",
+      "star_system_origin_name": "Stanton"
+    },
+    {
+      "id": 2,
+      "orbit_destination_name": "Pyro Gateway (Stanton system)",
+      "orbit_origin_name": "Stanton Gateway (Pyro system)",
+      "star_system_destination_name": "Stanton",
+      "star_system_origin_name": "Pyro"
+    },
+    {
+      "id": 3,
+      "orbit_destination_name": "Nyx Gateway (Pyro system)",
+      "orbit_origin_name": "Pyro Gateway (Nyx system)",
+      "star_system_destination_name": "Pyro",
+      "star_system_origin_name": "Nyx"
+    },
+    {
+      "id": 4,
+      "orbit_destination_name": "Nyx Gateway (Stanton system)",
+      "orbit_origin_name": "Stanton Gateway (Nyx system)",
+      "star_system_destination_name": "Stanton",
+      "star_system_origin_name": "Nyx"
+    },
+    {
+      "id": 5,
+      "orbit_destination_name": "Stanton Gateway (Nyx system)",
+      "orbit_origin_name": "Nyx Gateway (Stanton system)",
+      "star_system_destination_name": "Nyx",
+      "star_system_origin_name": "Stanton"
+    },
+    {
+      "id": 6,
+      "orbit_destination_name": "Pyro Gateway (Nyx system)",
+      "orbit_origin_name": "Nyx Gateway (Pyro system)",
+      "star_system_destination_name": "Nyx",
+      "star_system_origin_name": "Pyro"
+    }
+  ],
+  "jump_note": "Connection endpoint has no availability or canonical name field; recorded separately, not invented as destinations.",
+  "missing": [
+    {
+      "key": "akiro cluster alpha",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 272,
+          "name": "Akiro Cluster Alpha",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "area 04",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 1,
+          "name": "Area 04",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "area 06",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 2,
+          "name": "Area 06",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "area 11",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 3,
+          "name": "Area 11",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "area 17",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 4,
+          "name": "Area 17",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "area 18",
+      "records": [
+        {
+          "endpoint": "cities",
+          "id": 1,
+          "name": "Area 18",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "area 20",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 5,
+          "name": "Area 20",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "green imperial housing exchange",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 11,
+          "name": "Green Imperial Housing Exchange",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdes-dobbs na",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 81,
+          "name": "HDES-Dobbs (NA)",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "hdsf ishmael",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 27,
+          "name": "HDSF Ishmael",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "launchpad",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 100,
+          "name": "Launchpad",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "mt datacenter 2qb-rb9-5",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 19,
+          "name": "MT DataCenter 2QB-RB9-5",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "nyx",
+      "records": [
+        {
+          "endpoint": "star_systems",
+          "id": 55,
+          "name": "Nyx",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "ov breaker stations",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 271,
+          "name": "OV Breaker Stations",
+          "system": "Nyx"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-2-3",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 47,
+          "name": "PYAM-FARSTAT-2-3",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyam-farstat-5-3",
+      "records": [
+        {
+          "endpoint": "space_stations",
+          "id": 37,
+          "name": "PYAM-FARSTAT-5-3",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyro",
+      "records": [
+        {
+          "endpoint": "star_systems",
+          "id": 64,
+          "name": "Pyro",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "pyro asteroid clusters",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 270,
+          "name": "Pyro Asteroid Clusters",
+          "system": "Pyro"
+        }
+      ]
+    },
+    {
+      "key": "samson sons salvage center",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 45,
+          "name": "Samson & Son's Salvage Center",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "security depot lyria",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 101,
+          "name": "Security Depot Lyria",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "shady glen",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 59,
+          "name": "Shady Glen",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "sketto rock",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 268,
+          "name": "Sketto Rock",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "stanton",
+      "records": [
+        {
+          "endpoint": "star_systems",
+          "id": 68,
+          "name": "Stanton",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "yela ring",
+      "records": [
+        {
+          "endpoint": "poi",
+          "id": 273,
+          "name": "Yela Ring",
+          "system": "Stanton"
+        }
+      ]
+    },
+    {
+      "key": "zephyr",
+      "records": [
+        {
+          "endpoint": "outposts",
+          "id": 78,
+          "name": "Zephyr",
+          "system": "Stanton"
+        }
+      ]
+    }
+  ],
+  "policy": "No automatic deletions or renames. Missing UEX records are only stale suspects. Unavailable endpoints make coverage partial.",
+  "possible_renames": [
+    {
+      "action": "review only",
+      "existing": "area04",
+      "possible_names": [
+        "area 04"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "area06",
+      "possible_names": [
+        "area 06"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "area11",
+      "possible_names": [
+        "area 11"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "area17",
+      "possible_names": [
+        "area 17"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "area18",
+      "possible_names": [
+        "area 18"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "area20",
+      "possible_names": [
+        "area 20"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "cluster rcs-340",
+      "possible_names": [
+        "cluster rsc-340"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "covalex distribution centre s1dc06",
+      "possible_names": [
+        "covalex distribution center s4dc05"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "covalex distribution centre s4dc05",
+      "possible_names": [
+        "covalex distribution center s4dc05"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "greycat stanton i production complex-b",
+      "possible_names": [
+        "greycat stanton iv production complex-a"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "hdsf-ishmael",
+      "possible_names": [
+        "hdsf ishmael"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "launch pad",
+      "possible_names": [
+        "launchpad"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "mt datacenter 2ub-rb9-5",
+      "possible_names": [
+        "mt datacenter 2qb-rb9-5"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "rab-lamba",
+      "possible_names": [
+        "rab-lamda"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "rab-siera",
+      "possible_names": [
+        "rab-sierra"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "shubin processing facility spmc-1",
+      "possible_names": [
+        "shubin processing facility spmc-14",
+        "shubin processing facility spmc-11"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "stanton gateway",
+      "possible_names": [
+        "stanton gateway nyx"
+      ]
+    },
+    {
+      "action": "review only",
+      "existing": "thundering express station",
+      "possible_names": [
+        "hur-l3 thundering express station"
+      ]
+    }
+  ],
+  "source": "https://api.uexcorp.space/2.0/",
+  "stale_suspects": [
+    "abyss",
+    "adira falls",
+    "administration office",
+    "aemilia",
+    "aero",
+    "afterlife",
+    "ailka - kyukya",
+    "ailka - tl",
+    "ailka - ymon",
+    "ailka belt alpha",
+    "ailka belt beta",
+    "ailka star",
+    "akiro cluster",
+    "akos return",
+    "aluth - lauo",
+    "aluth belt alpha",
+    "aluth star",
+    "ambitious dream station",
+    "ambulance pad",
+    "amidon island",
+    "angeli",
+    "anna",
+    "arccorp planet",
+    "archangel station",
+    "archibald station",
+    "archon base",
+    "area04",
+    "area06",
+    "area11",
+    "area17",
+    "area18",
+    "area20",
+    "aremis",
+    "ariel",
+    "armitage planet",
+    "ashana",
+    "aspire grand",
+    "asura",
+    "attritus olp",
+    "attritus paf-i",
+    "attritus paf-ii",
+    "attritus paf-iii",
+    "aydo",
+    "bacchus - geddon",
+    "bacchus b",
+    "bacchus belt alpha",
+    "bacchus flotilla",
+    "bacchus i",
+    "bacchus ii",
+    "bacchus iii",
+    "baijini",
+    "baker - thusng",
+    "baker - ymon",
+    "baker i",
+    "baker ii",
+    "baker iii",
+    "baker iv",
+    "baltos blind",
+    "banshee - tamsa",
+    "banshee i",
+    "banshee ii",
+    "banshee iv",
+    "banshee star",
+    "bareton",
+    "beautiful glen station",
+    "benny henge",
+    "bethor",
+    "bevic convention center",
+    "blighters run",
+    "bombora",
+    "boondoggle",
+    "borea",
+    "branaugh - chronos",
+    "branaugh belt alpha",
+    "branaugh i",
+    "branaugh ii",
+    "branaugh iii",
+    "branaugh star",
+    "bremen - kallis",
+    "bremen - tanga",
+    "bremen i",
+    "bremen iii",
+    "bremen iv",
+    "bremen star",
+    "brentworth care center new babbage",
+    "broken moon",
+    "broken patch",
+    "bruder",
+    "buloi sataball arena",
+    "burnout",
+    "caf musain",
+    "calhoun pass emergency shelter",
+    "caliban - nul",
+    "caliban - oberon",
+    "caliban 2a",
+    "caliban 3a",
+    "caliban 3b",
+    "caliban 4a",
+    "caliban 4b",
+    "caliban 4c",
+    "caliban 4d",
+    "caliban 4e",
+    "caliban 4f",
+    "caliban belt alpha",
+    "caliban i",
+    "caliban iii",
+    "caliban iv",
+    "caliban star",
+    "caliban v",
+    "callisto",
+    "calthrope",
+    "cano - davien",
+    "cano - pyro",
+    "cano iii",
+    "caplan circuit",
+    "carteyna",
+    "carteyna city",
+    "cascom",
+    "cassel",
+    "casselean",
+    "castor",
+    "castra - hadrian",
+    "castra - nyx",
+    "castra - oso",
+    "castra - oya",
+    "castra - pyro",
+    "castra i",
+    "castra star",
+    "cathcart - davien",
+    "cathcart - hades",
+    "cathcart - kilian",
+    "cathcart - nexus",
+    "cathcart belt alpha",
+    "cathcart star",
+    "centauri - elysium",
+    "centauri - nul",
+    "centauri belt alpha",
+    "centauri i",
+    "centauri iv",
+    "centauri star",
+    "centauri v",
+    "central business district lorville",
+    "cestulus",
+    "chairmans club lounge lorville",
+    "chairmans club lounge orison",
+    "char",
+    "charon - genesis",
+    "charon - helios",
+    "charon - kins",
+    "charon - tyrol",
+    "charon 2a",
+    "charon 2b",
+    "charon 3a",
+    "charon i",
+    "charon ii",
+    "charon iii",
+    "charon iv",
+    "charon moon",
+    "charon star",
+    "charon v",
+    "chronos - branaugh",
+    "chronos - kellog",
+    "chronos star",
+    "chuaichuai",
+    "chuaiton",
+    "clear view emergency shelter",
+    "cloudview center",
+    "cluster dlo-560",
+    "cluster rcs-340",
+    "cole",
+    "cologne",
+    "commarray scc",
+    "consumption",
+    "corel - geddon",
+    "corel - genesis",
+    "corel - nemo",
+    "corel i",
+    "corel ii",
+    "corel star",
+    "corel v",
+    "corel vi",
+    "corin",
+    "corsito",
+    "covalex distribution centre s1dc06",
+    "covalex distribution centre s4dc05",
+    "covalex shipping hub gundo",
+    "coven",
+    "crion",
+    "croshaw - ferron",
+    "croshaw - nul",
+    "croshaw - rhetor",
+    "croshaw - sol",
+    "croshaw i",
+    "croshaw iv",
+    "croshaw star",
+    "cru l2",
+    "cru l3",
+    "crusader discovery center",
+    "crusader industries showroom",
+    "cry-astro processing plant 19-02",
+    "cry-astro processing plant 34-12",
+    "cry-astro stanton",
+    "cyrene",
+    "daedalus cluster",
+    "davien - cano",
+    "davien - cathcart",
+    "davien - ferron",
+    "davien - kilian",
+    "davien - sol",
+    "davien i",
+    "davien iii",
+    "davien iv",
+    "davien star",
+    "deakins research outpost",
+    "deimos",
+    "dell township",
+    "desmond memorial convention center",
+    "dingers depot",
+    "dione",
+    "dobbs",
+    "downed relay ac-652",
+    "downlow",
+    "drifters",
+    "dupree industrial manufacturing facility",
+    "earth",
+    "echo eleven",
+    "echo island",
+    "eda",
+    "elcibre belt",
+    "ellis - kilian",
+    "ellis - magnus",
+    "ellis - min",
+    "ellis - nexus",
+    "ellis - taranis",
+    "ellis 11a",
+    "ellis 5a",
+    "ellis 5b",
+    "ellis belt alpha",
+    "ellis i",
+    "ellis ii",
+    "ellis star",
+    "ellis vi",
+    "ellis vii",
+    "ellis viii",
+    "ellis xi",
+    "elsin star",
+    "elysium i",
+    "elysium ii",
+    "elysium star",
+    "elysium v",
+    "empire health services",
+    "encole station",
+    "endless odyssey station",
+    "epheet",
+    "ergo",
+    "eri city",
+    "erna",
+    "etos",
+    "europa",
+    "faint glen station",
+    "faithful dream station",
+    "farro data center i",
+    "farro data center ii",
+    "farro data center iii",
+    "farro data center iv",
+    "farro data center ix",
+    "farro data center v",
+    "farro data center vi",
+    "farro data center vii",
+    "farro data center viii",
+    "farro data center x",
+    "ferron - croshaw",
+    "ferron - davien",
+    "ferron - idris",
+    "ferron i",
+    "ferron ii",
+    "ferron iv",
+    "ferron star",
+    "fetch",
+    "first sister",
+    "fools run",
+    "fora belt alpha",
+    "fora i",
+    "fora ii",
+    "fora iv",
+    "fora star",
+    "fora v",
+    "forge quintus",
+    "fortunes cross",
+    "front row",
+    "frostbite settlement",
+    "fujin city",
+    "g-loc bar",
+    "gainey",
+    "ganymede",
+    "garron - bacchus",
+    "garron i",
+    "garron ii",
+    "garron iii",
+    "garron iv",
+    "garron star",
+    "geddon - bacchus",
+    "geddon star",
+    "gedinasho belt",
+    "gemma",
+    "gen",
+    "genesis belt alpha",
+    "genesis i",
+    "genesis ii",
+    "genesis iii",
+    "genesis star",
+    "gideons belt",
+    "gio",
+    "gliese belt alpha",
+    "gliese belt beta",
+    "gliese cluster gamma",
+    "gliese i",
+    "gliese ii",
+    "gliese iii",
+    "gliese star",
+    "gliese v",
+    "gliese vi",
+    "gonn",
+    "gonzo",
+    "goss - helios",
+    "goss - osiris",
+    "goss - tayac",
+    "goss - terra",
+    "goss - tyrol",
+    "goss a",
+    "goss b",
+    "goss i",
+    "goss iii",
+    "grand barter bazaar",
+    "green",
+    "green glade station",
+    "green imperial medical",
+    "greencircle habitation",
+    "greycat stanton i production complex-b",
+    "grim hex",
+    "gurzil belt alpha",
+    "gurzil star",
+    "hades i",
+    "hades ii",
+    "hades iii",
+    "hades iv",
+    "hades iv asteroid cluster",
+    "hades iv split",
+    "hades star",
+    "hadrian belt alpha",
+    "hadrian i",
+    "hadrian ii",
+    "hadrian iii",
+    "hadrian star",
+    "half stack",
+    "hard knocks",
+    "hasbin hall",
+    "hauu",
+    "hdpc-cassillo",
+    "hdpc-farnesway",
+    "hdsf-ishmael",
+    "hdsf-palomar",
+    "helas regret",
+    "helios i",
+    "helios iii",
+    "helios iv",
+    "helios star",
+    "hendricks",
+    "henge cluster",
+    "herschel belt",
+    "hh130782",
+    "hh130782a",
+    "hickes research outpost",
+    "high course station",
+    "hl2610a",
+    "horus belt alpha",
+    "horus belt beta",
+    "horus ii",
+    "horus iii",
+    "horus star",
+    "hospice",
+    "hospital",
+    "huanam",
+    "hurston dynamics showcase",
+    "hurston security station",
+    "hyperion",
+    "iapetus",
+    "ias hammett",
+    "icarus cluster",
+    "icc scanhub stanton",
+    "idris i",
+    "idris ii",
+    "idris iii",
+    "idris star",
+    "idris v",
+    "ims bolliver",
+    "infinity customs",
+    "ins aniene",
+    "ins dunleavy",
+    "ins flavus",
+    "ins hephaestus",
+    "ins malcolm",
+    "ins reilly",
+    "inspiration park",
+    "intensive care unit",
+    "invictus base",
+    "io",
+    "io-north tower",
+    "jai",
+    "jalan",
+    "jarl",
+    "jata",
+    "jovian rings",
+    "judecca",
+    "julep ravine aid shelter",
+    "jupiter",
+    "justicestar satellite",
+    "kabal cluster alpha",
+    "kabal i",
+    "kabal ii",
+    "kabal iii",
+    "kabal star",
+    "kaipua i",
+    "kaipua iii",
+    "kaipua iv",
+    "kaipua star",
+    "kallis belt alpha",
+    "kallis belt beta",
+    "kallis i",
+    "kallis ii",
+    "kallis iii",
+    "kallis iv",
+    "kallis ix",
+    "kallis star",
+    "kallis v",
+    "kallis v accretion disk",
+    "kallis vi",
+    "kallis vii",
+    "kallis viii",
+    "kampos",
+    "kaua",
+    "kedsu reef",
+    "keene",
+    "kellog i",
+    "kellog iii",
+    "kellog iv",
+    "kellog star",
+    "kellog v",
+    "kelo bottom",
+    "kesseli",
+    "khabari star",
+    "khanos stadium",
+    "kiel - baker",
+    "kiel belt alpha",
+    "kiel i",
+    "kiel ii",
+    "kiel iv",
+    "kiel star",
+    "kiel v",
+    "kiel vi",
+    "kilian star",
+    "kilian viii",
+    "kilian x",
+    "kilian xi",
+    "kilian xii",
+    "kilian xiii",
+    "kilian xiv",
+    "kins belt alpha",
+    "kins belt beta",
+    "kins i",
+    "kins ii",
+    "kins iii",
+    "kins iv",
+    "kins star",
+    "kins v",
+    "klescher rehabilitation facility aberdeen",
+    "koli",
+    "krilya",
+    "kudre ore mine",
+    "kuiper belt",
+    "kuli",
+    "kutaram",
+    "kyakuing",
+    "kyukya - ailka",
+    "kyukya a",
+    "kyukya b",
+    "kyukya belt alpha",
+    "kyukya i",
+    "kyukya ii",
+    "kyum",
+    "kyunao",
+    "kyupuaang",
+    "kyuyathan",
+    "l19 residences",
+    "lago",
+    "lamina olp",
+    "lamina paf-i",
+    "lamina paf-ii",
+    "lamina paf-iii",
+    "lanisto",
+    "last day",
+    "launch pad",
+    "lauo - aluth",
+    "lauo - tohil",
+    "lauo - trise",
+    "lauo belt alpha",
+    "lauo belt beta",
+    "lauo star",
+    "lazarus phoenix research lab",
+    "lazarus tithonus research lab",
+    "lazarus transport hub phoenix-i",
+    "lazarus transport hub phoenix-ii",
+    "lazarus transport hub phoenix-iii",
+    "lazarus transport hub tithonus-i",
+    "lazarus transport hub tithonus-ii",
+    "lazarus transport hub tithonus-iii",
+    "leavsden square",
+    "leir i",
+    "leir iii",
+    "leir star",
+    "list of stanton locations",
+    "lively pathway station",
+    "lixuu",
+    "lngxyi",
+    "lo",
+    "locke",
+    "long forest station",
+    "lorona",
+    "lorville outskirts",
+    "lowdown",
+    "luna",
+    "lyre",
+    "lyris flotilla",
+    "macarthur",
+    "macintyre victors bar",
+    "magma",
+    "magnus - stanton",
+    "magnus gateway",
+    "magnus i",
+    "magnus iii",
+    "magnus star",
+    "mainline",
+    "marama",
+    "maria pure of heart",
+    "mariana",
+    "marisol belt",
+    "markahil star",
+    "mars",
+    "melodic fields station",
+    "mentor",
+    "mercury planet",
+    "mercy hospital",
+    "microtech planet",
+    "miiyong",
+    "million mile high club",
+    "min 1a",
+    "min 1b",
+    "min 1c",
+    "min 1d",
+    "min i",
+    "minlo spire",
+    "miranda",
+    "modern express station",
+    "modern icarus station",
+    "moscow",
+    "mt datacenter 2ub-rb9-5",
+    "mt datacenter l8p-juc-8",
+    "mya",
+    "najita",
+    "nedila",
+    "neer",
+    "nemo i",
+    "nemo ii",
+    "nemo star",
+    "neo taurii",
+    "neptune",
+    "nessa park",
+    "nest apartments",
+    "neutrality",
+    "nevermind",
+    "new austin",
+    "new corvo",
+    "new junction",
+    "new york",
+    "newcastle",
+    "nexus i",
+    "nexus ii",
+    "nexus iii",
+    "nexus star",
+    "nkz",
+    "noble",
+    "nogo",
+    "nova kyiv",
+    "nuiqsut emergency shelter",
+    "nul i",
+    "nul ii",
+    "nul iv",
+    "nul star",
+    "nyx - pyro",
+    "nyx - stanton",
+    "nyx gateway",
+    "nyx i",
+    "nyx ii",
+    "nyx iii",
+    "nyx star",
+    "ob heller",
+    "ob kobold",
+    "ob station gryphon",
+    "ob station pegasus",
+    "oberon iii",
+    "oberon iv",
+    "oberon moon",
+    "oberon star",
+    "oberon v",
+    "oberon vi",
+    "oberon vii",
+    "odin belt alpha",
+    "odin ii",
+    "odin iii",
+    "odin iv",
+    "odin star",
+    "odyssa",
+    "old 38",
+    "olisha",
+    "olympus",
+    "olympus pool",
+    "onyx facility asd",
+    "onyx facility s1a8",
+    "op station demien",
+    "operations depot lyria",
+    "oretani belt alpha",
+    "oretani i",
+    "oretani ii",
+    "oretani iii",
+    "oretani iv",
+    "oretani star",
+    "oretani v",
+    "oretani vi",
+    "orion belt alpha",
+    "orion i",
+    "orion ii",
+    "orion star",
+    "orison general",
+    "osha",
+    "osiris - baker",
+    "osiris belt alpha",
+    "osiris ii",
+    "osiris star",
+    "oso i",
+    "oso ii",
+    "oso iii",
+    "oso iv",
+    "oso star",
+    "oso v",
+    "oso vi",
+    "outpost 08p",
+    "oya i",
+    "oya ii",
+    "oya iii",
+    "oya iv",
+    "oya star",
+    "oza neo-imperial cuisine new babbage",
+    "oza neo-imperial cuisine orison",
+    "penselin",
+    "persei",
+    "petram",
+    "petrus",
+    "pharmacy",
+    "phiyi tower",
+    "phobos",
+    "pike",
+    "pinecone",
+    "pingleth",
+    "pipa",
+    "pitua",
+    "player hab",
+    "pluto",
+    "point wain emergency shelter",
+    "port olisar",
+    "port renatus",
+    "pox",
+    "prime",
+    "providence industrial platform",
+    "puaangkiil",
+    "puayaha",
+    "puenu",
+    "pyam-exhang-0-1",
+    "pyenpuia",
+    "pyro - nyx",
+    "pyro - stanton",
+    "pyro gateway",
+    "pyro star",
+    "quantum",
+    "quarterdeck",
+    "quasi",
+    "queeg",
+    "quinton",
+    "qv services stations",
+    "rab-lamba",
+    "rab-siera",
+    "raipung",
+    "raleigh station",
+    "rayari livengood research outpost",
+    "reclamation disposal",
+    "red crossroads station",
+    "red god",
+    "refinery deck",
+    "regiment downs",
+    "reis",
+    "reisse",
+    "rest stop",
+    "rezas landing",
+    "rhea",
+    "rhetor i",
+    "rhetor star",
+    "rhetor v",
+    "ricos remains",
+    "rila star",
+    "rings of aremis",
+    "rings of branaugh ii",
+    "rings of ellis vii",
+    "rings of kiel v",
+    "rings of kyukya i",
+    "rings of neptune",
+    "rings of saturn",
+    "rings of tayac ii",
+    "rings of uranus",
+    "rock bottom",
+    "rolos crater",
+    "ruptura olp",
+    "ruptura paf-i",
+    "ruptura paf-ii",
+    "ruptura paf-iii",
+    "ryixyan",
+    "ryl",
+    "rytif",
+    "saisei",
+    "salvage",
+    "samson",
+    "sapung",
+    "saturn",
+    "schwester",
+    "scuttle",
+    "second sister",
+    "security post kareah",
+    "sekith",
+    "selene",
+    "seraphim",
+    "serling",
+    "sesen",
+    "severus",
+    "shady glen farms",
+    "shallow fields station",
+    "shallow frontier station",
+    "shanghai",
+    "shanks",
+    "shepherd",
+    "sherman",
+    "shoel",
+    "shubin processing facility spmc-1",
+    "sightseeing and travel guide",
+    "sino",
+    "smokestack",
+    "sol - croshaw",
+    "sol - davien",
+    "sol star",
+    "space clinics",
+    "space whale",
+    "spider",
+    "stalford",
+    "stanton - magnus",
+    "stanton - pyro",
+    "stanton - terra",
+    "stanton gateway",
+    "stanton star",
+    "stones throw",
+    "stratus at cloudview center",
+    "supply gap",
+    "synthworld",
+    "tamsa black hole",
+    "tamsa i",
+    "tamsa ii",
+    "tanga belt alpha",
+    "tanga i",
+    "tanga ii",
+    "tanga star",
+    "tangaroa",
+    "tanys",
+    "taranis belt alpha",
+    "taranis belt beta",
+    "taranis i",
+    "taranis ii",
+    "taranis iii",
+    "taranis iv",
+    "taranis star",
+    "tatko",
+    "tayac - baker",
+    "tayac - goss",
+    "tayac - terra",
+    "tayac belt alpha",
+    "tayac i",
+    "tayac ii",
+    "tayac star",
+    "tdd kesner",
+    "technotic",
+    "terra",
+    "terra - stanton",
+    "terra gateway",
+    "terra nova",
+    "test facility octagon",
+    "tethlea",
+    "tethys",
+    "the ark station",
+    "the barrens",
+    "the blocks",
+    "the coil",
+    "the commons new babbage",
+    "the dregs",
+    "the factory line",
+    "the good doctor",
+    "the grove",
+    "the hollows",
+    "the shades",
+    "the snake pit",
+    "thimblerig",
+    "third sister",
+    "thundering express station",
+    "thusng - baker",
+    "thusng belt alpha",
+    "thusng i",
+    "thusng star",
+    "tiber belt alpha",
+    "tiber i",
+    "tiber star",
+    "titan",
+    "titania",
+    "titus",
+    "tl - ailka",
+    "tl star",
+    "tobin expo center",
+    "tohil - lauo",
+    "tohil - nyx",
+    "tohil - oya",
+    "tohil belt alpha",
+    "tohil i",
+    "tohil ii",
+    "tohil iii",
+    "tohil iv",
+    "tohil star",
+    "toja",
+    "tomb",
+    "tram",
+    "trise - aluth",
+    "trise - lauo",
+    "trise flotilla",
+    "trise i",
+    "trise star",
+    "tualu",
+    "tyrol - charon",
+    "tyrol - goss",
+    "tyrol - helios",
+    "tyrol a",
+    "tyrol b",
+    "tyrol belt alpha",
+    "tyrol i",
+    "tyrol ii",
+    "tyrol iii",
+    "tyrol iv",
+    "tyrol v",
+    "tyrol vi",
+    "tyrol vii",
+    "umbriel",
+    "unnamed abandoned outpost cellin",
+    "unnamed abandoned outpost daymar",
+    "unnamed abandoned outpost yela",
+    "uranus",
+    "uriel",
+    "vagabond star",
+    "vanduul attack",
+    "vanguard star",
+    "vann",
+    "vector star",
+    "vega 2a",
+    "vega 2b",
+    "vega belt alpha",
+    "vega i",
+    "vega iv",
+    "vega star",
+    "vendetta star",
+    "venus",
+    "veritas star",
+    "vermilion star",
+    "vesper star",
+    "viking - caliban",
+    "viking - orion",
+    "viking star",
+    "vili",
+    "virgil - kellog",
+    "virgil - nyx",
+    "virgil - oberon",
+    "virgil - tiber",
+    "virgil - vega",
+    "virgil iii",
+    "virgil star",
+    "virgo star",
+    "vision center",
+    "vivere olp",
+    "vivere paf-i",
+    "vivere paf-ii",
+    "vivere paf-iii",
+    "volt star",
+    "voodoo star",
+    "vosca",
+    "voyager bar",
+    "vulture - orion",
+    "vulture star",
+    "wailing rock",
+    "walleye",
+    "wallys",
+    "watchers depot",
+    "whistlers crypt",
+    "wide forest station",
+    "wikelo emporium",
+    "worlds end",
+    "xenia",
+    "xi",
+    "xis",
+    "xluu",
+    "xyekyu",
+    "xyeping",
+    "yadar valley",
+    "yar",
+    "yellow core station",
+    "yengchuai",
+    "yeten",
+    "yethll syeno",
+    "yethll yatho",
+    "yeton",
+    "yme",
+    "ymon - ailka",
+    "ymon - baker",
+    "ymon belt alpha",
+    "ymon star",
+    "ymping",
+    "yogi station",
+    "yti",
+    "yulin - banshee",
+    "yulin - leir",
+    "yulin cluster alpha",
+    "yulin flotilla",
+    "yulin i",
+    "yulin ii",
+    "yulin iii",
+    "yulin iv",
+    "yulin star",
+    "yulin v",
+    "yulin vi",
+    "zephyr settlement"
+  ],
+  "terms": "https://uexcorp.space/about/terms/",
+  "unavailable_endpoints": []
+}

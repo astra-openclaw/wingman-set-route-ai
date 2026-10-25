@@ -1,0 +1,4 @@
+pydantic
+PyYAML
+tiktoken
+Pillow

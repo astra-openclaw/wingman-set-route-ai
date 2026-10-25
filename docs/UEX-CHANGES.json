@@ -1,0 +1,1050 @@
+{
+  "added": [
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 25,
+      "key": "nyx gateway stanton"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 26,
+      "key": "terra gateway stanton"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 28,
+      "key": "pyam-farstat-1-2"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 29,
+      "key": "pyam-farstat-1-3"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 30,
+      "key": "pyam-farstat-1-5"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 35,
+      "key": "pyam-farstat-3-5"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 36,
+      "key": "pyam-farstat-5-1"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 40,
+      "key": "pyam-farstat-6-2"
+    },
+    {
+      "endpoint": "space_stations",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 56,
+      "key": "stanton gateway nyx"
+    },
+    {
+      "endpoint": "outposts",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 11,
+      "key": "deakins research"
+    },
+    {
+      "endpoint": "outposts",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 28,
+      "key": "hickes research"
+    },
+    {
+      "endpoint": "outposts",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 83,
+      "key": "frostbite"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 15,
+      "key": "mt datacenter l8p-juc-8 offline"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 34,
+      "key": "hdsf-hendricks"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 82,
+      "key": "klescher rehabilitation facility"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 89,
+      "key": "covalex distribution center s4dc05"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 123,
+      "key": "julep aid shelter"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 131,
+      "key": "kudre ore mine closed"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 170,
+      "key": "mining base 4ro-nvx"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 171,
+      "key": "mining base oyv-jke"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 172,
+      "key": "mining base rsv-8hl"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 173,
+      "key": "mining base 8cg-osa"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 174,
+      "key": "mining base 7yh-jx7"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 175,
+      "key": "mining base 8pv-wne"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 176,
+      "key": "mining base xjz-jr2"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 177,
+      "key": "mining base oyx-o7z"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 178,
+      "key": "mining base bre-582"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 179,
+      "key": "mining base 74h-2do"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 180,
+      "key": "mining base a73-htj"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 181,
+      "key": "mining base bsk-ij5"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 182,
+      "key": "mining base 7iq-29q"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 183,
+      "key": "mining base n6j-xkh"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 184,
+      "key": "mining base czw-rry"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 185,
+      "key": "mining base yto-glq"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 186,
+      "key": "mining base igb-fxw"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 188,
+      "key": "mining base 7li-oda"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 189,
+      "key": "mining base wuo-zru"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 190,
+      "key": "mining base ro8-y3k"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 191,
+      "key": "mining base 6in-po2"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 192,
+      "key": "mining base lbp-un5"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 193,
+      "key": "mining base o1k-i43"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 194,
+      "key": "mining base bbr-4jq"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 195,
+      "key": "mining base odd-e9b"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 196,
+      "key": "mining base sag-2un"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 197,
+      "key": "mining base 5u5-tlc"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 198,
+      "key": "mining base rcd-ob3"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 199,
+      "key": "mining base q9q-o9o"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 200,
+      "key": "mining base cvf-t6h"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 201,
+      "key": "mining base go4-cho"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 202,
+      "key": "mining base al5-xpd"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 203,
+      "key": "mining base 1xa-3gi"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 204,
+      "key": "mining base r7j-wj7"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 205,
+      "key": "mining base jug-okz"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 207,
+      "key": "mining base x92-iva"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 208,
+      "key": "mining base udk-ijx"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 209,
+      "key": "mining base u5x-ngq"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 210,
+      "key": "mining base io3-h1f"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 211,
+      "key": "mining base 4pi-3yy"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 212,
+      "key": "mining base urb-h3v"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 213,
+      "key": "mining base qxs-nbs"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 214,
+      "key": "mining base 51f-ogh"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 215,
+      "key": "mining base r75-5pz"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 216,
+      "key": "mining base z48-o13"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 217,
+      "key": "mining base uu6-1ei"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 218,
+      "key": "mining base q4u-i2o"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 219,
+      "key": "mining base w79-2h7"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 220,
+      "key": "mining base e38-s5g"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 238,
+      "key": "rab-lamda"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 246,
+      "key": "rab-sierra"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 248,
+      "key": "rab-ultra"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 254,
+      "key": "cluster caj-445"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 255,
+      "key": "cluster dlo-486"
+    },
+    {
+      "endpoint": "poi",
+      "evidence": "is_available_live=1, has_quantum_marker=1, not decommissioned",
+      "id": 265,
+      "key": "cluster rsc-340"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "arc-l1",
+      "key": "arc-l1 wide forest station"
+    },
+    {
+      "alias": "arc l1",
+      "key": "arc-l1 wide forest station"
+    },
+    {
+      "alias": "arc-l2",
+      "key": "arc-l2 lively pathway station"
+    },
+    {
+      "alias": "arc l2",
+      "key": "arc-l2 lively pathway station"
+    },
+    {
+      "alias": "arc l3",
+      "key": "arc-l3 modern express station"
+    },
+    {
+      "alias": "arc-l3",
+      "key": "arc-l3 modern express station"
+    },
+    {
+      "alias": "arc l4",
+      "key": "arc-l4 faint glen station"
+    },
+    {
+      "alias": "arc-l4",
+      "key": "arc-l4 faint glen station"
+    },
+    {
+      "alias": "arc l5",
+      "key": "arc-l5 yellow core station"
+    },
+    {
+      "alias": "arc-l5",
+      "key": "arc-l5 yellow core station"
+    },
+    {
+      "alias": "cru-l1",
+      "key": "cru-l1 ambitious dream station"
+    },
+    {
+      "alias": "cru-l4",
+      "key": "cru-l4 shallow fields station"
+    },
+    {
+      "alias": "cru l4",
+      "key": "cru-l4 shallow fields station"
+    },
+    {
+      "alias": "cru-l5",
+      "key": "cru-l5 beautiful glen station"
+    },
+    {
+      "alias": "cru l5",
+      "key": "cru-l5 beautiful glen station"
+    },
+    {
+      "alias": "everus",
+      "key": "everus harbor"
+    },
+    {
+      "alias": "green imperial housing exchange",
+      "key": "grim hex"
+    },
+    {
+      "alias": "hur l1",
+      "key": "hur-l1 green glade station"
+    },
+    {
+      "alias": "hur-l1",
+      "key": "hur-l1 green glade station"
+    },
+    {
+      "alias": "hur-l2",
+      "key": "hur-l2 faithful dream station"
+    },
+    {
+      "alias": "hur l2",
+      "key": "hur-l2 faithful dream station"
+    },
+    {
+      "alias": "hur-l3",
+      "key": "hur-l3 thundering express station"
+    },
+    {
+      "alias": "hur l3",
+      "key": "hur-l3 thundering express station"
+    },
+    {
+      "alias": "hur l4",
+      "key": "hur-l4 melodic fields station"
+    },
+    {
+      "alias": "hur-l4",
+      "key": "hur-l4 melodic fields station"
+    },
+    {
+      "alias": "hur-l5",
+      "key": "hur-l5 high course station"
+    },
+    {
+      "alias": "hur l5",
+      "key": "hur-l5 high course station"
+    },
+    {
+      "alias": "mic-l1",
+      "key": "mic-l1 shallow frontier station"
+    },
+    {
+      "alias": "mic l1",
+      "key": "mic-l1 shallow frontier station"
+    },
+    {
+      "alias": "mic-l2",
+      "key": "mic-l2 long forest station"
+    },
+    {
+      "alias": "mic l2",
+      "key": "mic-l2 long forest station"
+    },
+    {
+      "alias": "mic-l3",
+      "key": "mic-l3 endless odyssey station"
+    },
+    {
+      "alias": "mic l3",
+      "key": "mic-l3 endless odyssey station"
+    },
+    {
+      "alias": "mic l4",
+      "key": "mic-l4 red crossroads station"
+    },
+    {
+      "alias": "mic-l4",
+      "key": "mic-l4 red crossroads station"
+    },
+    {
+      "alias": "mic l5",
+      "key": "mic-l5 modern icarus station"
+    },
+    {
+      "alias": "mic-l5",
+      "key": "mic-l5 modern icarus station"
+    },
+    {
+      "alias": "wikela kinga",
+      "key": "wikelo emporium kinga station"
+    },
+    {
+      "alias": "wikela dasi",
+      "key": "wikelo emporium dasi station"
+    },
+    {
+      "alias": "wikela selo",
+      "key": "wikelo emporium selo station"
+    },
+    {
+      "alias": "pss delta",
+      "key": "peoples service station delta"
+    },
+    {
+      "alias": "pss alpha",
+      "key": "peoples service station alpha"
+    },
+    {
+      "alias": "pss theta",
+      "key": "peoples service station theta"
+    },
+    {
+      "alias": "pss lambda",
+      "key": "peoples service station lambda"
+    },
+    {
+      "alias": "area 18",
+      "key": "area18"
+    },
+    {
+      "alias": "samson sons salvage center",
+      "key": "samson"
+    },
+    {
+      "alias": "shady glen",
+      "key": "samson"
+    },
+    {
+      "alias": "area 04",
+      "key": "area04"
+    },
+    {
+      "alias": "area 06",
+      "key": "area06"
+    },
+    {
+      "alias": "area 11",
+      "key": "area11"
+    },
+    {
+      "alias": "area 17",
+      "key": "area17"
+    },
+    {
+      "alias": "area 20",
+      "key": "area20"
+    },
+    {
+      "alias": "hdsf ishmael",
+      "key": "hdsf-ishmael"
+    },
+    {
+      "alias": "launchpad",
+      "key": "launch pad"
+    }
+  ],
+  "enriched": [
+    "aaron halo",
+    "aberdeen",
+    "adir",
+    "arc-l1 wide forest station",
+    "arc-l2 lively pathway station",
+    "arc-l3 modern express station",
+    "arc-l4 faint glen station",
+    "arc-l5 yellow core station",
+    "arccorp",
+    "arccorp mining area 045",
+    "arccorp mining area 048",
+    "arccorp mining area 056",
+    "arccorp mining area 061",
+    "arccorp mining area 141",
+    "arccorp mining area 157",
+    "arccorp processing center 115",
+    "arccorp processing center 123",
+    "arial",
+    "arid reach",
+    "ashburn channel aid shelter",
+    "ashland",
+    "aston ridge aid shelter",
+    "astors clearing",
+    "august dunlow spaceport",
+    "baijini point",
+    "barton flats aid shelter",
+    "benson mining outpost",
+    "blackrock exchange",
+    "bloodshot ridge",
+    "bloom",
+    "bountiful harvest hydroponics",
+    "brios breaker yard",
+    "buckets",
+    "buds growery",
+    "bueno ravine",
+    "bullocks reach",
+    "calliope",
+    "canard view",
+    "carvers ridge",
+    "cellin",
+    "chawlas beach",
+    "checkmate station",
+    "clio",
+    "cloudrest retreat",
+    "cluster bgr-560",
+    "cluster emm-567",
+    "cluster fsn-704",
+    "cluster grp-839",
+    "cluster hjs-232",
+    "cluster jwy-925",
+    "cluster kke-717",
+    "cluster lhb-976",
+    "cluster mnk-833",
+    "cluster nbd-102",
+    "cluster wdh-387",
+    "cluster yka-011",
+    "comm array st1-02",
+    "comm array st1-13",
+    "comm array st1-48",
+    "comm array st1-61",
+    "comm array st1-92",
+    "comm array st2-28",
+    "comm array st2-47",
+    "comm array st2-55",
+    "comm array st2-76",
+    "comm array st3-18",
+    "comm array st3-35",
+    "comm array st3-90",
+    "comm array st4-22",
+    "comm array st4-31",
+    "comm array st4-59",
+    "comm array st4-64",
+    "connors",
+    "cru-l1 ambitious dream station",
+    "cru-l4 shallow fields station",
+    "cru-l5 beautiful glen station",
+    "crusader",
+    "cutters rig",
+    "daymar",
+    "delamar",
+    "devlin scrap salvage",
+    "dudley daughters",
+    "dunboro",
+    "dunlow ridge aid shelter",
+    "eager flats aid shelter",
+    "elsewhere",
+    "empyrean park",
+    "endgame",
+    "euterpe",
+    "everus harbor",
+    "fairo",
+    "fallow field",
+    "feo canyon depot",
+    "finns folly",
+    "flanagans ravine aid shelter",
+    "frigid knot",
+    "fuego",
+    "gallete family farms",
+    "gaslight",
+    "ghost hollow",
+    "glaciem ring",
+    "goners deal",
+    "good times temple",
+    "gray gardens depot",
+    "greycat stanton iv production complex-a",
+    "harpers point",
+    "hdms-anderson",
+    "hdms-bezdek",
+    "hdms-edmond",
+    "hdms-hadley",
+    "hdms-hahn",
+    "hdms-lathan",
+    "hdms-norgaard",
+    "hdms-oparei",
+    "hdms-perlman",
+    "hdms-pinewood",
+    "hdms-ryder",
+    "hdms-stanhope",
+    "hdms-thedus",
+    "hdms-woodruff",
+    "hdsf-adlai",
+    "hdsf-barnabas",
+    "hdsf-breckinridge",
+    "hdsf-colfax",
+    "hdsf-damaris",
+    "hdsf-elbridge",
+    "hdsf-hiram",
+    "hdsf-hobart",
+    "hdsf-millerand",
+    "hdsf-rufus",
+    "hdsf-sherman",
+    "hdsf-tamar",
+    "hdsf-tompkins",
+    "hdsf-zacharias",
+    "humboldt mines",
+    "hur-l1 green glade station",
+    "hur-l2 faithful dream station",
+    "hur-l3 thundering express station",
+    "hur-l4 melodic fields station",
+    "hur-l5 high course station",
+    "hurston",
+    "ignis",
+    "ins jericho",
+    "ita",
+    "jacksons swap",
+    "jumptown",
+    "kabirs post",
+    "kants peak",
+    "keeger belt",
+    "kinder plots",
+    "kosso basin aid shelter",
+    "kudre ore",
+    "last ditch",
+    "last landings",
+    "levski",
+    "lorville",
+    "lost and found",
+    "loveridge mineral reserve",
+    "ludlow",
+    "lyria",
+    "magda",
+    "makers point",
+    "megumi refueling",
+    "mic-l1 shallow frontier station",
+    "mic-l2 long forest station",
+    "mic-l3 endless odyssey station",
+    "mic-l4 red crossroads station",
+    "mic-l5 modern icarus station",
+    "microtech",
+    "microtech logistics depot s4ld01",
+    "microtech logistics depot s4ld13",
+    "miners lament",
+    "mogote aid shelter",
+    "monox",
+    "moreland hills",
+    "mt datacenter 4hj-lve-a",
+    "mt datacenter 5wq-r2v-c",
+    "mt datacenter 8fk-q2x-k",
+    "mt datacenter d79-ecg-r",
+    "mt datacenter e2q-nsg-y",
+    "mt datacenter kh3-aae-l",
+    "mt datacenter qvx-j88-j",
+    "mt datacenter tmg-xev-2",
+    "mt opcenter tli-4",
+    "nakamura valley aid shelter",
+    "narenas rest",
+    "new babbage",
+    "new babbage interstellar spaceport",
+    "nt-999-xv",
+    "nt-999-xvi",
+    "nt-999-xx",
+    "nt-999-xxii",
+    "nuen waste management",
+    "nyx gateway pyro",
+    "orbituary",
+    "orison",
+    "ostlers claim",
+    "outpost 54",
+    "paradise cove",
+    "patch city",
+    "peoples service station alpha",
+    "peoples service station delta",
+    "peoples service station lambda",
+    "peoples service station theta",
+    "pickers field",
+    "port tressler",
+    "private property",
+    "prophets peak",
+    "prospect depot",
+    "prospect point",
+    "pyam-supvisr-3-4",
+    "pyam-supvisr-3-5",
+    "pyro gateway nyx",
+    "pyro gateway stanton",
+    "pyro i",
+    "pyro iv",
+    "pyro v",
+    "rab-alpha",
+    "rab-bravo",
+    "rab-charlie",
+    "rab-cook",
+    "rab-delta",
+    "rab-echo",
+    "rab-foxtrot",
+    "rab-gulf",
+    "rab-helio",
+    "rab-ignition",
+    "rab-ion",
+    "rab-jak",
+    "rab-kilo",
+    "rab-lynx",
+    "rab-mat",
+    "rab-november",
+    "rab-over",
+    "rab-point",
+    "rab-quagmire",
+    "rab-roth",
+    "rab-tung",
+    "rab-victory",
+    "rab-whiskey",
+    "rab-xeno",
+    "rab-york",
+    "rab-zeta",
+    "rappel",
+    "rats nest",
+    "ravens roost",
+    "rayari anvik research outpost",
+    "rayari cantwell research outpost",
+    "rayari deltana research outpost",
+    "rayari kaltag research outpost",
+    "rayari mcgrath research outpost",
+    "razors edge",
+    "reclamation disposal orinth",
+    "riker memorial spaceport",
+    "rods fuel n supplies",
+    "rough landing",
+    "ruin station",
+    "rustville",
+    "sacrens plot",
+    "sakura sun goldenrod workcenter",
+    "sakura sun magnolia workcenter",
+    "scarpers turn",
+    "security post criska",
+    "security post dipur",
+    "security post lespin",
+    "security post moluto",
+    "security post opal",
+    "security post prashad",
+    "security post thaquray",
+    "security post wan",
+    "seers canyon",
+    "seraphim station",
+    "shadowfall",
+    "shepherds rest",
+    "shubin mining facility sal-2",
+    "shubin mining facility sal-5",
+    "shubin mining facility scd-1",
+    "shubin mining facility sm0-10",
+    "shubin mining facility sm0-13",
+    "shubin mining facility sm0-18",
+    "shubin mining facility sm0-22",
+    "shubin mining facility smca-6",
+    "shubin mining facility smca-8",
+    "shubin processing facility spal-12",
+    "shubin processing facility spal-16",
+    "shubin processing facility spal-21",
+    "shubin processing facility spal-3",
+    "shubin processing facility spal-7",
+    "shubin processing facility spal-9",
+    "shubin processing facility spmc-10",
+    "shubin processing facility spmc-11",
+    "shubin processing facility spmc-14",
+    "shubin processing facility spmc-3",
+    "shubin processing facility spmc-5",
+    "slowburn depot",
+    "stags rut",
+    "stanton gateway pyro",
+    "starlight service station",
+    "stonetree",
+    "sunset mesa",
+    "talarine divide aid shelter",
+    "tamdon plains aid shelter",
+    "teasa spaceport",
+    "teddys playhouse",
+    "terminus",
+    "terra mills hydrofarm",
+    "the garden",
+    "the golden riviera",
+    "the icebreaker",
+    "the necropolis",
+    "the orphanage",
+    "the pit",
+    "the sky scraper",
+    "the yard",
+    "tpf",
+    "tram myers mining",
+    "tremonte",
+    "trilo",
+    "utopia",
+    "vatra",
+    "vuur",
+    "wala",
+    "washout",
+    "weeping cove",
+    "wheelers",
+    "wikelo emporium dasi station",
+    "wikelo emporium kinga station",
+    "wikelo emporium selo station",
+    "wiley flats",
+    "windfall",
+    "wolf point aid shelter",
+    "yangs place",
+    "yela"
+  ],
+  "not_added": [
+    {
+      "name": "PYAM-FARSTAT-5-3",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "PYAM-FARSTAT-2-3",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "Zephyr",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "MT DataCenter 2QB-RB9-5",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "HDES-Dobbs (NA)",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "Security Depot Lyria",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "Sketto Rock",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "Pyro Asteroid Clusters",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "OV Breaker Stations",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "Akiro Cluster Alpha",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    },
+    {
+      "name": "Yela Ring",
+      "reason": "not positively confirmed live, active and quantum-marked"
+    }
+  ],
+  "retained_unavailable_metadata": [
+    {
+      "endpoint": "moons",
+      "id": 5,
+      "key": "ariel",
+      "reason": "Retained original entry; system metadata disambiguates aerial, availability is not a deletion rule.",
+      "system": "Sol"
+    }
+  ]
+}
