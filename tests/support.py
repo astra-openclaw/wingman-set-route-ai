@@ -55,7 +55,12 @@ class Desktop:
     def move(self, x, y): self.event("move", x, y)
     def click(self): self.event("click")
     def wheel(self, steps): self.event("wheel", steps)
-    def clipboard_get(self): return self.clipboard
+    def clipboard_get(self):
+        from sra_desktop import ClipboardSnapshot
+        return ClipboardSnapshot(()) if self.clipboard is None else ClipboardSnapshot(((13, (self.clipboard + "\0").encode("utf-16-le")),))
+    def clipboard_restore(self, snapshot):
+        text = snapshot.formats[0][1].decode("utf-16-le").rstrip("\0") if snapshot.formats else None
+        self.clipboard_set(text)
     def clipboard_set(self, text):
         self.clipboard = text; self.event("clipboard", text)
     def left_pressed(self): return False

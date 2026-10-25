@@ -1,10 +1,21 @@
 """Lazy Windows desktop adapter. Never instantiated by the catalog or tests."""
 import sys
+import time
+from typing import NamedTuple
 from contextlib import contextmanager
 
 
-class NonTextClipboard(RuntimeError):
-    """The clipboard has content that cannot be restored as Unicode text."""
+CLIPBOARD_LIMIT = 256 * 1024 * 1024
+HANDLE_FORMATS = {2, 3, 9, 14, 0x80, 0x82, 0x83, 0x8E}
+
+
+class ClipboardBusy(RuntimeError):
+    pass
+
+
+class ClipboardSnapshot(NamedTuple):
+    formats: tuple
+    partial: bool = False
 
 
 class WindowsDesktop:
@@ -32,6 +43,16 @@ class WindowsDesktop:
         self.k.GlobalAlloc.restype = w.HGLOBAL
         self.k.GlobalLock.argtypes = [w.HGLOBAL]
         self.k.GlobalLock.restype = ctypes.c_void_p
+        self.k.GlobalSize.argtypes = [w.HGLOBAL]
+        self.k.GlobalSize.restype = ctypes.c_size_t
+        self.k.GlobalFree.restype = w.HGLOBAL
+        self.u.EnumClipboardFormats.argtypes = [w.UINT]
+        self.u.EnumClipboardFormats.restype = w.UINT
+        self.u.CreateWindowExW.argtypes = [w.DWORD, w.LPCWSTR, w.LPCWSTR, w.DWORD,
+                                         ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int,
+                                         w.HWND, w.HMENU, w.HINSTANCE, ctypes.c_void_p]
+        self.u.CreateWindowExW.restype = w.HWND
+        self.u.DestroyWindow.argtypes = [w.HWND]
         self.k.GlobalUnlock.argtypes = [w.HGLOBAL]
         self.k.GlobalFree.argtypes = [w.HGLOBAL]
         self.u.OpenClipboard.argtypes = [w.HWND]
@@ -153,50 +174,103 @@ class WindowsDesktop:
             self._mouse = mouse
         self._mouse.wheel(steps)
 
-    def clipboard_get(self):
-        if not self.u.OpenClipboard(None):
-            raise RuntimeError("Clipboard is busy; try again.")
+    @contextmanager
+    def _clipboard_open(self, writing=False):
+        # A real owner window is required when EmptyClipboard precedes SetClipboardData.
+        # HWND_MESSAGE creates an invisible window on this worker's thread.
+        owner = self.u.CreateWindowExW(0, "STATIC", "", 0, 0, 0, 0, 0, -3, None, None, None) if writing else None
+        if writing and not owner:
+            raise RuntimeError("Could not create clipboard owner.")
+        opened = False
         try:
-            if not self.u.IsClipboardFormatAvailable(13):
-                if self.u.CountClipboardFormats():
-                    raise NonTextClipboard("Clipboard contains non-text data.")
-                return None
-            handle = self.u.GetClipboardData(13)
-            pointer = self.k.GlobalLock(handle) if handle else None
-            if not pointer:
-                raise RuntimeError("Could not read clipboard text.")
-            try:
-                return self.c.wstring_at(pointer)
-            finally:
-                self.k.GlobalUnlock(handle)
+            for attempt in range(3):
+                if self.u.OpenClipboard(owner):
+                    opened = True
+                    break
+                if attempt < 2:
+                    time.sleep(.05)
+            if not opened:
+                raise ClipboardBusy("The clipboard is busy; try again.")
+            yield
         finally:
-            self.u.CloseClipboard()
+            if opened:
+                self.u.CloseClipboard()
+            if owner:
+                self.u.DestroyWindow(owner)
 
-    def clipboard_set(self, text):
-        handle = None
-        if text is not None:
-            data = (text + "\0").encode("utf-16-le")
-            handle = self.k.GlobalAlloc(2, len(data))
-            if not handle:
-                raise RuntimeError("Clipboard allocation failed.")
-            pointer = self.k.GlobalLock(handle)
-            if not pointer:
-                self.k.GlobalFree(handle)
-                raise RuntimeError("Clipboard lock failed.")
-            self.c.memmove(pointer, data, len(data))
-            self.k.GlobalUnlock(handle)
-        if not self.u.OpenClipboard(None):
-            if handle:
-                self.k.GlobalFree(handle)
-            raise RuntimeError("Clipboard is busy; try again.")
-        try:
+    def clipboard_get(self):
+        """Copy all movable-memory formats in enumeration order, bounded in memory."""
+        saved, skipped, total, partial = [], set(), 0, False
+        with self._clipboard_open():
+            current, seen = 0, set()
+            while True:
+                self.c.set_last_error(0)
+                current = self.u.EnumClipboardFormats(current)
+                if not current:
+                    partial |= bool(self.c.get_last_error())
+                    break
+                if current in seen:
+                    partial = True
+                    break
+                seen.add(current)
+                if current in HANDLE_FORMATS:
+                    skipped.add(current)
+                    continue
+                try:
+                    handle = self.u.GetClipboardData(current)
+                    size = self.k.GlobalSize(handle) if handle else 0
+                    if not size or size > CLIPBOARD_LIMIT - total:
+                        partial = True
+                        continue
+                    pointer = self.k.GlobalLock(handle)
+                    if not pointer:
+                        partial = True
+                        continue
+                    try:
+                        data = self.c.string_at(pointer, size)
+                    finally:
+                        self.k.GlobalUnlock(handle)
+                    saved.append((current, data))
+                    total += size
+                except Exception:
+                    partial = True
+        # Windows recreates CF_BITMAP from DIB/DIBV5. Other skipped handles
+        # cannot be reconstructed by transferring their handle bytes.
+        if {fmt for fmt, _ in saved} & {8, 17}:
+            skipped.discard(2)
+        return ClipboardSnapshot(tuple(saved), partial or bool(skipped))
+
+    def _clipboard_write(self, formats):
+        failed = False
+        with self._clipboard_open(writing=True):
             if not self.u.EmptyClipboard():
                 raise RuntimeError("Could not clear clipboard.")
-            if handle:
-                if not self.u.SetClipboardData(13, handle):
-                    raise RuntimeError("Could not set clipboard text.")
+            for fmt, data in formats:
                 handle = None
-        finally:
-            self.u.CloseClipboard()
-            if handle:
-                self.k.GlobalFree(handle)
+                try:
+                    handle = self.k.GlobalAlloc(2, len(data))
+                    if not handle:
+                        raise RuntimeError("Clipboard allocation failed.")
+                    pointer = self.k.GlobalLock(handle)
+                    if not pointer:
+                        raise RuntimeError("Clipboard lock failed.")
+                    try:
+                        self.c.memmove(pointer, data, len(data))
+                    finally:
+                        self.k.GlobalUnlock(handle)
+                    if not self.u.SetClipboardData(fmt, handle):
+                        raise RuntimeError("Could not transfer clipboard data.")
+                    handle = None  # Windows owns the allocation after success.
+                except Exception:
+                    failed = True
+                finally:
+                    if handle:
+                        self.k.GlobalFree(handle)
+        if failed:
+            raise RuntimeError("Could not restore all clipboard content.")
+
+    def clipboard_set(self, text):
+        self._clipboard_write(((13, (text + "\0").encode("utf-16-le")),))
+
+    def clipboard_restore(self, snapshot):
+        self._clipboard_write(snapshot.formats)

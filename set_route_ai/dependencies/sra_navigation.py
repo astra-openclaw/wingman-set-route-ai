@@ -6,7 +6,7 @@ import io
 import re
 
 from destination_engine import normalize
-from sra_desktop import NonTextClipboard
+from sra_desktop import ClipboardBusy
 from sra_storage import DataError, atomic_json, backup_bytes, load_json
 
 
@@ -110,8 +110,7 @@ class Navigator:
         self.desktop, self.config, self.cancelled = desktop, config, cancelled
         self.held = []
         self.geometry = None
-        self.replaced_nontext = False
-        self.nontext_attempted = False
+        self.clipboard_partial = False
 
     def guard(self, geometry=False):
         if self.cancelled.is_set():
@@ -159,6 +158,23 @@ class Navigator:
         self.desktop.click()
         await self.pause(self.config["step_delay"])
 
+    async def clipboard_call(self, function, *args):
+        # Never abandon an open clipboard transaction on cancellation. Its worker
+        # must finish before cleanup restores data or another route can start.
+        task = asyncio.create_task(asyncio.to_thread(function, *args))
+        cancellation = None
+        while not task.done():
+            try:
+                await asyncio.shield(task)
+            except asyncio.CancelledError as exc:
+                cancellation = exc
+            except Exception:
+                break
+        if cancellation is not None:
+            task.exception() if not task.cancelled() else None
+            raise cancellation
+        return task.result()
+
     async def plot(self, destination, calibration, bindings, verify, search_text=None):
         previous, clipboard_touched = None, False
         outcome = ""
@@ -167,13 +183,11 @@ class Navigator:
             self.guard()
             self.geometry = copy.deepcopy(self.desktop.geometry())
             points = check_calibration(calibration, self.geometry)
-            replace_nontext = False
             try:
-                previous = self.desktop.clipboard_get()
-            except NonTextClipboard:
-                if not self.config["replace_non_text_clipboard"]:
-                    raise NavigationStopped("Your clipboard contains an image or other non-text content. Copy some text first, or enable Replace a non-text clipboard.") from None
-                replace_nontext = True
+                previous = await self.clipboard_call(self.desktop.clipboard_get)
+            except ClipboardBusy as exc:
+                raise NavigationStopped(str(exc)) from None
+            self.clipboard_partial = previous.partial
             await self.chord(bindings["starmap"], self.config["starmap_hold"])
             await self.pause(self.config["map_delay"])
             await self.click(points["map_center"])
@@ -185,9 +199,7 @@ class Navigator:
             await self.chord(("backspace",))
             self.guard(geometry=True)
             clipboard_touched = True
-            self.nontext_attempted = replace_nontext
-            self.desktop.clipboard_set(search_text or destination)
-            self.replaced_nontext = replace_nontext
+            await self.clipboard_call(self.desktop.clipboard_set, search_text or destination)
             await self.chord(("ctrl", "v"))
             await self.pause(self.config["search_delay"])
             await self.click(points["destination"])
@@ -212,17 +224,17 @@ class Navigator:
         finally:
             if self.release_all():
                 cleanup_errors.append("Release held keys manually.")
-            if clipboard_touched and not self.nontext_attempted:
+            if clipboard_touched:
                 restored = False
                 for _ in range(3):
                     try:
-                        self.desktop.clipboard_set(previous)
+                        await self.clipboard_call(self.desktop.clipboard_restore, previous)
                         restored = True
                         break
                     except Exception:
                         await asyncio.sleep(.05)
                 if not restored:
-                    cleanup_errors.append("Could not restore clipboard text.")
+                    cleanup_errors.append("Could not restore all clipboard content.")
             if cleanup_errors:
                 raise NavigationStopped("Stopped. " + " ".join(cleanup_errors))
 

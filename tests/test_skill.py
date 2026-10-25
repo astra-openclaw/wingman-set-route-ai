@@ -257,29 +257,6 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(self.obj.desktop().clipboard,"previous text")
         self.assertFalse(self.obj.desktop().keys)
 
-    async def test_nontext_clipboard_opt_in_and_notice(self):
-        from sra_desktop import NonTextClipboard
-        self.calibrated()
-        def nontext():raise NonTextClipboard()
-        self.obj.desktop().clipboard_get=nontext
-        line=await call(self.obj,"plot_route",destination="Daymar")
-        self.assertIn("Copy some text first",line);self.assertFalse(self.obj.desktop().events)
-        self.obj.config.custom_properties=[types.SimpleNamespace(id="replace_non_text_clipboard",value=True)]
-        line=await call(self.obj,"plot_route",destination="Daymar")
-        self.assertIn("clipboard image or other non-text content was replaced",line)
-        self.assertEqual(self.obj.desktop().clipboard,"Daymar")
-
-    async def test_nontext_clipboard_cancel_notice(self):
-        from sra_desktop import NonTextClipboard
-        self.calibrated()
-        self.obj.config.custom_properties=[types.SimpleNamespace(id="replace_non_text_clipboard",value=True)]
-        def nontext():raise NonTextClipboard()
-        self.obj.desktop().clipboard_get=nontext
-        self.obj.desktop().on_event=lambda event:self.obj._cancelled.set() if event==("clipboard","Daymar") else None
-        line=await call(self.obj,"plot_route",destination="Daymar")
-        self.assertIn("cancelled",line)
-        self.assertIn("clipboard image or other non-text content was replaced",line)
-
     async def test_recalibration_replaces_corrupt_only_after_byte_backup(self):
         import json
         path=self.user/"mouse_calibration.json";path.write_bytes(b"{broken")
@@ -340,14 +317,3 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
             self.assertEqual(await self.obj.on_play_to_user("Route set!",None),"{SKIP-TTS}")
             await call(self.obj,"cancel_route");await route
         self.assertEqual(await self.obj.on_play_to_user("Finished",None),"Finished")
-
-    async def test_nontext_failed_write_reports_uncertainty(self):
-        from sra_desktop import NonTextClipboard
-        self.calibrated()
-        self.obj.config.custom_properties=[types.SimpleNamespace(id="replace_non_text_clipboard",value=True)]
-        def nontext():raise NonTextClipboard()
-        def fail(text):raise OSError("clipboard busy")
-        self.obj.desktop().clipboard_get=nontext;self.obj.desktop().clipboard_set=fail
-        line=await call(self.obj,"plot_route",destination="Daymar")
-        self.assertIn("may have been replaced",line)
-        self.assertNotIn("clipboard busy",line)

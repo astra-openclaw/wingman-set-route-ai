@@ -47,13 +47,6 @@ class Win32Tests(unittest.TestCase):
         self.user.GetForegroundWindow.action=lambda:None
         self.assertFalse(self.desktop.foreground())
 
-    def test_non_text_clipboard_refused_without_emptying(self):
-        self.user.IsClipboardFormatAvailable.action=lambda *a:False
-        self.user.CountClipboardFormats.action=lambda:1
-        emptied=[];self.user.EmptyClipboard.action=lambda:emptied.append(True)
-        with self.assertRaisesRegex(RuntimeError,"non-text"):self.desktop.clipboard_get()
-        self.assertEqual(emptied,[])
-
     def test_geometry_selects_game_monitor_with_absolute_pixels(self):
         # Two monitors; the foreground game lives on the negative-X monitor.
         self.user.MonitorFromWindow.action=lambda *a:202

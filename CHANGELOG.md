@@ -8,7 +8,7 @@ SetRouteAI by **Thord - galacticgearjammer - ProjectGnome**, expanded by **Domin
 - Guard every input burst by StarCitizen.exe foreground ownership and clean up held keys on stop.
 - Make cancellation work across Wingman's separate voice-turn threads; accept only one macro at a time.
 - Keep the original Starmap hold (1.4 seconds) and zoom settle (2.1 seconds), with bounded settings.
-- Clear search before paste and restore clipboard text. Replacing non-text content is opt-in and announced.
+- Clear search before paste and restore ordered clipboard formats, including images, file selections and rich text, after routing or interruption. Snapshot up to 256 MB off-thread; unreadable/unsupported content produces one short notice without blocking routing.
 - Respect keyboard overrides while ignoring joystick/gamepad binds; report explicit unbindings and conflicting maps.
 - Import only personal differences from the original database. Ignore dependency samples and preserve future shipped aliases.
 - Back up corrupt data without resetting it. Successful recalibration can replace a corrupt calibration after byte backup.

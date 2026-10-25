@@ -17,7 +17,7 @@ from sra_navigation import (NavigationStopped, Navigator, check_calibration,
 DEFAULTS = {
     "language": "en", "key_hold": .15, "starmap_hold": 1.4, "map_delay": 3.5,
     "step_delay": 1.3, "zoom_delay": 2.1, "search_delay": 1.5, "plan_delay": 3.0, "zoom_steps": 60,
-    "verify_route_with_vision": False, "replace_non_text_clipboard": False,
+    "verify_route_with_vision": False,
     "show_verification_screenshot": False, "allow_ai_disambiguation": False,
 }
 BOUNDS = {"key_hold": (.05, 2), "starmap_hold": (.1, 3), "map_delay": (1, 15),
@@ -84,7 +84,7 @@ class SetRouteAI(Skill):
                     raise DataError(f"{label} must be a whole number.")
                 value = int(value)
             values[key] = value
-        for key in ("verify_route_with_vision", "show_verification_screenshot", "allow_ai_disambiguation", "replace_non_text_clipboard"):
+        for key in ("verify_route_with_vision", "show_verification_screenshot", "allow_ai_disambiguation"):
             if not isinstance(values[key], bool):
                 label = labels.get(key) or key.replace("_", " ")
                 raise DataError(f"{label} must be true or false.")
@@ -364,10 +364,8 @@ class SetRouteAI(Skill):
                                      region, config["show_verification_screenshot"]),
                 search_text=self.engine.search_text(target))
         finally:
-            if navigator.replaced_nontext:
-                self._clipboard_notice = " Your clipboard image or other non-text content was replaced."
-            elif navigator.nontext_attempted:
-                self._clipboard_notice = " Your clipboard image or other non-text content may have been replaced."
+            if navigator.clipboard_partial:
+                self._clipboard_notice = " Some clipboard content couldn't be kept."
         # Only explicit alias edits persist new phrases. An automated macro is
         # not evidence that a guessed destination was the user's intended one.
         return result

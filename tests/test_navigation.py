@@ -106,7 +106,7 @@ class NavigationTests(unittest.IsolatedAsyncioTestCase):
             if text == "previous text": raise RuntimeError("busy")
             original(text)
         self.desktop.clipboard_set = fail_restore
-        with self.assertRaisesRegex(NavigationStopped,"restore clipboard"): await self.run_route()
+        with self.assertRaisesRegex(NavigationStopped,"restore all clipboard"): await self.run_route()
 
     async def test_vision_off_never_called(self):
         verify = AsyncMock()
