@@ -20,7 +20,7 @@ References below are paths and line numbers in the official `ShipBit/wingman-ai`
 | Cooperation | `skills/MIGRATING-TO-V3.md:255–290` | Accept other tools' destination strings through `plot_route` validation; no direct imports of other skills. |
 | Speech | `skills/MIGRATING-TO-V3.md:88–106` | Await `tts.speak(..., interrupt=False)`; drain `audio.is_playing` with finite, cancellable waits. |
 | Manifest | `api/interface.py:950` | Free-form version `3.2.0`; original authors and Dominicus credited. |
-| Desktop | Python stdlib ctypes / Win32 API; bundled keyboard and mouse packages | Lazy import; Toolhelp process lookup of foreground window, monitor metadata, clipboard text preservation; no desktop actions in tests. |
+| Desktop | Python stdlib ctypes / Win32 API; bundled keyboard and mouse packages | Lazy import; Toolhelp process lookup of foreground window, monitor metadata, ordered HGLOBAL clipboard-format preservation; no desktop actions in tests. |
 
 ## Keybind contract
 
@@ -46,8 +46,24 @@ and completion event; task cancellation is dispatched to its owning loop. No
 cross-loop task await is permitted.
 
 The documented `skills/skill_base.py:887–892` speech hook accepts `{SKIP-TTS}`.
-While route input is running, the hook suppresses unsolicited speech. Calibration
-instructions use the supported TTS facade and are explicitly allowed by the hook.
+The route guard is armed before resolution and remains armed after fast returns,
+allowing only the expected instant response once. `wingmen/facade.py:852–864`
+provides playback-started/finished subscriptions, detached at unload via
+`Subscription.unsubscribe()` (`:69–83`). `skills/skill_base.py:879–881` clears the
+guard on a new user message; a 25-second monotonic expiry bounds abandoned speech.
+All guard state uses a threading lock. Calibration is unguarded. This adapts the
+MIT SC Keybindings guard by Dominicus without its permissive first-second fallback.
+
+Clipboard snapshots enumerate formats with `EnumClipboardFormats`, copy HGLOBAL
+bytes with `GetClipboardData` / `GlobalSize` / `GlobalLock`, and restore saved formats
+in order with `GlobalAlloc` / `SetClipboardData`. Non-HGLOBAL GDI/owner-display
+formats are skipped; DIB/DIBV5 allow Windows to synthesize bitmap handles again.
+The 256 MiB cap and unreadable formats produce a partial-preservation notice, not
+a routing refusal. Each open/read-or-write/close transaction stays in one worker
+thread. Writes use a temporary message-only STATIC window as clipboard owner
+(`CreateWindowExW`, `HWND_MESSAGE`); `EmptyClipboard` with a null owner cannot
+reliably transfer data through `SetClipboardData`. The window is destroyed after
+closing the clipboard. No clipboard bytes leave memory or enter logs.
 
 `wingmen/facade.py:1627–1652` accepts `region` on screen capture.
 Core `services/screen_capture.py` passes the region through to mss in absolute
