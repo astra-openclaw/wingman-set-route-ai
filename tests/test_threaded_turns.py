@@ -54,7 +54,8 @@ class ThreadedTurnTests(unittest.TestCase):
                 self.join(thread)
             self.assertLess(time.monotonic()-started, .2)
         self.assertIn("cancelled", self.results["route"])
-        self.assertTrue("cancelled" in self.results["cancel"] or "No route" in self.results["cancel"])
+        # Unload may win the stop claim before the explicit cancel turn.
+        self.assertTrue(any(part in self.results["cancel"] for part in ("cancelled", "No route", "Navigation is stopping")))
         self.assertIsNone(self.results["unload"])
         self.assertFalse(self.obj.desktop().keys)
         self.assertEqual(self.obj.desktop().clipboard, "previous text")
