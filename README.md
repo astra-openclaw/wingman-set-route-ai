@@ -3,8 +3,19 @@
 **Original authors: Thord - galacticgearjammer - ProjectGnome.**
 **Wingman AI 3 update and 3.2 expansion: Dominicus.**
 
-Offline database-backed, calibrated Star Citizen navigation for Wingman AI 3.2.11
-(Skill API 3, Windows), with optional screenshot verification.
+Say **“plot a route to Daymar,” “set course for CRU L1,”** or **“take me to my mission.”**
+SetRouteAI drives your calibrated Star Citizen Starmap in **Wingman AI 3.2.11 on Windows**.
+It detects the game monitor, respects keyboard overrides alongside HOTAS binds, and stops
+when you say **“cancel route”** or leave the game window.
+
+**First use:** install the ZIP's single skill folder, enable it, focus Star Citizen and say
+**“calibrate starmap.”** Close the map before requesting a route.
+
+**Upgrading:** copy over your old skill folder and **keep its root data/ folder for the first
+start**. Only personal differences are migrated; dependency samples are ignored.
+
+> Optional vision sends only the calibrated game-window rectangle to your configured AI
+> provider. It is off by default; provider privacy rules and image-input costs apply.
 
 Read the [installation, upgrade, settings and privacy guide](set_route_ai/README.md).
 See [CHANGELOG](CHANGELOG.md), [NOTICE](NOTICE.md), the [MIT License](LICENSE),
@@ -28,7 +39,7 @@ If the reference snapshot lacks the official loader, supply its exact-tag file
 with `--module-manager <file>`. The probe makes all external effects inert.
 
 The ZIP builder allowlists release files and produces one `set_route_ai/` root.
-It excludes personal data, caches, tests and backups, includes LICENSE, and uses
+It excludes personal data, caches, tests and backups, includes the original logo and LICENSE, and uses
 fixed metadata plus stored entries for byte-identical rebuilds across zlib versions.
 
 Developer-only UEX refresh (never runs in the skill):

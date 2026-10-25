@@ -20,7 +20,7 @@ and 172800/day limits. There is no UEX network access in the running skill.
 | space_stations | 60 | 59 |
 | cities | 5 | 5 |
 | outposts | 119 | 116 |
-| poi | 232 | 232 |
+| poi | 232 | 230 |
 | jump_points | 6 | See note |
 
 Jump-point records describe origin/destination systems and orbit names, without a single
@@ -29,20 +29,26 @@ cross-check report; no synthetic destination names were invented from them.
 
 Before enrichment, 333 primary names matched explicitly available UEX names, 98 names were
 missing as primary keys and 958 original names were absent from that live-only subset.
-Afterward: 406 exact primary matches, 25 missing primary names, 958 stale **suspects** and
-18 possible renames for manual review. Missing-primary results may already be represented
-by an alias, such as Area 18 / Area18 or Green Imperial Housing Exchange / Grim HEX.
+After review: **402 exact primary matches, 27 missing primary names, 928 stale suspects**
+and 13 possible renames for manual review. Missing-primary results can already be aliases,
+status-filtered records or deliberately separate system-qualified keys.
 
-Applied changes:
+Reviewed changes:
 
-- Enriched 333 exact live matches with canonical display spelling, system and source IDs.
-- Added 73 names only when UEX explicitly marked them live, not decommissioned and with a
-  quantum marker. No unconfirmed names or (NA) labels were added.
-- Added 54 station nicknames/spacing variants or compact-equivalent name aliases.
-- Retained Ariel from the original database; UEX moons ID 5 identifies it as Sol, unavailable
-  live. That metadata prevents “aerial” from arbitrarily choosing between it and Arial.
-- Removed only the pre-identified empty key and 25 single-letter noise entries, not entries
-  merely missing from UEX. Other unavailable or possibly stale original entries remain.
+- Keep the original 333 enrichments with spelling, system and source IDs, plus Ariel's Sol metadata.
+- Fold 32 proven duplicate records into their canonical destinations, preserving every old alias.
+  This includes 18 named L-point stations; CRU L2 and CRU L3 have no named station in this UEX
+  snapshot and retain their original short labels. All 20 short forms resolve uniquely.
+- Of the initial 73 added keys, 69 remain after folding two closed/offline additions and deferring
+  two uncertain additions (Julep Aid Shelter and Cluster RSC-340). Some retained keys replace
+  original duplicates rather than adding a distinct place. No unproven spelling change is applied.
+- Preserve closed/offline original locations, with explicit status refusal. Port Olisar is retained
+  but marked decommissioned from space_stations ID 22. Mere absence never causes refusal/deletion.
+- Remove the incorrect Shady Glen alias from Samson. All 35 remaining cross-destination alias
+  collisions already existed under the original normalization; no new collision is introduced.
+- Store gateway systems separately from the display/search label. Nyx, Pyro and Stanton Gateway
+  homonyms remain separate records; matching expands shared labels before deciding by system.
+- Final database: **1,330 destinations**. The 26 empty/single-letter noise keys stay removed.
 
 The repository's UEX-CHANGES.json and UEX-CROSSCHECK.json contain per-entry evidence.
 Possible renames are suggestions, never automatic replacements. The developer tool can
