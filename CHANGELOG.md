@@ -2,7 +2,7 @@
 
 SetRouteAI by **Thord - galacticgearjammer - ProjectGnome**, expanded by **Dominicus**.
 
-## 3.2.0 (unreleased)
+## 3.2.0 (2026-10-26)
 
 - Detect the game's monitor automatically; require valid monitor/resolution/window calibration.
 - Guard every input burst by StarCitizen.exe foreground ownership and clean up held keys on stop.
