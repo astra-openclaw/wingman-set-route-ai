@@ -48,6 +48,15 @@ Reviewed changes:
   collisions already existed under the original normalization; no new collision is introduced.
 - Store gateway systems separately from the display/search label. Nyx, Pyro and Stanton Gateway
   homonyms remain separate records; matching expands shared labels before deciding by system.
+- Keep and tag **470 destinations** in systems explicitly marked `is_available_live=0` by
+  the same star_systems snapshot (only Stanton, Pyro and Nyx are live there). Association
+  uses existing system metadata, an exact UEX location-name/system match, or an explicit
+  system-qualified original name such as Corel I / Corel - Geddon / Corel Star. Each tagged
+  record stores the system ID, explicit zero flag and association evidence. These records
+  are excluded from fuzzy and AI candidates; exact requests explain the unavailable system.
+  Exact alias collisions remain visible as real ambiguities (for example Arial / Ariel),
+  but choosing an unavailable place never sends input. Unknown/missing systems are not tagged.
+  UEX-SYSTEM-AVAILABILITY.json records the snapshot hash and complete tagged-key list.
 - Final database: **1,330 destinations**. The 26 empty/single-letter noise keys stay removed.
 
 The repository's UEX-CHANGES.json and UEX-CROSSCHECK.json contain per-entry evidence.

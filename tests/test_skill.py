@@ -226,6 +226,28 @@ class SkillTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(line, "Which destination did you mean: Daymar in Stanton, or Orison in Stanton?")
         self.assertFalse(self.obj.desktop().events)
 
+    async def test_spoken_lpoint_and_fuzzy_heard_do_not_question_unique_pick(self):
+        self.calibrated()
+        for heard in ("Crew L one", "crew l on", "corell one"):
+            line = await call(self.obj, "plot_route", destination="CRU L1", heard=heard)
+            self.assertEqual(line, "Route request sent for CRU-L1 Ambitious Dream Station. The in-game route was not verified.")
+        original = self.obj.engine.find_destination
+        with patch.object(self.obj.engine, "find_destination", wraps=original) as resolver:
+            await call(self.obj, "plot_route", destination="Daymar", heard="today, Mar")
+        self.assertIs(resolver.call_args.kwargs["fuzzy"], False)
+
+    async def test_unavailable_system_exact_refusal_and_ai_allowlist(self):
+        self.calibrated()
+        line = await call(self.obj, "plot_route", destination="Corel I")
+        self.assertEqual(line, "Corel I is in a system that isn't in the game yet. No route input was sent.")
+        self.assertFalse(self.obj.desktop().events)
+        self.assertIsNone(await self.obj.choose("uncertain", ["corel i"]))
+        self.obj.wingman.ai.generate.assert_not_awaited()
+        self.obj.wingman.ai.generate.return_value = "corel i"
+        self.assertIsNone(await self.obj.choose("uncertain", ["corel i", "daymar"]))
+        data = self.obj.wingman.ai.generate.call_args.kwargs["data"]
+        self.assertNotIn("corel i", data)
+
     async def test_only_heard_resolves_and_schema_optional_heard(self):
         self.calibrated()
         self.assertIn("request sent for Daymar",await call(self.obj,"plot_route",destination="Imaginary Nebula",heard="Daymar"))

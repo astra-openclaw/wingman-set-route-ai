@@ -58,6 +58,35 @@ class ShippedDatabaseTests(unittest.TestCase):
                 self.assertEqual(len(set(targets)),1)
         self.assertEqual(self.engine.find_destination("crew L1")[0],"cru-l1 ambitious dream station")
 
+    def test_spoken_lpoint_numbers_and_letter_variants(self):
+        for prefix in ("cru", "crew", "arc", "mic", "hur"):
+            for letter in ("l", "el", "ell"):
+                for number, word in enumerate(("one", "two", "three", "four", "five"), 1):
+                    expected = self.engine.find_destination(f"{prefix} l{number}")
+                    self.assertEqual(self.engine.find_destination(f"{prefix} {letter} {word}", fuzzy=False), expected)
+
+    def test_unavailable_system_records_kept_but_never_fuzzy_candidates(self):
+        evidence = json.loads((ROOT/"docs/UEX-SYSTEM-AVAILABILITY.json").read_text(encoding="utf-8"))
+        unavailable = {k for k, v in self.engine.destinations.items() if v.get("system_available_live") is False}
+        self.assertEqual(unavailable, set(evidence["tagged_keys"]))
+        self.assertEqual(len(unavailable), 470)
+        for key in unavailable:
+            record = self.engine.destinations[key]
+            self.assertEqual(record["system_availability_evidence"]["is_available_live"], 0)
+            self.assertEqual(record["system_availability_evidence"]["endpoint"], "star_systems")
+        for phrase in ("corell one", "corel ey", "castra staarz", "sol staarz", "arielx"):
+            self.assertEqual(self.engine.find_destination(phrase, fuzzy=False), (None, []))
+            target, choices = self.engine.find_destination(phrase)
+            self.assertNotIn(target, unavailable)
+            self.assertFalse(set(choices) & unavailable)
+        self.assertEqual(self.engine.find_destination("Corel I"), ("corel i", []))
+        self.assertFalse(self.engine.destinations["corel i"]["system_available_live"])
+
+    def test_missing_system_evidence_is_not_unavailability(self):
+        self.engine.add_destination("Example Anchorage")
+        self.assertEqual(self.engine.find_destination("Example Anchorag"), ("example anchorage", []))
+        self.assertNotIn("system_available_live", self.engine.destinations["example anchorage"])
+
     def test_in_game_search_labels_and_homonyms(self):
         for key in self.engine.destinations:
             text=self.engine.search_text(key).casefold()

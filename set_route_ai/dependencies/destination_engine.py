@@ -105,12 +105,14 @@ class DestinationPhoneticEngine:
             return key, []
         candidates = set(self.alias_index.get(key, set())) | self.name_index.get(key, set())
         scored = {}
+        fuzzy_match = False
         if key in self.learning:
             candidates.add(self.learning[key])
         if not candidates:
-            special = re.fullmatch(r"(cru|crew|mic|hur|arc)[ -]?l[ -]?(\d+)", key)
+            special = re.fullmatch(r"(cru|crew|mic|hur|arc)[ -]?(?:ell|el|l)[ -]?(\d+|one|two|three|four|five)", key)
             if special:
                 prefix, number = special.groups()
+                number = {"one": "1", "two": "2", "three": "3", "four": "4", "five": "5"}.get(number, number)
                 target = ("cru" if prefix == "crew" else prefix) + " l" + number
                 if target in self.destinations:
                     return target, []
@@ -118,12 +120,17 @@ class DestinationPhoneticEngine:
                 if not candidates:
                     return None, []
             if not candidates and fuzzy:
+                fuzzy_match = True
                 for token, destinations in self.alias_index.items():
                     score = SequenceMatcher(None, key, token).ratio()
                     if score >= .82:
                         for dest in destinations:
+                            if self.destinations[dest].get("system_available_live") is False:
+                                continue
                             scored[dest] = max(scored.get(dest, 0), score)
                 for dest in self.destinations:
+                    if self.destinations[dest].get("system_available_live") is False:
+                        continue
                     score = SequenceMatcher(None, key, dest).ratio()
                     if score >= .82:
                         scored[dest] = max(scored.get(dest, 0), score)
@@ -135,6 +142,8 @@ class DestinationPhoneticEngine:
         # A nickname for a homonymous gateway must not silently choose a system.
         for candidate in list(candidates):
             candidates.update(self.name_index.get(normalize(self.search_text(candidate)), set()))
+        if fuzzy_match:
+            candidates = {d for d in candidates if self.destinations[d].get("system_available_live") is not False}
         if system and len(candidates) > 1:
             local = {d for d in candidates if normalize(self.destinations[d].get("system", "")) == normalize(system)}
             if len(local) == 1 and all(self.destinations[d].get("system") for d in candidates):

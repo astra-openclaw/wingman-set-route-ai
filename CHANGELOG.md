@@ -20,6 +20,6 @@ SetRouteAI by **Thord - galacticgearjammer - ProjectGnome**, expanded by **Domin
 - Verify routes optionally with an in-memory, game-window-only image using a 1.15 MP budget suited to ultrawide screens.
 - Tolerate harmless vision formatting differences; leave the map open when uncertain.
 - Speak natural guidance and hide unexpected exception text. Guard routing and calibration through the final reply: only the expected skill lines play, even after a fast return; clear after final playback, a 25-second reply timeout or a new user message.
-- Refuse explicitly closed, offline or decommissioned UEX locations; never delete a place merely because UEX lacks it.
+- Refuse explicitly closed, offline or decommissioned UEX locations. Preserve and evidence-tag 470 records in systems UEX explicitly marks unavailable live; exclude those records from fuzzy and AI choices and explain exact requests. Missing data is never proof of unavailability.
 - Include the unchanged original logo, MIT license and author credits in the deterministic install ZIP.
 - Publish a player-first guide to setup, upgrades, settings, troubleshooting and vision privacy/cost.

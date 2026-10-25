@@ -360,6 +360,8 @@ class SetRouteAI(Skill):
         return sorted(found)
 
     async def choose(self, phrase, candidates):
+        candidates = [key for key in candidates if key in self.engine.destinations
+                      and self.engine.destinations[key].get("system_available_live") is not False]
         if not candidates:
             return None
         labels = {d: self.engine.label(d) for d in candidates}
@@ -406,7 +408,7 @@ class SetRouteAI(Skill):
         must_ask = False
         heard = p.get("heard", "").strip()
         if heard and normalize(heard) != normalize(phrase):
-            heard_target, heard_choices = await asyncio.to_thread(self.engine.find_destination, heard, state.get("system"))
+            heard_target, heard_choices = await asyncio.to_thread(self.engine.find_destination, heard, state.get("system"), fuzzy=False)
             if target and heard_choices and set(heard_choices) != {target}:
                 target, candidates, must_ask = None, sorted({target, *heard_choices}), True
             elif target and heard_target and target != heard_target:
@@ -424,6 +426,8 @@ class SetRouteAI(Skill):
                     return "Did you mean " + self.engine.label(candidates[0]) + "?"
                 return "Which destination did you mean: " + ", or ".join(self.engine.label(k) for k in candidates[:3]) + "?"
             return f'Destination "{phrase}" is not in the navigation database. No route input was sent.'
+        if self.engine.destinations[target].get("system_available_live") is False:
+            return f"{self.engine.display(target)} is in a system that isn\'t in the game yet. No route input was sent."
         unavailable = self.engine.destinations[target].get("unavailable_reason")
         if unavailable:
             return f"{self.engine.display(target)} is marked {unavailable} by UEX. No route input was sent."
